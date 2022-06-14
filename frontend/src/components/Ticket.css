@@ -1,0 +1,15 @@
+.ticket{
+    background-color: white;
+    padding: .5em;
+    margin: .5em 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 8em;
+    overflow: hidden;
+}
+
+.ticket:hover{
+    cursor: pointer;
+    border: 1px solid gray;
+    background-color: rgb(224, 224, 224);
+}
+

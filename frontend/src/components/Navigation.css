@@ -1,0 +1,21 @@
+.nav-dropdown, .dropdown-menu, .dropdown-menu a{
+    background-color: rgb(33,37,41);
+    color: rgba(255,255,255,.75);
+}
+
+.navbar a:hover{
+background-color: rgb(33,37,41);
+color: #e9ecef;
+}
+
+.navbar a:active{
+   background-color:#1e2125;
+   color: #e9ecef;
+}
+
+.dropdown-header{
+    font-size: 14px;
+    padding: 2px;
+}
+
+

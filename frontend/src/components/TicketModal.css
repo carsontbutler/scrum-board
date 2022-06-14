@@ -1,0 +1,26 @@
+.right-col{
+    border-left: 1px solid rgb(231, 231, 231);
+}
+
+.textbox{
+    padding: .5em;
+    min-height: 2em;
+}
+
+.textbox:hover{
+    background-color: rgb(231, 231, 231);
+    cursor:text;
+}
+
+.content-section{
+    margin-bottom: 2em;
+}
+
+.comment-section{
+
+}
+
+
+.detail-row{
+    margin-bottom: 1em;
+}

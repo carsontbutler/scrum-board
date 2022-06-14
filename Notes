@@ -1,0 +1,29 @@
+commit: submitHandler for CreateBoardForm
+
+next time: 
+-need to really figure out the New Board stuff (async/await? or what)
+-create EditBoard endpoint, finish submitHandler for EditBoard
+-finish and test CreateBoard modal/form
+-figure out the props.ticket.assignee thing on Ticket component (shows up when switching btwn boards)
+
+Need to test more: Create Ticket form
+
+**issues**
+-Logging out needs to clear all saved data. currently isn't
+-Refresh tokens are only refreshing once. Then the next one is giving unauthorized message. but the refresh token still works in postman.
+-Reduce the access token time once the above is fixed
+-Switching from gmail board to yahoo board sometimes causes error (with props.ticket?)
+-NEED TO CHANGE COLUMN FIELD ON TICKET MODEL TO BE REQUIRED = TRUE
+
+**Frontend**
+<NAV>
+-Make NEW board button work, add new board page
+<LoginForm>
+-Center it vertically
+<Function>
+-store activeOrganization in localStorage
+
+**Backend**
+-add ticket number to Ticket model
+
+debt: axios interceptor, refresh token, change access token duration

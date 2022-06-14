@@ -1,0 +1,10 @@
+.column{
+    background-color: #D3D3D3;
+    padding: .5em .2em;
+    margin: 0 .35em;
+}
+
+.ticket-count{
+    color: #666666;
+    font-size: 14px;
+}
