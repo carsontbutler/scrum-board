@@ -7,6 +7,7 @@ import "./Navigation.css";
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
+  const dataCtx = useContext(DataContext);
   console.log(props);
 
   return (
