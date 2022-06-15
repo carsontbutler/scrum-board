@@ -121,6 +121,7 @@ const HomePage = (props) => {
         {dataCtx.activeBoard && (
           <Board
             showEditBoardModal={showEditBoardModal}
+            getBoardData={getBoardData}
           />
         )}
         {isCreatingBoard && (

@@ -2,13 +2,12 @@ import React, { useContext } from "react";
 import { Modal, Row, Col, Container, Button } from "react-bootstrap";
 import "./TicketModal.css";
 import ViewTicket from "./ViewTicket";
-import EditTicket from "./EditTicket";
+import EditTicketForm from "./Forms/EditTicketForm";
 import DataContext from "./store/data-context";
 
 const TicketModal = (props) => {
   const dataCtx = useContext(DataContext);
 
-  console.log(props);
 
   return (
     <Modal size={"xl"} centered show={props.showModal}>
@@ -21,7 +20,7 @@ const TicketModal = (props) => {
       <Modal.Body>
         <Container>
           {props.isEditing ? (
-            <EditTicket
+            <EditTicketForm
               setIsEditing={props.setIsEditing}
               getBoardData={props.getBoardData}
               closeModalHandler={props.closeModalHandler}

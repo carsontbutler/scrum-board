@@ -2,9 +2,11 @@ import React, { useRef, useContext } from "react";
 import { Col, Row, Form } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
+import DataContext from "../store/data-context";
 
 const CreateTicketForm = (props) => {
   const authCtx = useContext(AuthContext);
+  const dataCtx = useContext(DataContext);
   const titleRef = useRef();
   const descriptionRef = useRef();
   const reproStepsRef = useRef();
@@ -38,8 +40,8 @@ const CreateTicketForm = (props) => {
 
     axiosInstance
       .post(`${url}/create-ticket/`, {
-        organization: props.activeOrganization.id,
-        board: props.activeBoardData.id,
+        organization: dataCtx.activeOrganization.id,
+        board: dataCtx.activeBoardData.id,
         title: title,
         description: description,
         repro_steps: reproSteps,
@@ -106,7 +108,7 @@ const CreateTicketForm = (props) => {
               <Form.Group controlId="formAssignee">
                 <Form.Select ref={assigneeRef}>
                 <option label=" "></option>
-                {props.activeOrganization.users.map((user) => (
+                {dataCtx.activeOrganization.users.map((user) => (
                   <option value={user.id}>{user.username}</option>
                 ))}
                 </Form.Select>
@@ -120,7 +122,7 @@ const CreateTicketForm = (props) => {
             <Col>
               <Form.Group controlId="formColumn">
                 <Form.Select ref={columnRef}>
-                  {props.activeBoardData.columns.map((column) => (
+                  {dataCtx.activeBoardData.columns.map((column) => (
                     <option value={column.id}>{column.name}</option>
                   ))}
                 </Form.Select>

@@ -2,6 +2,7 @@ import react, { useRef, useContext } from "react";
 import { Form, Row } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
+import DataContext from "../store/data-context";
 
 
 
@@ -9,6 +10,7 @@ import axios from "axios";
 
 const EditBoardForm = (props) => {
     const authCtx = useContext(AuthContext);
+    const dataCtx = useContext(DataContext);
     const nameRef = useRef();
     const organizationRef = useRef();
     const prefixRef = useRef();
@@ -33,8 +35,8 @@ const EditBoardForm = (props) => {
       <Form.Group controlId="formOrganization" className="mt-2">
         <Form.Label>Organization</Form.Label>
         <Form.Select ref={organizationRef}>
-          {props.organizations.map((org) =>
-            org.id == props.activeOrganization.id ? (
+          {dataCtx.organizations.map((org) =>
+            org.id == dataCtx.activeOrganization.id ? (
               <option value={org.id} selected>
                 {org.name}
               </option>
@@ -46,11 +48,11 @@ const EditBoardForm = (props) => {
       </Form.Group>
       <Form.Group controlId="formName" className="mt-2">
         <Form.Label>Board title</Form.Label>
-        <Form.Control as="textarea" ref={nameRef} defaultValue={props.activeBoard.name} />
+        <Form.Control as="textarea" ref={nameRef} defaultValue={dataCtx.activeBoard.name} />
       </Form.Group>
       <Form.Group controlId="formPrefix" className="mt-2">
         <Form.Label>Board Prefix</Form.Label>
-        <Form.Control as="textarea" ref={prefixRef} defaultValue={props.activeBoard.prefix}/>
+        <Form.Control as="textarea" ref={prefixRef} defaultValue={dataCtx.activeBoard.prefix}/>
       </Form.Group>
     </Form>
   );
