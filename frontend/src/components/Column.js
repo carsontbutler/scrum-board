@@ -6,7 +6,7 @@ import "./Column.css";
 const Column = (props) => {
   const col = props.column;
 
-
+  console.log(props);
   return (
     <Col className="column">
       <h6>

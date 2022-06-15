@@ -8,7 +8,6 @@ const Ticket = (props) => {
   const dataCtx = useContext(DataContext);
   const [borderColor, setBorderColor] = useState("white");
 
-
   useEffect(() => {
     switch (props.ticket.type) {
       case "Bug":
