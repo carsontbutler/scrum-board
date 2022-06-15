@@ -2,9 +2,11 @@ import React, { useRef, useContext } from "react";
 import { Col, Row, Form } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "./store/auth-context";
+import DataContext from "./store/data-context";
 
 const EditTicket = (props) => {
   const authCtx = useContext(AuthContext);
+  const dataCtx = useContext(DataContext);
   const titleRef = useRef();
   const descriptionRef = useRef();
   const reproStepsRef = useRef();
@@ -13,8 +15,9 @@ const EditTicket = (props) => {
   const columnRef = useRef();
   const typeRef = useRef();
   const priorityRef = useRef();
-  const ticketNum = props.ticket.id;
+  const ticketNum = dataCtx.activeTicket.id;
   const url = "http://localhost:8000/api";
+
 
   console.log(props);
 
@@ -69,7 +72,7 @@ const EditTicket = (props) => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 as="textarea"
-                defaultValue={props.ticket.title}
+                defaultValue={dataCtx.activeTicket.title}
                 ref={titleRef}
               />
             </Form.Group>
@@ -80,7 +83,7 @@ const EditTicket = (props) => {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
-                defaultValue={props.ticket.description}
+                defaultValue={dataCtx.activeTicket.description}
                 ref={descriptionRef}
               />
             </Form.Group>
@@ -91,7 +94,7 @@ const EditTicket = (props) => {
               <Form.Label>Reproduction Steps</Form.Label>
               <Form.Control
                 as="textarea"
-                defaultValue={props.ticket.repro_steps}
+                defaultValue={dataCtx.activeTicket.repro_steps}
                 ref={reproStepsRef}
               />
             </Form.Group>
@@ -101,7 +104,7 @@ const EditTicket = (props) => {
               <Form.Label>Acceptance Criteria</Form.Label>
               <Form.Control
                 as="textarea"
-                defaultValue={props.ticket.acceptance_criteria}
+                defaultValue={dataCtx.activeTicket.acceptance_criteria}
                 ref={acceptanceCriteriaRef}
               />
             </Form.Group>
@@ -123,8 +126,8 @@ const EditTicket = (props) => {
               <Form.Group controlId="formAssignee">
                 <Form.Select ref={assigneeRef}>
                   <option label=" "></option>
-                  {props.activeOrganization.users.map((user) =>
-                    props.ticket.assignee === user.id ? (
+                  {dataCtx.activeOrganization.users.map((user) =>
+                    dataCtx.activeTicket.assignee === user.id ? (
                       <option value={user.id} selected>
                         {user.username}
                       </option>
@@ -143,8 +146,8 @@ const EditTicket = (props) => {
             <Col>
               <h6>
                 {
-                  props.activeOrganization.users.find(
-                    (e) => e.id == props.ticket.reporter
+                  dataCtx.activeOrganization.users.find(
+                    (e) => e.id == dataCtx.activeTicket.reporter
                   ).username
                 }
               </h6>
@@ -157,8 +160,8 @@ const EditTicket = (props) => {
             <Col>
               <Form.Group controlId="formColumn">
                 <Form.Select ref={columnRef}>
-                  {props.activeBoardData.columns.map((column) =>
-                    column.id == props.ticket.column ? (
+                  {dataCtx.activeBoardData.columns.map((column) =>
+                    column.id == dataCtx.activeTicket.column ? (
                       <option selected value={column.id}>
                         {column.name}
                       </option>
@@ -178,24 +181,24 @@ const EditTicket = (props) => {
               <Form.Group controlId="formType">
                 <Form.Select
                   ref={typeRef}
-                  defaultValue={props.ticket.type}
+                  defaultValue={dataCtx.activeTicket.type}
                   aria-label="type"
                 >
-                  {props.ticket.type == "Bug" ? (
+                  {dataCtx.activeTicket.type == "Bug" ? (
                     <option value="Bug" selected>
                       Bug
                     </option>
                   ) : (
                     <option value="Bug">Bug</option>
                   )}
-                  {props.ticket.type == "Improvement" ? (
+                  {dataCtx.activeTicket.type == "Improvement" ? (
                     <option value="Improvement" selected>
                       Improvement
                     </option>
                   ) : (
                     <option value="Improvement">Improvement</option>
                   )}
-                  {props.ticket.type == "Task" ? (
+                  {dataCtx.activeTicket.type == "Task" ? (
                     <option value="Task" selected>
                       Task
                     </option>
@@ -213,28 +216,28 @@ const EditTicket = (props) => {
             <Col>
               <Form.Group controlId="formPriority">
                 <Form.Select ref={priorityRef} aria-label="priority">
-                  {props.ticket.priority == "Low" ? (
+                  {dataCtx.activeTicket.priority == "Low" ? (
                     <option value="Low" selected>
                       Low
                     </option>
                   ) : (
                     <option value="Low">Low</option>
                   )}
-                  {props.ticket.priority == "Medium" ? (
+                  {dataCtx.activeTicket.priority == "Medium" ? (
                     <option value="Medium" selected>
                       Medium
                     </option>
                   ) : (
                     <option value="Medium">Medium</option>
                   )}
-                  {props.ticket.priority == "High" ? (
+                  {dataCtx.activeTicket.priority == "High" ? (
                     <option value="High" selected>
                       High
                     </option>
                   ) : (
                     <option value="High">High</option>
                   )}
-                  {props.ticket.priority == "Highest" ? (
+                  {dataCtx.activeTicket.priority == "Highest" ? (
                     <option value="Highest" selected>
                       Highest
                     </option>

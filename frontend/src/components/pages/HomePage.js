@@ -5,22 +5,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import Board from "../Board";
-import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
+import DataContext from "../store/data-context";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
-  const organizations = props.organizations;
-  const [activeOrganization, setActiveOrganization] = useState("");
-  const [activeBoard, setActiveBoard] = useState("");
+  const dataCtx = useContext(DataContext);
+
   const [tickets, setTickets] = useState([]);
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
-  console.log(props);
-  console.log(activeBoard);
 
   const [activeBoardData, setActiveBoardData] = useState({
     name: "",
@@ -29,12 +26,12 @@ const HomePage = (props) => {
   });
 
   const getBoardData = async () => {
-    const board = activeBoard.id;
+    const board = dataCtx.activeBoard.id;
     const response = await axiosInstance
       .get(`/board/${board}/tickets`)
       .then((response) => {
         if (response.status === 200) {
-          setActiveBoardData(response.data);
+          dataCtx.setActiveBoardData(response.data);
         } else {
           console.log("error");
         } //handle error properly
@@ -43,7 +40,7 @@ const HomePage = (props) => {
 
   useEffect(() => {
     getBoardData();
-  }, [activeBoard]);
+  }, [dataCtx.activeBoard]);
 
   const showCreateBoardModal = () => {
     setIsCreatingBoard(true);
@@ -87,11 +84,12 @@ const HomePage = (props) => {
   });
 
   const getTicketsHandler = async (board) => {
-    console.log(board);
-    console.log(activeBoard);
+    console.log('get tickets handler: ');
     const id = board.target.id;
-    const targetBoard = activeOrganization.boards.find((obj) => obj.id == id);
-    setActiveBoard(targetBoard);
+    console.log(id);
+    const targetBoard = dataCtx.activeOrganization.boards.find((obj) => obj.id == id);
+    console.log(targetBoard);
+    dataCtx.setActiveBoard(targetBoard);
     const response = await axiosInstance
       .get(`/board/${id}/tickets`)
       .then((response) => {
@@ -104,66 +102,39 @@ const HomePage = (props) => {
       });
   };
 
-  const setActiveOrganizationHandler = (org) => {
-    console.log(org);
-    const id = org.target.id;
-    const targetOrg = organizations.find((obj) => obj.id == id);
-    setActiveOrganization(targetOrg);
-    console.log(targetOrg);
-    if (targetOrg.boards.length > 0) {
-      setActiveBoard(targetOrg.boards[0]);
-    } else {
-      setActiveBoard();
-    }
-  };
 
   //! Replace this with something else?
   useEffect(() => {
-    if (organizations.length === 1) {
-      setActiveOrganization(organizations[0]);
+    if (dataCtx.organizations.length === 1) {
+      dataCtx.setActiveOrganization(dataCtx.organizations[0]);
     }
-  }, [organizations]);
+  }, [dataCtx.organizations]);
 
   return (
     <div>
       <Navigation
-        organizations={organizations}
-        activeOrganization={activeOrganization}
-        setActiveOrganizationHandler={setActiveOrganizationHandler}
         getTicketsHandler={getTicketsHandler}
         showCreateBoardModal={showCreateBoardModal}
-        setActiveBoard={setActiveBoard}
+
       />
       <Container>
-        {activeBoard && (
+        {dataCtx.activeBoard && (
           <Board
-            tickets={tickets}
-            activeOrganization={activeOrganization}
-            activeBoard={activeBoard}
             showEditBoardModal={showEditBoardModal}
-            activeBoardData={activeBoardData}
-            
           />
         )}
         {isCreatingBoard && (
           <CreateBoardModal
-            organizations={organizations}
-            activeOrganization={activeOrganization}
             isCreatingBoard={isCreatingBoard}
             closeCreateBoardModal={closeCreateBoardModal}
             getBoardData={getBoardData}
-            setActiveBoard={setActiveBoard}
             getInitialData={props.getInitialData}
           />
         )}
         {isEditingBoard && (
           <EditBoardModal
-            organizations={organizations}
-            activeOrganization={activeOrganization}
             isEditingBoard={isEditingBoard}
             closeEditBoardModal={closeEditBoardModal}
-            activeBoard={activeBoard}
-            activeBoardData={activeBoardData}
           />
         )}
       </Container>

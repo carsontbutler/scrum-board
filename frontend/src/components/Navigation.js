@@ -3,11 +3,13 @@ import {useHistory} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import AuthContext from "./store/auth-context";
+import DataContext from "./store/data-context";
 import "./Navigation.css";
+
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
-  console.log(props);
+  const dataCtx = useContext(DataContext);
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -16,10 +18,10 @@ const Navigation = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
-            <NavDropdown  title={props.activeOrganization ? props.activeOrganization.name : "Organization"} id="basic-nav-dropdown">
-              {props.organizations.map((org) => (
+            <NavDropdown  title={dataCtx.activeOrganization ? dataCtx.activeOrganization.name : "Organization"} id="basic-nav-dropdown">
+              {dataCtx.organizations.map((org) => (
                 <NavDropdown.Item className="nav-dropdown"
-                  onClick={props.setActiveOrganizationHandler}
+                  onClick={dataCtx.setActiveOrganization}
                   id={org.id}
                   key={org.id}
                 >
@@ -28,9 +30,9 @@ const Navigation = (props) => {
               ))}
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
-              {props.activeOrganization ? (
+              {dataCtx.activeOrganization ? (
                 <div>
-                  {props.activeOrganization.boards.map((board) => (
+                  {dataCtx.activeOrganization.boards.map((board) => (
                     <NavDropdown.Item
                       onClick={props.getTicketsHandler}
                       id={board.id}

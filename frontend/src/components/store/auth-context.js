@@ -17,10 +17,6 @@ export const AuthContextProvider = (props) => {
   const [loginTimestamp, setLoginTimestamp] = useState();
   const tokenDuration = new Date(Date.now() + 5 * 60 * 1000);
 
-  const [organizations, setOrganizations] = useState();
-  const [activeOrganization, setActiveOrganization] = useState();
-  const [boards, setBoards] = useState();
-  const [activeBoard, setActiveBoard] = useState();
 
   const userIsLoggedIn = !!access;
 
@@ -60,21 +56,6 @@ export const AuthContextProvider = (props) => {
     }
   };
 
-  const setOrganizationsHandler = (organizations) => {
-    setOrganizations(organizations);
-  };
-
-  const setActiveOrganizationHandler = (organization) => {
-    setActiveOrganization(organization);
-  };
-
-  const setBoardsHandler = (boards) => {
-    setBoards(boards);
-  };
-
-  const setActiveBoardHandler = (board) => {
-    setActiveBoard(board);
-  };
 
   const contextValue = {
     access: access,
@@ -86,14 +67,6 @@ export const AuthContextProvider = (props) => {
     tokenIsValid: tokenIsValid,
     login: loginHandler,
     logout: logoutHandler,
-    organizations: organizations,
-    setOrganizations: setOrganizationsHandler,
-    activeOrganization: activeOrganization,
-    setActiveOrganization: setActiveOrganizationHandler,
-    boards: boards,
-    setBoards: setBoardsHandler,
-    activeBoard: activeBoard,
-    setActiveBoard: setActiveBoardHandler,
   };
 
   return (

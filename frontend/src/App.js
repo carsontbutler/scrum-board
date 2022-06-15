@@ -21,7 +21,8 @@ function App() {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
   const isLoggedIn = authCtx.isLoggedIn;
-  const [organizations, setOrganizations] = useState([]);
+
+  console.log(dataCtx.organizations);
 
   const url = "http://localhost:8000/api";
 
@@ -52,7 +53,7 @@ function App() {
     const response = await axiosInstance.get(`/boards`).then((response) => {
       if (response.status === 200) {
         console.log(response.data);
-        setOrganizations(response.data.organizations);
+        dataCtx.setOrganizations(response.data.organizations);
       } else {
         console.log("error"); //! handle this error properly
       }
@@ -69,7 +70,6 @@ function App() {
         {isLoggedIn && (
           <Route path="/" exact>
             <HomePage
-              organizations={organizations}
               getInitialData={getInitialData}
             />
           </Route>

@@ -10,19 +10,18 @@ import {
 } from "react-bootstrap";
 import Column from "./Column";
 import AuthContext from "./store/auth-context";
+import DataContext from "./store/data-context";
 import TicketModal from "./TicketModal";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import CreateTicketModal from "./CreateTicketModal";
 
 const Board = (props) => {
-
-
   const authCtx = useContext(AuthContext);
+  const dataCtx = useContext(DataContext);
 
   const [showModal, setShowModal] = useState(false);
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
-  const [activeTicket, setActiveTicket] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
@@ -48,10 +47,10 @@ const Board = (props) => {
   const viewTicketHandler = (e) => {
     console.log(e.target);
     console.log(e.target.id);
-    const selectedTicket = props.activeBoardData.tickets.filter(
+    const selectedTicket = dataCtx.activeBoardData.tickets.filter(
       (ticket) => ticket.id == e.target.id
     );
-    setActiveTicket(selectedTicket[0]);
+    dataCtx.setActiveTicket(selectedTicket[0]);
     setShowModal(true);
   };
 
@@ -93,8 +92,6 @@ const Board = (props) => {
   });
 
 
-
-
   return (
     <Row>
       <TicketModal
@@ -102,19 +99,14 @@ const Board = (props) => {
         showModal={showModal}
         startEditingHandler={startEditingHandler}
         cancelEditHandler={cancelEditHandler}
-        ticket={activeTicket}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
-        activeOrganization={props.activeOrganization}
-        activeBoardData={props.activeBoardData}
         getBoardData={props.getBoardData}
         showToastHandler={showToastHandler}
       />
       <CreateTicketModal
         closeCreateTicketModalHandler={closeCreateTicketModalHandler}
         showCreateTicketModal={showCreateTicketModal}
-        activeOrganization={props.activeOrganization}
-        activeBoardData={props.activeBoardData}
         getBoardData={props.getBoardData}
         showToastHandler={showToastHandler}
       />
@@ -130,7 +122,7 @@ const Board = (props) => {
               xs={8}
               className="text-center my-3"
             >
-              <h4>{props.activeBoard.name}</h4>
+              <h4>{dataCtx.activeBoard.name}</h4>
             </Col>
             <Col xl={2} lg={2} md={2} sm={2} xs={2} className="my-3">
               <Button className="fw-bold" onClick={showCreateTicketModalHandler}>New Ticket</Button>
@@ -139,7 +131,7 @@ const Board = (props) => {
         </Container>
 
         <Row>
-          {props.activeBoardData["columns"]
+          {dataCtx.activeBoardData["columns"]
             .sort((a, b) => {
               return a.position - b.position;
             })
@@ -148,7 +140,7 @@ const Board = (props) => {
                 column={col}
                 key={col.position}
                 viewTicketHandler={viewTicketHandler}
-                activeOrganization={props.activeOrganization}
+                activeOrganization={dataCtx.activeOrganization}
               />
             ))}
         </Row>

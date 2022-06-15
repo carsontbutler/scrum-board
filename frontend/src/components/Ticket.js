@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Ticket.css";
 import { CaretUp, CaretDown, CaretDoubleUp, Minus } from "phosphor-react";
 import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
+import DataContext from "./store/data-context";
 
 const Ticket = (props) => {
+  const dataCtx = useContext(DataContext);
   const [borderColor, setBorderColor] = useState("white");
 
 
@@ -49,7 +51,7 @@ const Ticket = (props) => {
             </h5>
             <h6 id={props.ticket.id}>{props.ticket.type}</h6>
             {props.ticket.assignee &&
-              props.activeOrganization.users.find(
+              dataCtx.activeOrganization.users.find(
                 (e) => e.id == props.ticket.assignee
               ).username}
           </Col>
