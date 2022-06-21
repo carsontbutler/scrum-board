@@ -17,6 +17,8 @@ const CreateTicketForm = (props) => {
   const priorityRef = useRef();
   const url = "http://localhost:8000/api";
 
+  console.log(dataCtx.activeOrganization);
+
   const submitHandler = (e) => {
     
     e.preventDefault();

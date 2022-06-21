@@ -115,7 +115,6 @@ const HomePage = (props) => {
       <Navigation
         getTicketsHandler={getTicketsHandler}
         showCreateBoardModal={showCreateBoardModal}
-
       />
       <Container>
         {dataCtx.activeBoard && (

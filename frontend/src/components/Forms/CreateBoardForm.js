@@ -3,9 +3,12 @@ import { Form, Row } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
 import "./CreateBoardForm.css";
+import DataContext from "../store/data-context";
 
 const CreateBoardForm = (props) => {
+  console.log(props);
   const authCtx = useContext(AuthContext);
+  const dataCtx = useContext(DataContext);
   const nameRef = useRef();
   const organizationRef = useRef();
   const prefixRef = useRef();
@@ -37,7 +40,7 @@ const CreateBoardForm = (props) => {
         if (res.status == 200) {
           const id = res.data.id.toString();
           props.getInitialData();
-          const targetBoard = props.activeOrganization.boards.find(
+          const targetBoard = dataCtx.activeOrganization.boards.find(
             (obj) => obj.id == id
           );
           props.closeCreateBoardModal();
@@ -52,8 +55,8 @@ const CreateBoardForm = (props) => {
       <Form.Group controlId="formOrganization" className="mt-2">
         <Form.Label>Organization</Form.Label>
         <Form.Select ref={organizationRef}>
-          {props.organizations.map((org) =>
-            org.id == props.activeOrganization.id ? (
+          {dataCtx.organizations.map((org) =>
+            org.id == dataCtx.activeOrganization.id ? (
               <option value={org.id} selected>
                 {org.name}
               </option>

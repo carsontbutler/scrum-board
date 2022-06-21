@@ -11,16 +11,18 @@ import {
   Redirect,
 } from "react-router-dom";
 import AuthContext from "./components/store/auth-context";
+import DataContext from "./components/store/data-context";
 import JoinOrgPage from "./components/pages/JoinOrgPage";
 import SelectOrgPage from "./components/pages/SelectOrgPage";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
-import DataContext from "./components/store/data-context";
 
 function App() {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
   const isLoggedIn = authCtx.isLoggedIn;
+  
+  console.log(dataCtx.activeOrganization);
 
   console.log(dataCtx.organizations);
 
@@ -33,7 +35,6 @@ function App() {
       Authorization: "Bearer " + authCtx.access,
     },
   });
-  
 
   axiosInstance.interceptors.request.use(async (req) => {
     const user = jwt_decode(authCtx.access);

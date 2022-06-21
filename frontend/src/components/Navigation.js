@@ -10,6 +10,7 @@ import "./Navigation.css";
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
+  console.log(dataCtx.activeBoard);
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">

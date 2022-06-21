@@ -8,6 +8,13 @@ const Ticket = (props) => {
   const dataCtx = useContext(DataContext);
   const [borderColor, setBorderColor] = useState("white");
 
+  //console.log(props);
+  // console.log(
+  //   dataCtx.activeOrganization.users.find(
+  //     (user) => user.id == 1
+  //   )
+  // );
+
   useEffect(() => {
     switch (props.ticket.type) {
       case "Bug":
@@ -51,7 +58,7 @@ const Ticket = (props) => {
             <h6 id={props.ticket.id}>{props.ticket.type}</h6>
             {props.ticket.assignee &&
               dataCtx.activeOrganization.users.find(
-                (e) => e.id == props.ticket.assignee
+                (user) => user.id == props.ticket.assignee
               ).username}
           </Col>
           <Col

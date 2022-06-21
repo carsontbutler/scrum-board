@@ -1,6 +1,7 @@
 commit: submitHandler for CreateBoardForm
 
 next time: 
+-COMBINE ACTIVEBOARD AND ACTIVEBOARDDATA INTO 1. WHENEVER AN ORGANIZATION IS SELECTED, LOAD AND SET ALL BOARD DATA
 -need to really figure out the New Board stuff (async/await? or what)
 -create EditBoard endpoint, finish submitHandler for EditBoard
 -finish and test CreateBoard modal/form

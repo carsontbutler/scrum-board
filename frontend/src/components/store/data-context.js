@@ -28,12 +28,19 @@ export const DataContextProvider = (props) => {
     setOrganizations(orgs);
   };
 
-  const setActiveOrganizationHandler = (org) => {
-    const id = org.target.id;
+  const setActiveOrganizationHandler = (e) => {
+    console.log('setActiveOrganization: ', e);
+    const id = e.target.id;
+    console.log(id);
     const targetOrg = organizations.find((obj) => obj.id == id);
+    console.log(targetOrg);
+    console.log(activeOrganization);
     setActiveOrganization(targetOrg);
+    console.log(activeOrganization);
+    console.log(activeBoard);
     if (targetOrg.boards.length > 0) {
       setActiveBoard(targetOrg.boards[0]);
+      console.log(activeBoard);
     } else {
       setActiveBoard(); //either redirect to board creation page, or set a "noBoards" var to true, which allows rendering of a createboard component
     }
@@ -51,6 +58,7 @@ export const DataContextProvider = (props) => {
     setActiveTicket(ticket);
   };
 
+
   const contextValue = {
     organizations: organizations,
     activeOrganization: activeOrganization,
@@ -63,6 +71,8 @@ export const DataContextProvider = (props) => {
     setActiveBoardData: setActiveBoardDataHandler,
     setActiveTicket: setActiveTicketHandler
   };
+
+
 
   return (
     <DataContext.Provider value={contextValue}>
