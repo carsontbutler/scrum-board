@@ -15,7 +15,7 @@ const DataContext = React.createContext({
 
 export const DataContextProvider = (props) => {
   const [organizations, setOrganizations] = useState([]);
-  const [activeOrganization, setActiveOrganization] = useState();
+  const [activeOrganization, setActiveOrganization] = useState("");
   const [activeBoard, setActiveBoard] = useState("");
   const [activeBoardData, setActiveBoardData] = useState({
     name: "",

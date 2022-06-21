@@ -137,6 +137,7 @@ const HomePage = (props) => {
             closeEditBoardModal={closeEditBoardModal}
           />
         )}
+        
       </Container>
     </div>
   );
