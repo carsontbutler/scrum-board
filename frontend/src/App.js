@@ -63,7 +63,7 @@ function App() {
 
   useEffect(() => {
     getInitialData();
-  }, []);
+  }, [dataCtx.isLoggedIn]);
 
   return (
     <Router>

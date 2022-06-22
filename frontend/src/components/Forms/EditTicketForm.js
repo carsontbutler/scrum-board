@@ -1,5 +1,5 @@
-import React, { useRef, useContext } from "react";
-import { Col, Row, Form } from "react-bootstrap";
+import React, { useRef, useContext, useState } from "react";
+import { Col, Row, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DataContext from "../store/data-context";
@@ -18,6 +18,35 @@ const EditTicketForm = (props) => {
   const ticketNum = dataCtx.activeTicket.id;
   const url = "http://localhost:8000/api";
 
+  const axiosInstance = axios.create({
+    baseURL: url,
+    timeout: 5000,
+    headers: {
+      Authorization: "Bearer " + authCtx.access,
+    },
+  });
+
+  const [isDeleting, setIsDeleting] = useState(false);
+  const openDeleteHandler = () => {
+    setIsDeleting(true);
+  };
+  const closeDeleteHandler = () => {
+    setIsDeleting(false);
+  };
+
+  const deleteTicketHandler = () => {
+    axiosInstance
+      .delete(`${url}/ticket/${dataCtx.activeTicket.id}/delete/`)
+      .then((res) => {
+        if (res.status == 204) {
+          props.closeModalHandler();
+          props.getBoardData();
+          props.showToastHandler(`Ticket deleted successfully`);
+        } else {
+          props.showToastHandler(`Something went wrong`);
+        }
+      });
+  };
 
   console.log(props);
 
@@ -32,14 +61,6 @@ const EditTicketForm = (props) => {
     const column = columnRef.current.value;
     const type = typeRef.current.value;
     const priority = priorityRef.current.value;
-
-    const axiosInstance = axios.create({
-      baseURL: url,
-      timeout: 5000,
-      headers: {
-        Authorization: "Bearer " + authCtx.access,
-      },
-    });
 
     axiosInstance
       .patch(`${url}/ticket/${ticketNum}/update/`, {
@@ -246,6 +267,34 @@ const EditTicketForm = (props) => {
                   )}
                 </Form.Select>
               </Form.Group>
+              <Button
+                variant="outline-danger"
+                className="mt-5"
+                onClick={openDeleteHandler}
+              >
+                Delete ticket
+              </Button>
+              {isDeleting && (
+                <div>
+                  <h6 className="mt-3">
+                    Are you sure you want to delete this ticket?
+                  </h6>
+                  <Button
+                    variant="danger"
+                    classname="m-2"
+                    onClick={deleteTicketHandler}
+                  >
+                    Yes, delete
+                  </Button>
+                  <Button
+                    variant="outline-secondary"
+                    className="m-2"
+                    onClick={closeDeleteHandler}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              )}
             </Col>
           </Row>
         </Col>
