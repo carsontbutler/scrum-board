@@ -1,60 +1,82 @@
-import react, { useRef, useContext } from "react";
-import { Form, Row } from "react-bootstrap";
+import react, { useRef, useState } from "react";
+import { Container, Row, Button, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
 import DataContext from "../store/data-context";
-
-
-
-// use state to present 2 forms: 1 for editing the name/prefix/organization and another for editing the columns
+import "./EditBoardForm.css";
+import EditBoardSettingsForm from "./EditBoardSettingsForm";
+import EditBoardColumnsForm from "./EditBoardColumnsForm";
 
 const EditBoardForm = (props) => {
-    const authCtx = useContext(AuthContext);
-    const dataCtx = useContext(DataContext);
-    const nameRef = useRef();
-    const organizationRef = useRef();
-    const prefixRef = useRef();
+  const [showSettings, setShowSettings] = useState(true);
+  const [showColumns, setShowColumns] = useState(false);
 
-    const url = "http://localhost:8000/api";
+  const showSettingsHandler = () => {
+    setShowSettings(true);
+    setShowColumns(false);
+  };
 
-
-    const submitHandler = (e) => {
-      e.preventDefault();
-
-      const axiosInstance = axios.create({
-        baseURL: url,
-        timeout: 5000,
-        headers: {
-          Authorization: "Bearer " + authCtx.access,
-        },
-      });
-    };
+  const showColumnsHandler = () => {
+    setShowColumns(true);
+    setShowSettings(false);
+  };
 
   return (
-    <Form onSubmit={submitHandler} id="editBoardForm">
-      <Form.Group controlId="formOrganization" className="mt-2">
-        <Form.Label>Organization</Form.Label>
-        <Form.Select ref={organizationRef}>
-          {dataCtx.organizations.map((org) =>
-            org.id == dataCtx.activeOrganization.id ? (
-              <option value={org.id} selected>
-                {org.name}
-              </option>
+    <Container className="text-center">
+      <Row>
+        <Col>
+          <Row>
+            {showSettings ? (
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-white shadow-none"
+                
+              >
+                Board
+              </Button>
             ) : (
-              <option value={org.id}>{org.name}</option>
-            )
-          )}
-        </Form.Select>
-      </Form.Group>
-      <Form.Group controlId="formName" className="mt-2">
-        <Form.Label>Board title</Form.Label>
-        <Form.Control as="textarea" ref={nameRef} defaultValue={dataCtx.activeBoard.name} />
-      </Form.Group>
-      <Form.Group controlId="formPrefix" className="mt-2">
-        <Form.Label>Board Prefix</Form.Label>
-        <Form.Control as="textarea" ref={prefixRef} defaultValue={dataCtx.activeBoard.prefix}/>
-      </Form.Group>
-    </Form>
+              <Button
+                onClick={showSettingsHandler}
+                size="lg"
+                variant="outline-secondary"
+                className="shadow-none"
+              >
+                Board
+              </Button>
+            )}
+          </Row>
+        </Col>
+        <Col>
+          <Row>
+            {showColumns ? (
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-white shadow-none"
+
+              >
+                Columns
+              </Button>
+            ) : (
+              <Button
+                onClick={showColumnsHandler}
+                size="lg"
+                variant="outline-secondary"
+                className="shadow-none"
+
+              >
+                Columns
+              </Button>
+            )}
+          </Row>
+        </Col>
+      </Row>
+      <Row className="p-3 m-auto">
+        {showSettings && !showColumns && <EditBoardSettingsForm />}
+        {showColumns && !showSettings && <EditBoardColumnsForm />}
+      </Row>
+    </Container>
   );
 };
 
