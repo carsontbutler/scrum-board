@@ -1,3 +1,10 @@
 .column-name{
 width: 100%;
 }
+
+.delete-button{
+    z-index: 1000;
+}
+.delete-button:hover{
+    cursor: pointer;
+}

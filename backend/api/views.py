@@ -186,6 +186,20 @@ class CreateBoardView(APIView):
             return Response(CreateBoardSerializer(board).data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+class DeleteColumnView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        column = Column.objects.get(id=pk)
+        board = column.board
+        organization = board.organization
+        if organization in organizations:
+            column.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 #Board view
 """This pulls all boards for a given organization."""

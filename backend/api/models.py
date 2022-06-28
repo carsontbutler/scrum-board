@@ -62,7 +62,8 @@ class Column(models.Model):
         super().save(**kwargs)
 
     def __str__(self):
-        return self.name
+        name_and_id = f"{self.name} ({self.id})"
+        return name_and_id
 
 class Ticket(models.Model):
     title = models.CharField(max_length=150)

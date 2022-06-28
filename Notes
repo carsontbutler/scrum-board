@@ -1,6 +1,14 @@
-commit: submitHandler for CreateBoardForm
+commit: added to EditBoardColumnsForm, created DeleteColumnView endpoint
 
 next time: 
+6/28
+-Delete button works but it deletes all tickets. Need to add a confirmation modal to confirm the user wants to delete. If it has tickets in it, list the number of tickets to the user.
+
+
+
+
+
+
 -COMBINE ACTIVEBOARD AND ACTIVEBOARDDATA INTO 1. WHENEVER AN ORGANIZATION IS SELECTED, LOAD AND SET ALL BOARD DATA
 -need to really figure out the New Board stuff (async/await? or what)
 -create EditBoard endpoint, finish submitHandler for EditBoard
