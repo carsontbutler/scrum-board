@@ -6,6 +6,12 @@ import AuthContext from "../store/auth-context";
 const DeleteColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
   console.log(props);
+  console.log(props.showDeleteModal.id);
+  let targetCol = props.formColumns.find(
+    (col) => col.id == props.showDeleteModal.id
+  );
+
+  console.log(targetCol);
 
   const url = "http://localhost:8000/api";
   const axiosInstance = axios.create({
@@ -17,7 +23,7 @@ const DeleteColumnModal = (props) => {
   });
 
   const deleteColumnHandler = () => {
-    let targetCol = props.targetCol;
+    console.log(targetCol);
 
     switch (true) {
       case targetCol !== undefined && targetCol.id.toString().includes("temp"):
@@ -44,12 +50,29 @@ const DeleteColumnModal = (props) => {
   };
 
   return (
-    <Modal size={"sm"} centered show={props.showDeleteModal}>
+    <Modal size={"md"} centered show={props.showDeleteModal.show}>
       <Modal.Header closeButton onHide={props.closeDeleteModal}>
-        <Modal.Title>Delete column "{props.targetCol.name}?"</Modal.Title>
+        <Modal.Title>Delete column {targetCol.name}?</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Container>{props.targetCol.tickets.length > 0 ? (<span>This action cannot be undone. NOTE: All {props.targetCol.tickets.length} tickets from in this column will be deleted. Move the tickets to another column to avoid data loss.</span>) : (<span>This action cannot be undone.</span>)}</Container>
+        <Container>
+          {targetCol.tickets && targetCol.tickets.length > 0 ? (
+            <div>
+              <h5 className="text-decoration-underline text-center">
+                WARNING:
+              </h5>
+              <h5 className="text-center mt-3">
+                All tickets ({targetCol.tickets.length}) in this column
+                will be deleted.
+              </h5>
+              <h6 className="text-center mt-3">
+                Move the tickets to another column to avoid data loss.
+              </h6>
+            </div>
+          ) : (
+            <span>This action cannot be undone.</span>
+          )}
+        </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
         <Button size="md" variant="danger" onClick={deleteColumnHandler}>

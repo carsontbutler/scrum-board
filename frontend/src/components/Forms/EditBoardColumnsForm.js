@@ -9,16 +9,17 @@ import DeleteColumnModal from "../Modals/DeleteColumnModal";
 const EditBoardColumnsForm = () => {
   const dataCtx = useContext(DataContext);
   const authCtx = useContext(AuthContext);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [targetCol, setTargetCol] = useState({ name: "", id: "", tickets: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState({
+    show: false,
+    id: null,
+  });
 
   const showDeleteModalHandler = (e) => {
-    setTargetCol(formColumns.find((col) => col.id == e.target.id));
-    setShowDeleteModal(true);
+    console.log(e.target);
+    setShowDeleteModal({ show: true, id: e.target.id });
   };
   const closeDeleteModal = () => {
-    setShowDeleteModal(false);
-    setTargetCol("");
+    setShowDeleteModal({ show: false, id: null });
   };
 
   const generateTempId = () => {
@@ -77,14 +78,14 @@ const EditBoardColumnsForm = () => {
               Delete
             </Button>
           </Col>
-          <DeleteColumnModal
-            showDeleteModalHandler={showDeleteModalHandler}
-            showDeleteModal={showDeleteModal}
-            closeDeleteModal={closeDeleteModal}
-            formColumns={formColumns}
-            setFormColumns={setFormColumns}
-            targetCol={targetCol}
-          />
+          {showDeleteModal.show == true && (
+            <DeleteColumnModal
+              showDeleteModal={showDeleteModal}
+              closeDeleteModal={closeDeleteModal}
+              formColumns={formColumns}
+              setFormColumns={setFormColumns}
+            />
+          )}
         </Row>
       ));
   };
