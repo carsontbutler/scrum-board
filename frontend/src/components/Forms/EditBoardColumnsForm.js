@@ -1,22 +1,25 @@
 import react, { useContext, useState } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 import "./EditBoardColumnsForm.css";
 import DataContext from "../store/data-context";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
+import DeleteColumnModal from "../Modals/DeleteColumnModal";
 
 const EditBoardColumnsForm = () => {
   const dataCtx = useContext(DataContext);
   const authCtx = useContext(AuthContext);
-  const url = "http://localhost:8000/api";
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [targetCol, setTargetCol] = useState({ name: "", id: "", tickets: "" });
 
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
+  const showDeleteModalHandler = (e) => {
+    setTargetCol(formColumns.find((col) => col.id == e.target.id));
+    setShowDeleteModal(true);
+  };
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setTargetCol("");
+  };
 
   const generateTempId = () => {
     let randomId = Math.floor(Math.random() * 1000);
@@ -25,7 +28,6 @@ const EditBoardColumnsForm = () => {
   };
 
   let [formColumns, setFormColumns] = useState(dataCtx.activeBoardData.columns);
-
   let [columnCount, setColumnCount] = useState(formColumns.length);
 
   const addColumnHandler = () => {
@@ -36,48 +38,6 @@ const EditBoardColumnsForm = () => {
     };
     setFormColumns([...formColumns, newColumn]);
     setColumnCount(formColumns.length);
-  };
-
-  const deleteColumnHandler = (e) => {
-    let targetCol = formColumns.find((col) => col.id == e.target.id);
-    console.log(targetCol);
-
-    switch (true) {
-      case targetCol !== undefined && targetCol.id.toString().includes("temp"):
-        let data = [...formColumns].filter((col) => col !== targetCol);
-        setFormColumns(data);
-        break;
-      case targetCol !== undefined && !targetCol.id.toString().includes("temp"):
-        axiosInstance
-          .delete(`${url}/column/${targetCol.id}/delete/`)
-          .then((res) => {
-            if (res.status == 204) {
-              let data = [...formColumns].filter((col) => col !== targetCol);
-              setFormColumns(data);
-            } else {
-              console.log(res); //! handle this properly with a message
-            }
-          });
-        break;
-    }
-
-    if (targetCol !== undefined && targetCol.id.toString().includes("temp")) {
-      let data = [...formColumns].filter((col) => col !== targetCol);
-      setFormColumns(data);
-    } else if (
-      targetCol !== undefined &&
-      !targetCol.id.toString().includes("temp")
-    ) {
-      let data = [...formColumns].filter((col) => col !== targetCol);
-      setFormColumns(data);
-    } else {
-      console.log("undefined");
-    }
-    //check if the target id is an id found in dataCtx.activeBoardData.column
-    //if so, send the request to backend to delete it
-    //if response is ok, remove from formColumns also
-    //if the target id is not in dataCtx.activeBoardData.columns,
-    //just remove it from formColumns
   };
 
   const MappedColumns = () => {
@@ -112,11 +72,19 @@ const EditBoardColumnsForm = () => {
               size={22}
               id={col.id}
               className="delete-button"
-              onClick={deleteColumnHandler}
+              onClick={showDeleteModalHandler}
             >
               Delete
             </Button>
           </Col>
+          <DeleteColumnModal
+            showDeleteModalHandler={showDeleteModalHandler}
+            showDeleteModal={showDeleteModal}
+            closeDeleteModal={closeDeleteModal}
+            formColumns={formColumns}
+            setFormColumns={setFormColumns}
+            targetCol={targetCol}
+          />
         </Row>
       ));
   };

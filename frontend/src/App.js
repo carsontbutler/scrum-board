@@ -17,8 +17,6 @@ import SelectOrgPage from "./components/pages/SelectOrgPage";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 
-//test commit
-
 function App() {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
