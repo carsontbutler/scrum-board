@@ -1,6 +1,6 @@
 import react from "react";
 import { Modal, Row, Col, Container, Button } from "react-bootstrap";
-import CreateTicketForm from "./Forms/CreateTicketForm";
+import CreateTicketForm from "../Forms/CreateTicketForm";
 
 const CreateTicketModal = (props) => {
   console.log(props);
@@ -20,14 +20,15 @@ const CreateTicketModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
+        <Button type="submit" form="createTicketForm" variant="primary">
+          Save
+        </Button>
         <Button
           onClick={props.closeCreateTicketModalHandler}
           variant="secondary"
         >
           Cancel
         </Button>
-
-        <Button type="submit" form="createTicketForm" variant="primary">Save</Button>
       </Modal.Footer>
     </Modal>
   );

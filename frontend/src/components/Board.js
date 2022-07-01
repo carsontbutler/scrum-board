@@ -14,7 +14,7 @@ import DataContext from "./store/data-context";
 import TicketModal from "./TicketModal";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
-import CreateTicketModal from "./CreateTicketModal";
+import CreateTicketModal from "./Modals/CreateTicketModal";
 
 const Board = (props) => {
   const authCtx = useContext(AuthContext);

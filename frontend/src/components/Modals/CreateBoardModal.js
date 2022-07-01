@@ -20,11 +20,11 @@ const CreateBoardModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button onClick={props.closeCreateBoardModal} variant="secondary">
-          Cancel
-        </Button>
         <Button type="submit" form="createBoardForm" variant="primary">
           Save
+        </Button>
+        <Button onClick={props.closeCreateBoardModal} variant="secondary">
+          Cancel
         </Button>
       </Modal.Footer>
     </Modal>

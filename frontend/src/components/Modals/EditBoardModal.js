@@ -2,6 +2,7 @@ import react from "react";
 import { Modal, Container, Button } from "react-bootstrap";
 import EditBoardForm from "../Forms/EditBoardForm";
 import EditBoardSettingsForm from "../Forms/EditBoardSettingsForm";
+import "./EditBoardModal.css";
 
 const EditBoardModal = (props) => {
   return (
@@ -15,11 +16,15 @@ const EditBoardModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button size="lg" onClick={props.closeEditBoardModal} variant="secondary">
-          Cancel
-        </Button>
         <Button size="lg" type="submit" form="editBoardForm" variant="primary">
           Save
+        </Button>
+        <Button
+          size="lg"
+          onClick={props.closeEditBoardModal}
+          variant="secondary"
+        >
+          Cancel
         </Button>
       </Modal.Footer>
     </Modal>

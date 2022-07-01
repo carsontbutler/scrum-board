@@ -48,3 +48,8 @@ class CreateTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'board', 'repro_steps', 'acceptance_criteria', 'reporter', 'assignee', 'type', 'column','priority']
+
+class CreateColumnSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Column
+        fields = ['name', 'board']

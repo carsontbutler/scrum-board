@@ -12,7 +12,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Organization, Board, Ticket, Column
-from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer
+from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer, CreateColumnSerializer
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -187,6 +187,24 @@ class CreateBoardView(APIView):
             return Response(CreateBoardSerializer(board).data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+class CreateColumnView(APIView):
+    permission_classes=[IsAuthenticated]
+    serializer_class = CreateColumnSerializer
+
+    def post(self, request):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        serializer = self.serializer_class(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            print('valid', request.data)
+            board = Board.objects.get(id=request.data['board'])
+            if board.organization in organizations:
+                new_col = ColumnSerializer(data=request.data)
+                new_col.save()
+                return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+            
 class DeleteColumnView(APIView):
     permission_classes=[IsAuthenticated]
 

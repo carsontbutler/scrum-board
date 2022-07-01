@@ -5,6 +5,7 @@ import DataContext from "../store/data-context";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DeleteColumnModal from "../Modals/DeleteColumnModal";
+import AddColumnModal from "../Modals/AddColumnModal";
 
 const EditBoardColumnsForm = () => {
   const dataCtx = useContext(DataContext);
@@ -14,6 +15,15 @@ const EditBoardColumnsForm = () => {
     id: null,
   });
 
+  const [showAddColumnModal, setShowAddColumnModal] = useState(false);
+
+  const showAddColumnModalHandler = () => {
+    setShowAddColumnModal(true);
+  };
+  const closeAddColumnModalHandler = () => {
+    setShowAddColumnModal(false);
+  };
+
   const showDeleteModalHandler = (e) => {
     console.log(e.target);
     setShowDeleteModal({ show: true, id: e.target.id });
@@ -22,6 +32,7 @@ const EditBoardColumnsForm = () => {
     setShowDeleteModal({ show: false, id: null });
   };
 
+  //Is this still needed?
   const generateTempId = () => {
     let randomId = Math.floor(Math.random() * 1000);
     let generatedId = `tempId${randomId}`;
@@ -31,22 +42,21 @@ const EditBoardColumnsForm = () => {
   let [formColumns, setFormColumns] = useState(dataCtx.activeBoardData.columns);
   let [columnCount, setColumnCount] = useState(formColumns.length);
 
-
   const handleInputChange = (e) => {
-    let newFormColumnsArray = [...formColumns]
-    newFormColumnsArray[e.target.id]['disabled'] = false;
+    let newFormColumnsArray = [...formColumns];
+    newFormColumnsArray[e.target.id]["disabled"] = false;
     console.log(newFormColumnsArray);
   };
 
-  const addColumnHandler = () => {
-    let newColumn = {
-      name: "",
-      id: generateTempId(),
-      position: formColumns.length,
-    };
-    setFormColumns([...formColumns, newColumn]);
-    setColumnCount(formColumns.length);
-  };
+  // const addColumnHandler = () => {
+  //   let newColumn = {
+  //     name: "",
+  //     id: generateTempId(),
+  //     position: formColumns.length,
+  //   };
+  //   setFormColumns([...formColumns, newColumn]);
+  //   setColumnCount(formColumns.length);
+  // };
 
   const MappedColumns = () => {
     return formColumns
@@ -62,7 +72,6 @@ const EditBoardColumnsForm = () => {
                 min="0"
                 max={columnCount}
                 defaultValue={col.position}
-
               />
             </Form.Group>
           </Col>
@@ -72,7 +81,6 @@ const EditBoardColumnsForm = () => {
                 type="text"
                 className="column-name"
                 defaultValue={col.name}
-
               />
             </Form.Group>
           </Col>
@@ -98,6 +106,12 @@ const EditBoardColumnsForm = () => {
               setFormColumns={setFormColumns}
             />
           )}
+          {showAddColumnModal && (
+            <AddColumnModal
+              showAddColumnModal={showAddColumnModal}
+              closeAddColumnModalHandler={closeAddColumnModalHandler}
+            />
+          )}
         </Row>
       ));
   };
@@ -116,7 +130,7 @@ const EditBoardColumnsForm = () => {
       <Col></Col>
       <MappedColumns />
       <Button
-        onClick={addColumnHandler}
+        onClick={showAddColumnModalHandler}
         className="mt-3"
         variant="outline-primary"
       >
