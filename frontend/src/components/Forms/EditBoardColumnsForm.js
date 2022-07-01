@@ -31,6 +31,13 @@ const EditBoardColumnsForm = () => {
   let [formColumns, setFormColumns] = useState(dataCtx.activeBoardData.columns);
   let [columnCount, setColumnCount] = useState(formColumns.length);
 
+
+  const handleInputChange = (e) => {
+    let newFormColumnsArray = [...formColumns]
+    newFormColumnsArray[e.target.id]['disabled'] = false;
+    console.log(newFormColumnsArray);
+  };
+
   const addColumnHandler = () => {
     let newColumn = {
       name: "",
@@ -49,23 +56,28 @@ const EditBoardColumnsForm = () => {
       .map((col, i) => (
         <Row className="form-column text-center">
           <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-            <Form.Group controlId="formPosition" className="mt-2">
+            <Form.Group controlId={col.id} id={col.id} className="mt-2">
               <Form.Control
                 type="number"
                 min="0"
                 max={columnCount}
                 defaultValue={col.position}
+
               />
             </Form.Group>
           </Col>
           <Col xl={8} lg={8} md={8} sm={8} xs={8}>
-            <Form.Group controlId="columnName" className="mt-2" id={col.id}>
+            <Form.Group controlId={col.id} className="mt-2" id={col.id}>
               <Form.Control
                 type="text"
                 className="column-name"
                 defaultValue={col.name}
+
               />
             </Form.Group>
+          </Col>
+          <Col xl={1} lg={1} md={1} sm={1} xs={1} className="pt-2" id={col.id}>
+            <Button>Save</Button>
           </Col>
           <Col xl={1} lg={1} md={1} sm={1} xs={1} className="pt-2" id={col.id}>
             <Button

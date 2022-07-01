@@ -1,10 +1,8 @@
 commit: added to EditBoardColumnsForm, created DeleteColumnView endpoint
 
 next time: 
-6/28
--Delete button works but it deletes all tickets. Need to add a confirmation modal to confirm the user wants to delete. If it has tickets in it, list the number of tickets to the user.
-
-
+6/29
+-NewColumnHandler (front and back)
 
 
 

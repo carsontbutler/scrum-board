@@ -23,7 +23,6 @@ const DeleteColumnModal = (props) => {
   });
 
   const deleteColumnHandler = () => {
-    console.log(targetCol);
 
     switch (true) {
       case targetCol !== undefined && targetCol.id.toString().includes("temp"):

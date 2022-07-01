@@ -29,6 +29,11 @@ class ColumnSerializer(serializers.ModelSerializer):
         model = Column
         fields = ['id', 'name', 'board', 'position']
 
+class CreateOrUpdateColumnSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Column
+        fields = ['name', 'board', 'position']
+
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
