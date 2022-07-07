@@ -1,4 +1,4 @@
-import react, { useContext } from "react";
+import react, { useContext, useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
@@ -29,7 +29,7 @@ const EditBoardSettingsForm = (props) => {
       },
     });
     //try with new exported axios later
-    axiosInstance.patch(`${url}/board/${id}/update/`, {
+    axiosInstance.patch(`${url}/board/${dataCtx.activeBoard.id}/update/`, {
         name: boardName,
         organization: organization,
         prefix: prefix

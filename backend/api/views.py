@@ -108,10 +108,11 @@ class CreateBoardView(APIView):
             return Response(CreateBoardSerializer(board).data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class UpdateBoardView(APIView):
+class UpdateBoardView(generics.UpdateAPIView):
     permission_classes=[IsAuthenticated]
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
+    lookup_field = 'pk'
 
     def patch(self, request, *args, **kwargs):
         user = request.user

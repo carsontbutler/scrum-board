@@ -32,10 +32,9 @@ const HomePage = (props) => {
       });
   };
 
-  //! this is probably where the Nav issue is happening
   useEffect(() => {
     getBoardData();
-  }, [dataCtx.activeBoard, dataCtx.activeOrganization, dataCtx.setActiveBoardData]);
+  }, [dataCtx.activeBoard]);
 
   const showCreateBoardModal = () => {
     setIsCreatingBoard(true);
