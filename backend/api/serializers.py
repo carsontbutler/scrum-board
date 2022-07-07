@@ -14,6 +14,11 @@ class UserSerializerWithToken(UserSerializer):
         model = User
         fields = ['id', 'username']
 
+class CreateOrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = ['name', 'owner']
+
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization

@@ -39,7 +39,7 @@ class Board(models.Model):
     name = models.CharField(max_length=50)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     prefix = models.CharField(max_length=5, blank=False, default="BOARD")
-    
+
     class Meta:
         unique_together = ['prefix','organization']
 

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, status
 
-from .serializers import CreateTicketSerializer, UserSerializerWithToken
+from .serializers import CreateOrganizationSerializer, CreateTicketSerializer, UserSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -34,6 +34,23 @@ class GetOrganizations(APIView):
         organizations = Organization.objects.filter(members__in=[user])
         data = OrganizationSerializer(organizations, many=True).data
         return Response(data, status=status.HTTP_200_OK)
+
+class CreateOrganizationView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrganizationSerializer
+
+    def post(self, request):
+        owner = request.user
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            name = serializer.data.get('name')
+            owner = request.owner
+            members = [request.owner]
+            organization = Organization(name=name, owner=owner, members=members)
+            organization.save()
+            return Response(CreateOrganizationSerializer(organization).data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class GetBoard(APIView):
     permission_classes = [IsAuthenticated]
@@ -220,7 +237,6 @@ class DeleteTicketView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
         
-
 
 class CreateColumnView(APIView):
     permission_classes=[IsAuthenticated]
