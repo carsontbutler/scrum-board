@@ -114,6 +114,19 @@ class UpdateBoardView(APIView):
         print('INVALID')
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
 
+class DeleteBoardView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        Board = Board.objects.get(id=pk)
+        board = board.board
+        organization = board.organization
+        if organization in organizations:
+            board.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class GetTickets(APIView):
     permission_classes = [IsAuthenticated]
