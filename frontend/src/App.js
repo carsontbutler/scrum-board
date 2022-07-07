@@ -21,10 +21,6 @@ function App() {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
   const isLoggedIn = authCtx.isLoggedIn;
-  
-  console.log(dataCtx.activeOrganization);
-
-  console.log(dataCtx.organizations);
 
   const url = "http://localhost:8000/api";
 

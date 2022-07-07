@@ -30,11 +30,11 @@ const EditBoardSettingsForm = (props) => {
     });
     //try with new exported axios later
     axiosInstance.patch(`${url}/board/${id}/update/`, {
-      name: boardName,
-      organization: organization,
-      prefix: prefix
-    }).then((res) => {
-      if (res.status == 200) {
+        name: boardName,
+        organization: organization,
+        prefix: prefix
+    }).then((res)=>{
+      if(res.status == 200){
         console.log(res)
       }
       else {

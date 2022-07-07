@@ -19,12 +19,6 @@ const HomePage = (props) => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
-  const [activeBoardData, setActiveBoardData] = useState({
-    name: "",
-    columns: [],
-    tickets: [],
-  });
-
   const getBoardData = async () => {
     const board = dataCtx.activeBoard.id;
     const response = await axiosInstance
@@ -38,9 +32,10 @@ const HomePage = (props) => {
       });
   };
 
+  //! this is probably where the Nav issue is happening
   useEffect(() => {
     getBoardData();
-  }, [dataCtx.activeBoard]);
+  }, [dataCtx.activeBoard, dataCtx.activeOrganization, dataCtx.setActiveBoardData]);
 
   const showCreateBoardModal = () => {
     setIsCreatingBoard(true);
@@ -137,7 +132,7 @@ const HomePage = (props) => {
             closeEditBoardModal={closeEditBoardModal}
           />
         )}
-        
+
       </Container>
     </div>
   );
