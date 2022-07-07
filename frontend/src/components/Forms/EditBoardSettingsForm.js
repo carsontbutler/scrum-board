@@ -27,6 +27,9 @@ const EditBoardSettingsForm = (props) => {
     });
   };
 
+  
+
+
 
   return (
     <Form onSubmit={submitHandler} id="editBoardForm">
