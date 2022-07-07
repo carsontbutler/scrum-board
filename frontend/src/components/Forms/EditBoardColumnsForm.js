@@ -25,7 +25,6 @@ const EditBoardColumnsForm = () => {
   };
 
   const showDeleteModalHandler = (e) => {
-    console.log(e.target);
     setShowDeleteModal({ show: true, id: e.target.id });
   };
   const closeDeleteModal = () => {
