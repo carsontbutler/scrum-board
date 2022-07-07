@@ -38,8 +38,8 @@ const DeleteColumnModal = (props) => {
               let data = [...props.formColumns].filter(
                 (col) => col !== targetCol
               );
-              props.setFormColumns(data);
               props.closeDeleteModal();
+              props.setFormColumns(data);
             } else {
               console.log(res); //! handle this properly with a message
             }

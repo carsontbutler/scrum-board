@@ -33,29 +33,19 @@ const EditBoardColumnsForm = () => {
   };
 
   //Is this still needed?
-  const generateTempId = () => {
-    let randomId = Math.floor(Math.random() * 1000);
-    let generatedId = `tempId${randomId}`;
-    return generatedId;
-  };
+  // const generateTempId = () => {
+  //   let randomId = Math.floor(Math.random() * 1000);
+  //   let generatedId = `tempId${randomId}`;
+  //   return generatedId;
+  // };
 
   let [formColumns, setFormColumns] = useState(dataCtx.activeBoardData.columns);
   let [columnCount, setColumnCount] = useState(formColumns.length);
 
-  const handleInputChange = (e) => {
-    let newFormColumnsArray = [...formColumns];
-    newFormColumnsArray[e.target.id]["disabled"] = false;
-    console.log(newFormColumnsArray);
-  };
-
-  // const addColumnHandler = () => {
-  //   let newColumn = {
-  //     name: "",
-  //     id: generateTempId(),
-  //     position: formColumns.length,
-  //   };
-  //   setFormColumns([...formColumns, newColumn]);
-  //   setColumnCount(formColumns.length);
+  // const handleInputChange = (e) => {
+  //   let newFormColumnsArray = [...formColumns];
+  //   newFormColumnsArray[e.target.id]["disabled"] = false;
+  //   console.log(newFormColumnsArray);
   // };
 
   const MappedColumns = () => {
@@ -85,9 +75,6 @@ const EditBoardColumnsForm = () => {
             </Form.Group>
           </Col>
           <Col xl={1} lg={1} md={1} sm={1} xs={1} className="pt-2" id={col.id}>
-            <Button>Save</Button>
-          </Col>
-          <Col xl={1} lg={1} md={1} sm={1} xs={1} className="pt-2" id={col.id}>
             <Button
               variant="danger"
               size={22}
@@ -98,6 +85,15 @@ const EditBoardColumnsForm = () => {
               Delete
             </Button>
           </Col>
+          <Col
+            xl={1}
+            lg={1}
+            md={1}
+            sm={1}
+            xs={1}
+            className="pt-2"
+            id={col.id}
+          ></Col>
           {showDeleteModal.show == true && (
             <DeleteColumnModal
               showDeleteModal={showDeleteModal}

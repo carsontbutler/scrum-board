@@ -201,8 +201,9 @@ class CreateColumnView(APIView):
             board = Board.objects.get(id=request.data['board'])
             if board.organization in organizations:
                 new_col = ColumnSerializer(data=request.data)
-                new_col.save()
-                return Response(status=status.HTTP_200_OK)
+                if new_col.is_valid():
+                    new_col.save()
+                    return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
             
 class DeleteColumnView(APIView):
