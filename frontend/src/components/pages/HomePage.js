@@ -77,26 +77,6 @@ const HomePage = (props) => {
     return req;
   });
 
-  const getTicketsHandler = async (board) => {
-    console.log('get tickets handler: ');
-    const id = board.target.id;
-    console.log(id);
-    const targetBoard = dataCtx.activeOrganization.boards.find((obj) => obj.id == id);
-    console.log(targetBoard);
-    dataCtx.setActiveBoard(targetBoard);
-    const response = await axiosInstance
-      .get(`/board/${id}/tickets`)
-      .then((response) => {
-        if (response.status === 200) {
-          setTickets(response.data);
-          console.log(response.data);
-        } else {
-          console.log("error");
-        } //handle error properly
-      });
-  };
-
-
   //! Replace this with something else?
   useEffect(() => {
     if (dataCtx.organizations.length === 1) {

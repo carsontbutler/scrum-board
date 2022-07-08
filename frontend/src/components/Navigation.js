@@ -10,7 +10,13 @@ import "./Navigation.css";
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
-  console.log(dataCtx.activeBoard);
+
+  const switchActiveBoardHandler = (e) => {
+    const id = e.target.id;
+    const targetBoard = dataCtx.activeOrganization.boards.find((obj) => obj.id == id);
+    dataCtx.setActiveBoard(targetBoard);
+  };
+
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -35,7 +41,7 @@ const Navigation = (props) => {
                 <div>
                   {dataCtx.activeOrganization.boards.map((board) => (
                     <NavDropdown.Item
-                      onClick={props.getTicketsHandler}
+                      onClick={switchActiveBoardHandler}
                       id={board.id}
                       key={board.id}
                     >

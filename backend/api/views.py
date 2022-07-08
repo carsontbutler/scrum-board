@@ -22,11 +22,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             data[k] = v
         return data
 
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-
+#Organizations
 class GetOrganizations(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
@@ -52,6 +51,7 @@ class CreateOrganizationView(APIView):
             return Response(CreateOrganizationSerializer(organization).data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+#Boards
 class GetBoard(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -64,7 +64,6 @@ class GetBoard(APIView):
             data = BoardSerializer(board).data
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request':'Data unavailable'}, status=status.HTTP_404_NOT_FOUND)
-
 
 class GetBoards(APIView):
     permission_classes = [IsAuthenticated]
@@ -146,6 +145,41 @@ class DeleteBoardView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+#Columns
+class CreateColumnView(APIView):
+    permission_classes=[IsAuthenticated]
+    serializer_class = CreateColumnSerializer
+
+    def post(self, request):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        serializer = self.serializer_class(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            print('valid', request.data)
+            board = Board.objects.get(id=request.data['board'])
+            if board.organization in organizations:
+                new_col = ColumnSerializer(data=request.data)
+                if new_col.is_valid():
+                    new_col.save()
+                    return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+            
+class DeleteColumnView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        column = Column.objects.get(id=pk)
+        board = column.board
+        organization = board.organization
+        if organization in organizations:
+            column.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#Tickets
 class GetTickets(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -223,7 +257,6 @@ class UpdateTicket(generics.UpdateAPIView):
         print('INVALID')
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
         
-
 class DeleteTicketView(APIView):
     permission_classes=[IsAuthenticated]
 
@@ -238,43 +271,3 @@ class DeleteTicketView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
         
-
-class CreateColumnView(APIView):
-    permission_classes=[IsAuthenticated]
-    serializer_class = CreateColumnSerializer
-
-    def post(self, request):
-        user = request.user
-        organizations = Organization.objects.filter(members__in=[user])
-        serializer = self.serializer_class(data=request.data)
-        print(request.data)
-        if serializer.is_valid():
-            print('valid', request.data)
-            board = Board.objects.get(id=request.data['board'])
-            if board.organization in organizations:
-                new_col = ColumnSerializer(data=request.data)
-                if new_col.is_valid():
-                    new_col.save()
-                    return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-            
-class DeleteColumnView(APIView):
-    permission_classes=[IsAuthenticated]
-
-    def delete(self, request, pk):
-        user = request.user
-        organizations = Organization.objects.filter(members__in=[user])
-        column = Column.objects.get(id=pk)
-        board = column.board
-        organization = board.organization
-        if organization in organizations:
-            column.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-#Board view
-"""This pulls all boards for a given organization."""
-
-#Ticket view
-"""Pulls all tickets for a given board"""
