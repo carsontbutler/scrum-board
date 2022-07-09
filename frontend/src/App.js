@@ -16,22 +16,13 @@ import JoinOrgPage from "./components/pages/JoinOrgPage";
 import SelectOrgPage from "./components/pages/SelectOrgPage";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
-
+import { axiosInstance, url } from "./components/store/api";
 function App() {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
   const isLoggedIn = authCtx.isLoggedIn;
 
-  const url = "http://localhost:8000/api";
-
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
-
+  //fix
   axiosInstance.interceptors.request.use(async (req) => {
     const user = jwt_decode(authCtx.access);
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
@@ -47,14 +38,19 @@ function App() {
   });
 
   const getInitialData = async () => {
-    const response = await axiosInstance.get(`/boards`).then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-        dataCtx.setOrganizations(response.data.organizations);
-      } else {
-        console.log("error"); //! handle this error properly
-      }
-    });
+    const response = await axiosInstance
+      .get(`/boards`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          dataCtx.setOrganizations(response.data.organizations);
+          console.log(dataCtx);
+        } else {
+          console.log("error"); //! handle this error properly
+        }
+      });
   };
 
   useEffect(() => {
@@ -66,9 +62,7 @@ function App() {
       <Switch>
         {isLoggedIn && (
           <Route path="/" exact>
-            <HomePage
-              getInitialData={getInitialData}
-            />
+            <HomePage getInitialData={getInitialData} />
           </Route>
         )}
         {!isLoggedIn && <Route path="/login" component={AuthPage} />}

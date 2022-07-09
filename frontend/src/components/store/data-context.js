@@ -30,7 +30,7 @@ export const DataContextProvider = (props) => {
 
   const setActiveOrganizationHandler = (e) => {
     console.log('setActiveOrganization: ', e);
-    const id = e.target.id;
+    let id = e.target.id;
     console.log(id);
     const targetOrg = organizations.find((obj) => obj.id == id);
     console.log(targetOrg);

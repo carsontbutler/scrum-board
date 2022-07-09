@@ -15,9 +15,18 @@ const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
 
-  const [tickets, setTickets] = useState([]);
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
+
+  const url = "http://localhost:8000/api";
+  
+  const axiosInstance = axios.create({
+    baseURL: url,
+    timeout: 5000,
+    headers: {
+      Authorization: "Bearer " + authCtx.access,
+    },
+  });
 
   const getBoardData = async () => {
     const board = dataCtx.activeBoard.id;
@@ -25,16 +34,13 @@ const HomePage = (props) => {
       .get(`/board/${board}/tickets`)
       .then((response) => {
         if (response.status === 200) {
+          console.log('GETBOARDDATA');
           dataCtx.setActiveBoardData(response.data);
         } else {
           console.log("error");
         } //handle error properly
       });
   };
-
-  useEffect(() => {
-    getBoardData();
-  }, [dataCtx.activeBoard]);
 
   const showCreateBoardModal = () => {
     setIsCreatingBoard(true);
@@ -52,15 +58,6 @@ const HomePage = (props) => {
     setIsEditingBoard(false);
   };
 
-  const url = "http://localhost:8000/api";
-
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
 
   axiosInstance.interceptors.request.use(async (req) => {
     const user = jwt_decode(authCtx.access);
@@ -77,18 +74,11 @@ const HomePage = (props) => {
     return req;
   });
 
-  //! Replace this with something else?
-  useEffect(() => {
-    if (dataCtx.organizations.length === 1) {
-      dataCtx.setActiveOrganization(dataCtx.organizations[0]);
-    }
-  }, [dataCtx.organizations]);
-
   return (
     <div>
       <Navigation
-        getTicketsHandler={getTicketsHandler}
         showCreateBoardModal={showCreateBoardModal}
+        getBoardData={getBoardData}
       />
       <Container>
         {dataCtx.activeBoard && (

@@ -27,6 +27,8 @@ const Board = (props) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState();
 
+  console.log(dataCtx);
+
   const showToastHandler = (message) => {
     setToastMessage(message);
     setShowToast(true);
