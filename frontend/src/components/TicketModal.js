@@ -8,13 +8,12 @@ import DataContext from "./store/data-context";
 const TicketModal = (props) => {
   const dataCtx = useContext(DataContext);
 
-
   return (
     <Modal size={"xl"} centered show={props.showModal}>
       <Modal.Header closeButton onHide={props.closeModalHandler}>
         <Modal.Title>
-          {props.isEditing && "Editing "}Ticket # / {dataCtx.activeTicket.title}{" "}
-          ({dataCtx.activeTicket.type})
+          {props.isEditing && "Editing "}Ticket # / {props.activeTicket.title}{" "}
+          ({props.activeTicket.type})
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
