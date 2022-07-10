@@ -88,7 +88,7 @@ const HomePage = (props) => {
         setOrganization={props.setOrganization}
       />
       <Container>
-        <div className="d-flex align-items-center">
+        <div>
           {Object.keys(props.activeBoard).length === 0 &&
             !props.activeOrganization && (
               <SelectOrganization

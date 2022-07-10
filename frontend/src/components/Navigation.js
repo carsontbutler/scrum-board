@@ -20,11 +20,6 @@ const Navigation = (props) => {
     },
   });
 
-  const switchOrganizationHandler = () => {
-    props.setActiveBoard({});
-    props.setActiveOrganization("");
-  };
-
   const switchBoardHandler = async (board) => {
     console.log("get tickets handler: ");
     const id = board.target.id;
@@ -60,26 +55,17 @@ const Navigation = (props) => {
               }
               id="basic-nav-dropdown"
             >
-              {!props.activeOrganization &&
-                props.organizations.map((org) => (
-                  <NavDropdown.Item
-                    className="nav-dropdown"
-                    onClick={props.setOrganization}
-                    id={org.id}
-                    key={org.id}
-                  >
-                    {org.name}
-                  </NavDropdown.Item>
-                ))}
-
-              {props.activeOrganization && (
+              {props.organizations.map((org) => (
                 <NavDropdown.Item
-                  onClick={switchOrganizationHandler}
-                  className="dropdown-header text-center"
+                  className="nav-dropdown"
+                  onClick={props.setOrganization}
+                  id={org.id}
+                  key={org.id}
                 >
-                  Switch organization
+                  {org.name}
                 </NavDropdown.Item>
-              )}
+              ))}
+
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.activeOrganization ? (

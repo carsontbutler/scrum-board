@@ -30,6 +30,7 @@ function App() {
   useEffect(()=>{console.log(activeOrganization)},[activeOrganization])
 
   const setOrganization = async (e) => {
+    setActiveBoard({});
     let targetOrg = organizations.find((obj) => obj.id == e.target.id);
     await setActiveOrganization(targetOrg);
     console.log(activeOrganization);
