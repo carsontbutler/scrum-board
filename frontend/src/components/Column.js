@@ -6,7 +6,7 @@ import DataContext from "../components/store/data-context";
 
 const Column = (props) => {
   const dataCtx = useContext(DataContext);
-  console.log(dataCtx);
+  console.log(props.column['tickets']);
   const col = props.column;
 
 

@@ -21,9 +21,9 @@ const Navigation = (props) => {
   });
 
   const switchOrganizationHandler = (e) => {
-    console.log(dataCtx);
-    dataCtx.setActiveOrganization(e);
-    console.log(dataCtx.activeOrganization);
+    console.log(e);
+    props.setActiveOrganization(e);
+    console.log(props.activeOrganization);
 
   };
 
@@ -31,16 +31,16 @@ const Navigation = (props) => {
     console.log("get tickets handler: ");
     const id = board.target.id;
     console.log(id);
-    const targetBoard = dataCtx.activeOrganization.boards.find(
+    const targetBoard = props.activeOrganization.boards.find(
       (obj) => obj.id == id
     );
     console.log(targetBoard);
-    dataCtx.setActiveBoard(targetBoard);
+    props.setActiveBoard(targetBoard);
     const response = await axiosInstance
       .get(`/board/${id}/tickets`)
       .then((response) => {
         if (response.status === 200) {
-          dataCtx.setActiveBoardData(response.data);
+          props.setActiveBoardData(response.data);
         } else {
           console.log("error");
         } //handle error properly
@@ -56,13 +56,13 @@ const Navigation = (props) => {
           <Nav>
             <NavDropdown
               title={
-                dataCtx.activeOrganization
-                  ? dataCtx.activeOrganization.name
+                props.activeOrganization
+                  ? props.activeOrganization.name
                   : "Organization"
               }
               id="basic-nav-dropdown"
             >
-              {dataCtx.organizations.map((org) => (
+              {props.organizations.map((org) => (
                 <NavDropdown.Item
                   className="nav-dropdown"
                   onClick={switchOrganizationHandler}
@@ -74,9 +74,9 @@ const Navigation = (props) => {
               ))}
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
-              {dataCtx.activeOrganization ? (
+              {props.activeOrganization ? (
                 <div>
-                  {dataCtx.activeOrganization.boards.map((board) => (
+                  {props.activeOrganization.boards.map((board) => (
                     <NavDropdown.Item
                       onClick={switchBoardHandler}
                       id={board.id}

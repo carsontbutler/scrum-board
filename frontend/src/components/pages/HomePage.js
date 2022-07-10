@@ -10,6 +10,8 @@ import dayjs from "dayjs";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
 import DataContext from "../store/data-context";
+import SelectOrganization from "./SelectOrganization";
+import SelectBoard from "./SelectBoard";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
@@ -19,7 +21,7 @@ const HomePage = (props) => {
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
   const url = "http://localhost:8000/api";
-  
+
   const axiosInstance = axios.create({
     baseURL: url,
     timeout: 5000,
@@ -34,8 +36,7 @@ const HomePage = (props) => {
       .get(`/board/${board}/tickets`)
       .then((response) => {
         if (response.status === 200) {
-          console.log('GETBOARDDATA');
-          dataCtx.setActiveBoardData(response.data);
+          props.setActiveBoardData(response.data);
         } else {
           console.log("error");
         } //handle error properly
@@ -58,7 +59,6 @@ const HomePage = (props) => {
     setIsEditingBoard(false);
   };
 
-
   axiosInstance.interceptors.request.use(async (req) => {
     const user = jwt_decode(authCtx.access);
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
@@ -77,14 +77,52 @@ const HomePage = (props) => {
   return (
     <div>
       <Navigation
-        showCreateBoardModal={showCreateBoardModal}
-        getBoardData={getBoardData}
+        organizations={props.organizations}
+        setOrganizations={props.setOrganizations}
+        activeOrganization={props.activeOrganization}
+        setActiveOrganization={props.setActiveOrganization}
+        activeBoard={props.activeBoard}
+        setActiveBoard={props.setActiveBoard}
+        fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
+        setActiveBoardData={props.setActiveBoardData}
       />
       <Container>
-        {dataCtx.activeBoard && (
+        {Object.keys(props.activeBoard).length === 0 &&
+          !props.activeOrganization && (
+            <SelectOrganization
+              organizations={props.organizations}
+              setOrganizations={props.setOrganizations}
+              activeOrganization={props.activeOrganization}
+              setActiveOrganization={props.setActiveOrganization}
+              activeBoard={props.activeBoard}
+              setActiveBoard={props.setActiveBoard}
+            />
+          )}
+        {Object.keys(props.activeBoard).length === 0 &&
+          props.activeOrganization && (
+            <SelectBoard
+              organizations={props.organizations}
+              setOrganizations={props.setOrganizations}
+              activeOrganization={props.activeOrganization}
+              setActiveOrganization={props.setActiveOrganization}
+              activeBoard={props.activeBoard}
+              setActiveBoard={props.setActiveBoard}
+              fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
+              setActiveBoardData={props.setActiveBoardData}
+            />
+          )}
+        {Object.keys(props.activeBoard).length !== 0 && (
           <Board
             showEditBoardModal={showEditBoardModal}
             getBoardData={getBoardData}
+            organizations={props.organizations}
+            setOrganizations={props.setOrganizations}
+            activeOrganization={props.activeOrganization}
+            setActiveOrganization={props.setActiveOrganization}
+            activeBoard={props.activeBoard}
+            setActiveBoard={props.setActiveBoard}
+            activeBoardData={props.activeBoardData}
+            setActiveBoardData={props.setActiveBoardData}
           />
         )}
         {isCreatingBoard && (
@@ -101,7 +139,6 @@ const HomePage = (props) => {
             closeEditBoardModal={closeEditBoardModal}
           />
         )}
-
       </Container>
     </div>
   );

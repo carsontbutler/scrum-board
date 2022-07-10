@@ -5,7 +5,7 @@ import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import DataContext from "./store/data-context";
 
 const Ticket = (props) => {
-
+  console.log(props);
   const dataCtx = useContext(DataContext);
   const [borderColor, setBorderColor] = useState("white");
 
@@ -51,7 +51,7 @@ const Ticket = (props) => {
             </h5>
             <h6 id={props.ticket.id}>{props.ticket.type}</h6>
             {props.ticket.assignee &&
-              dataCtx.activeOrganization.users.find(
+              props.activeOrganization.users.find(
                 (user) => user.id == props.ticket.assignee
               ).username}
           </Col>

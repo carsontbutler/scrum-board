@@ -27,7 +27,7 @@ const Board = (props) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState();
 
-  console.log(dataCtx);
+  console.log(props.activeBoardData['columns']);
 
   const showToastHandler = (message) => {
     setToastMessage(message);
@@ -124,7 +124,7 @@ const Board = (props) => {
               xs={8}
               className="text-center my-3"
             >
-              <h4>{dataCtx.activeBoard.name}</h4>
+              <h4>{props.activeBoard.name}</h4>
             </Col>
             <Col xl={2} lg={2} md={2} sm={2} xs={2} className="my-3">
               <Button className="fw-bold" onClick={showCreateTicketModalHandler}>New Ticket</Button>
@@ -133,7 +133,7 @@ const Board = (props) => {
         </Container>
 
         <Row>
-          {dataCtx.activeBoardData["columns"]
+          {props.activeBoardData["columns"]
             .sort((a, b) => {
               return a.position - b.position;
             })
@@ -142,7 +142,7 @@ const Board = (props) => {
                 column={col}
                 key={col.position}
                 viewTicketHandler={viewTicketHandler}
-                activeOrganization={dataCtx.activeOrganization}
+                activeOrganization={props.activeOrganization}
               />
             ))}
         </Row>

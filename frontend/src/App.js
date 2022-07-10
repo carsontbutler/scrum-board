@@ -13,7 +13,7 @@ import {
 import AuthContext from "./components/store/auth-context";
 import DataContext from "./components/store/data-context";
 import JoinOrgPage from "./components/pages/JoinOrgPage";
-import SelectOrgPage from "./components/pages/SelectOrgPage";
+import SelectOrgPage from "./components/pages/SelectOrganization";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import { axiosInstance, url } from "./components/store/api";
@@ -21,6 +21,27 @@ function App() {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
   const isLoggedIn = authCtx.isLoggedIn;
+
+  const [organizations, setOrganizations] = useState([]);
+  const [activeBoard, setActiveBoard] = useState({});
+  const [activeBoardData, setActiveBoardData] = useState({});
+  const [activeOrganization, setActiveOrganization] = useState("");
+
+  const fetchAndSetActiveBoardData = async (e) => {
+    console.log(e.target);
+    console.log("fetchActiveBoardData");
+    await axiosInstance
+      .get(`${url}/board/${e.target.id}/tickets/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setActiveBoardData(res.data);
+        setActiveBoard(
+          activeOrganization.boards.find((obj) => obj.id == e.target.id)
+        );
+      });
+  };
 
   //fix
   axiosInstance.interceptors.request.use(async (req) => {
@@ -45,8 +66,7 @@ function App() {
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
-          dataCtx.setOrganizations(response.data.organizations);
-          console.log(dataCtx);
+          setOrganizations(response.data.organizations);
         } else {
           console.log("error"); //! handle this error properly
         }
@@ -62,7 +82,18 @@ function App() {
       <Switch>
         {isLoggedIn && (
           <Route path="/" exact>
-            <HomePage getInitialData={getInitialData} />
+            <HomePage
+              getInitialData={getInitialData}
+              organizations={organizations}
+              setOrganizations={setOrganizations}
+              activeOrganization={activeOrganization}
+              setActiveOrganization={setActiveOrganization}
+              activeBoard={activeBoard}
+              setActiveBoard={setActiveBoard}
+              activeBoardData={activeBoardData}
+              fetchAndSetActiveBoardData={fetchAndSetActiveBoardData}
+              setActiveBoardData={setActiveBoardData}
+            />
           </Route>
         )}
         {!isLoggedIn && <Route path="/login" component={AuthPage} />}
