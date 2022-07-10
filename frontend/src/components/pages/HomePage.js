@@ -85,46 +85,50 @@ const HomePage = (props) => {
         setActiveBoard={props.setActiveBoard}
         fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
         setActiveBoardData={props.setActiveBoardData}
+        setOrganization={props.setOrganization}
       />
       <Container>
-        {Object.keys(props.activeBoard).length === 0 &&
-          !props.activeOrganization && (
-            <SelectOrganization
+        <div className="d-flex align-items-center">
+          {Object.keys(props.activeBoard).length === 0 &&
+            !props.activeOrganization && (
+              <SelectOrganization
+                organizations={props.organizations}
+                setOrganizations={props.setOrganizations}
+                activeOrganization={props.activeOrganization}
+                setActiveOrganization={props.setActiveOrganization}
+                activeBoard={props.activeBoard}
+                setActiveBoard={props.setActiveBoard}
+                setOrganization={props.setOrganization}
+              />
+            )}
+          {Object.keys(props.activeBoard).length === 0 &&
+            props.activeOrganization && (
+              <SelectBoard
+                organizations={props.organizations}
+                setOrganizations={props.setOrganizations}
+                activeOrganization={props.activeOrganization}
+                setActiveOrganization={props.setActiveOrganization}
+                activeBoard={props.activeBoard}
+                setActiveBoard={props.setActiveBoard}
+                fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
+                setActiveBoardData={props.setActiveBoardData}
+              />
+            )}
+          {Object.keys(props.activeBoard).length !== 0 && (
+            <Board
+              showEditBoardModal={showEditBoardModal}
+              getBoardData={getBoardData}
               organizations={props.organizations}
               setOrganizations={props.setOrganizations}
               activeOrganization={props.activeOrganization}
               setActiveOrganization={props.setActiveOrganization}
               activeBoard={props.activeBoard}
               setActiveBoard={props.setActiveBoard}
-            />
-          )}
-        {Object.keys(props.activeBoard).length === 0 &&
-          props.activeOrganization && (
-            <SelectBoard
-              organizations={props.organizations}
-              setOrganizations={props.setOrganizations}
-              activeOrganization={props.activeOrganization}
-              setActiveOrganization={props.setActiveOrganization}
-              activeBoard={props.activeBoard}
-              setActiveBoard={props.setActiveBoard}
-              fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
+              activeBoardData={props.activeBoardData}
               setActiveBoardData={props.setActiveBoardData}
             />
           )}
-        {Object.keys(props.activeBoard).length !== 0 && (
-          <Board
-            showEditBoardModal={showEditBoardModal}
-            getBoardData={getBoardData}
-            organizations={props.organizations}
-            setOrganizations={props.setOrganizations}
-            activeOrganization={props.activeOrganization}
-            setActiveOrganization={props.setActiveOrganization}
-            activeBoard={props.activeBoard}
-            setActiveBoard={props.setActiveBoard}
-            activeBoardData={props.activeBoardData}
-            setActiveBoardData={props.setActiveBoardData}
-          />
-        )}
+        </div>
         {isCreatingBoard && (
           <CreateBoardModal
             isCreatingBoard={isCreatingBoard}

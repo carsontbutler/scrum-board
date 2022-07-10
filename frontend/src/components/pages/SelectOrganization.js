@@ -9,27 +9,32 @@ const SelectOrganization = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
 
-  const setOrganization = (e) => {
-    let targetOrg = props.organizations.find((obj) => obj.id == e.target.id);
-    console.log(targetOrg);
-    props.setActiveOrganization(targetOrg);
-    console.log(targetOrg);
-  };
-
   return (
     <Container>
-      <h1 className="text-center">Select an organization</h1>
-      <Row>
-        {props.organizations.map((org) => (
-          <Button
-            onClick={setOrganization}
-            variant="outline-dark"
-            key={org.id}
-            id={org.id}
-          >
-            {org.name}
-          </Button>
-        ))}
+      <h1 className="text-center">Select organization</h1>
+      <Row >
+        <Col></Col>
+        <Col xl={8} lg={8} md={10} sm={12} xs={12}>
+          {props.organizations.map((org) => (
+            <Row>
+              <Button
+                onClick={props.setOrganization}
+                variant="dark"
+                key={org.id}
+                id={org.id}
+                size="lg"
+              >
+                {org.name}
+              </Button>
+            </Row>
+          ))}
+          <Row>
+            <Button variant="outline-dark" size="lg">
+              New
+            </Button>
+          </Row>
+        </Col>
+        <Col></Col>
       </Row>
     </Container>
   );

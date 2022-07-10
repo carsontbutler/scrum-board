@@ -27,6 +27,14 @@ function App() {
   const [activeBoardData, setActiveBoardData] = useState({});
   const [activeOrganization, setActiveOrganization] = useState("");
 
+  useEffect(()=>{console.log(activeOrganization)},[activeOrganization])
+
+  const setOrganization = async (e) => {
+    let targetOrg = organizations.find((obj) => obj.id == e.target.id);
+    await setActiveOrganization(targetOrg);
+    console.log(activeOrganization);
+  };
+
   const fetchAndSetActiveBoardData = async (e) => {
     console.log(e.target);
     console.log("fetchActiveBoardData");
@@ -93,22 +101,11 @@ function App() {
               activeBoardData={activeBoardData}
               fetchAndSetActiveBoardData={fetchAndSetActiveBoardData}
               setActiveBoardData={setActiveBoardData}
+              setOrganization={setOrganization}
             />
           </Route>
         )}
         {!isLoggedIn && <Route path="/login" component={AuthPage} />}
-
-        {isLoggedIn && (
-          <Route path="/join" exact>
-            <JoinOrgPage />
-          </Route>
-        )}
-
-        {isLoggedIn && (
-          <Route path="/select-org" exact>
-            <SelectOrgPage />
-          </Route>
-        )}
 
         <Route path="*">
           {isLoggedIn && <Redirect to="/" />}

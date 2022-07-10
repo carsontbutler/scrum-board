@@ -29,10 +29,15 @@ const SelectBoard = (props) => {
       <h1 className="text-center">Select a board</h1>
       <Row>
         {props.activeOrganization.boards.map((board) => (
-          <Button id={board.id} key={board.id} onClick={props.fetchAndSetActiveBoardData}>
+          <Button
+            id={board.id}
+            key={board.id}
+            onClick={props.fetchAndSetActiveBoardData}
+          >
             {board.name}
           </Button>
         ))}
+        <Button>New</Button>
       </Row>
     </Container>
   );
