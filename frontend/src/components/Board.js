@@ -106,11 +106,7 @@ const Board = (props) => {
       <CreateTicketModal
         closeCreateTicketModalHandler={closeCreateTicketModalHandler}
         showCreateTicketModal={showCreateTicketModal}
-        getBoardData={props.getBoardData}
         showToastHandler={showToastHandler}
-        activeBoardData={props.activeBoardData}
-        activeOrganization={props.activeOrganization}
-        fetchUpdatedBoardData={props.fetchUpdatedBoardData}
         data={props.data}
         api={props.api}
       />

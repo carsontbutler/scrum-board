@@ -42,8 +42,8 @@ const CreateTicketForm = (props) => {
 
     axiosInstance
       .post(`${url}/create-ticket/`, {
-        organization: props.activeOrganization.id,
-        board: props.activeBoardData.id,
+        organization: props.data.activeOrganization.id,
+        board: props.data.activeBoardData.id,
         title: title,
         description: description,
         repro_steps: reproSteps,
@@ -56,7 +56,7 @@ const CreateTicketForm = (props) => {
       .then((res) => {
         if (res.status == 200) {
           props.closeCreateTicketModalHandler();
-          props.fetchUpdatedBoardData(props.activeBoardData);
+          props.api.fetchUpdatedBoardData(props.data.activeBoardData);
           props.showToastHandler(`Ticket created successfully`);
         } else {
           console.log("handle error"); //! handle this properly with a message
@@ -110,7 +110,7 @@ const CreateTicketForm = (props) => {
               <Form.Group controlId="formAssignee">
                 <Form.Select ref={assigneeRef}>
                 <option label=" "></option>
-                {props.activeOrganization.users.map((user) => (
+                {props.data.activeOrganization.users.map((user) => (
                   <option value={user.id}>{user.username}</option>
                 ))}
                 </Form.Select>
@@ -124,7 +124,7 @@ const CreateTicketForm = (props) => {
             <Col>
               <Form.Group controlId="formColumn">
                 <Form.Select ref={columnRef}>
-                  {props.activeBoardData.columns.map((column) => (
+                  {props.data.activeBoardData.columns.map((column) => (
                     <option value={column.id}>{column.name}</option>
                   ))}
                 </Form.Select>
