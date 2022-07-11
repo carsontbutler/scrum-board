@@ -43,7 +43,7 @@ function App() {
   };
 
   const setActiveTicketHandler = (e) => {
-    setActiveTicket(activeBoardData.tickets.find((obj)=>obj.id == e.target.id));
+    setActiveTicket(data.activeBoardData.tickets.find((obj)=>obj.id == e.target.id));
   };
 
   const fetchAndSetActiveBoardData = async (e) => {

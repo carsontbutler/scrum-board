@@ -79,15 +79,6 @@ const HomePage = (props) => {
   return (
     <div>
       <Navigation
-        organizations={props.organizations}
-        setOrganizations={props.setOrganizations}
-        activeOrganization={props.activeOrganization}
-        setActiveOrganization={props.setActiveOrganization}
-        activeBoard={props.activeBoard}
-        setActiveBoard={props.setActiveBoard}
-        fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
-        setActiveBoardData={props.setActiveBoardData}
-        setOrganization={props.setOrganization}
         data={props.data}
         api={props.api}
       />
@@ -103,14 +94,6 @@ const HomePage = (props) => {
           {Object.keys(props.data.activeBoard).length === 0 &&
             props.data.activeOrganization && (
               <SelectBoard
-                organizations={props.organizations}
-                setOrganizations={props.setOrganizations}
-                activeOrganization={props.activeOrganization}
-                setActiveOrganization={props.setActiveOrganization}
-                activeBoard={props.activeBoard}
-                setActiveBoard={props.setActiveBoard}
-                fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
-                setActiveBoardData={props.setActiveBoardData}
                 data={props.data}
                 api={props.api}
               />
@@ -118,20 +101,6 @@ const HomePage = (props) => {
           {Object.keys(props.data.activeBoard).length !== 0 && (
             <Board
               showEditBoardModal={showEditBoardModal}
-              getBoardData={getBoardData}
-              organizations={props.organizations}
-              setOrganizations={props.setOrganizations}
-              activeOrganization={props.activeOrganization}
-              setActiveOrganization={props.setActiveOrganization}
-              activeBoard={props.activeBoard}
-              setActiveBoard={props.setActiveBoard}
-              activeBoardData={props.activeBoardData}
-              setActiveBoardData={props.setActiveBoardData}
-              activeTicket={props.activeTicket}
-              setActiveTicket={props.setActiveTicket}
-              setActiveTicketHandler={props.setActiveTicketHandler}
-              fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
-              fetchUpdatedBoardData={props.fetchUpdatedBoardData}
               data={props.data}
               api={props.api}
             />
@@ -141,12 +110,11 @@ const HomePage = (props) => {
           <CreateBoardModal
             isCreatingBoard={isCreatingBoard}
             closeCreateBoardModal={closeCreateBoardModal}
-            getBoardData={getBoardData}
-            getInitialData={props.getInitialData}
             data={props.data}
             api={props.api}
           />
         )}
+
         {isEditingBoard && (
           <EditBoardModal
             isEditingBoard={isEditingBoard}

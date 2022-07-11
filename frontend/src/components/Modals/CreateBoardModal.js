@@ -11,11 +11,7 @@ const CreateBoardModal = (props) => {
       <Modal.Body>
         <Container>
           <CreateBoardForm
-            organizations={props.organizations}
-            activeOrganization={props.activeOrganization}
             closeCreateBoardModal={props.closeCreateBoardModal}
-            getBoardData={props.getBoardData}
-            getInitialData={props.getInitialData}
             data={props.data}
             api={props.api}
           />

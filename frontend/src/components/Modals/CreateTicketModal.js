@@ -11,11 +11,10 @@ const CreateTicketModal = (props) => {
       <Modal.Body>
         <Container>
           <CreateTicketForm
-            activeOrganization={props.activeOrganization}
-            activeBoardData={props.activeBoardData}
             closeCreateTicketModalHandler={props.closeCreateTicketModalHandler}
-            fetchUpdatedBoardData={props.fetchUpdatedBoardData}
             showToastHandler={props.showToastHandler}
+            api={props.api}
+            data={props.data}
           />
         </Container>
       </Modal.Body>

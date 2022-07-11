@@ -7,6 +7,8 @@ import DataContext from "../components/store/data-context";
 const Column = (props) => {
   const dataCtx = useContext(DataContext);
   const col = props.column;
+  console.log(props);
+  console.log(col);
 
   return (
     <Col className="column">
@@ -15,15 +17,10 @@ const Column = (props) => {
       </h6>
       {col["tickets"].map((ticket) => (
         <Ticket
-          onClick={props.api.setActiveTicketHandler}
+          viewTicketHandler={props.viewTicketHandler}
           ticket={ticket}
           id={ticket.id}
           key={ticket.id}
-          viewTicketHandler={props.viewTicketHandler}
-          activeOrganization={props.activeOrganization}
-          activeBoardData={props.activeBoardData}
-          setActiveTicketHandler={props.setActiveTicketHandler}
-          activeTicket={props.activeTicket}
           data={props.data}
           api={props.api}
         />

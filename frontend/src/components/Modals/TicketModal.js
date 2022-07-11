@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Modal, Row, Col, Container, Button } from "react-bootstrap";
 import "./TicketModal.css";
-import ViewTicket from "./ViewTicket";
-import EditTicketForm from "./Forms/EditTicketForm";
-import DataContext from "./store/data-context";
+import ViewTicket from "../ViewTicket";
+import EditTicketForm from "../Forms/EditTicketForm";
+import DataContext from "../store/data-context";
 
 const TicketModal = (props) => {
   const dataCtx = useContext(DataContext);
@@ -24,20 +24,11 @@ const TicketModal = (props) => {
               setIsEditing={props.setIsEditing}
               closeModalHandler={props.closeModalHandler}
               showToastHandler={props.showToastHandler}
-              activeBoardData={props.activeBoardData}
-              activeOrganization={props.activeOrganization}
-              activeTicket={props.activeTicket}
-              fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
-              fetchUpdatedBoardData={props.fetchUpdatedBoardData}
               data={props.data}
               api={props.api}
             />
           ) : (
             <ViewTicket
-              activeTicket={props.activeTicket}
-              setActiveTicket={props.setActiveTicket}
-              activeOrganization={props.activeOrganization}
-              activeBoardData={props.activeBoardData}
               data={props.data}
               api={props.api}
             />

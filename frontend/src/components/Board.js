@@ -11,7 +11,7 @@ import {
 import Column from "./Column";
 import AuthContext from "./store/auth-context";
 import DataContext from "./store/data-context";
-import TicketModal from "./TicketModal";
+import TicketModal from "./Modals/TicketModal";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import CreateTicketModal from "./Modals/CreateTicketModal";
@@ -45,6 +45,7 @@ const Board = (props) => {
   };
 
   const viewTicketHandler = (e) => {
+    console.log('VIEW TICKET HANDLER ', e.target);
     const selectedTicket = props.data.activeBoardData.tickets.filter(
       (ticket) => ticket.id == e.target.id
     );
@@ -97,14 +98,7 @@ const Board = (props) => {
         cancelEditHandler={cancelEditHandler}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
-        getBoardData={props.getBoardData}
         showToastHandler={showToastHandler}
-        activeTicket={props.activeTicket}
-        setActiveTicket={props.setActiveTicket}
-        activeOrganization={props.activeOrganization}
-        activeBoardData={props.activeBoardData}
-        fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
-        fetchUpdatedBoardData={props.fetchUpdatedBoardData}
         data={props.data}
         api={props.api}
       />
@@ -163,10 +157,6 @@ const Board = (props) => {
                 column={col}
                 key={col.position}
                 viewTicketHandler={viewTicketHandler}
-                activeOrganization={props.activeOrganization}
-                activeTicket={props.activeTicket}
-                activeBoardData={props.activeBoardData}
-                setActiveTicketHandler={props.setActiveTicketHandler}
                 data={props.data}
                 api={props.api}
               />
