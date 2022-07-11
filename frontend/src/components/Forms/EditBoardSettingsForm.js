@@ -10,11 +10,14 @@ import { axiosInstance } from "../store/api";
 const EditBoardSettingsForm = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
+  console.log(props);
 
   //set these to default values
-  const [boardName, setBoardName] = useState(dataCtx.activeBoard.name);
-  const [organization, setOrganization] = useState(dataCtx.activeOrganization.id);
-  const [prefix, setPrefix] = useState(dataCtx.activeBoard.prefix);
+  const [boardName, setBoardName] = useState(props.data.activeBoard.name);
+  const [organization, setOrganization] = useState(
+    props.data.activeOrganization.id
+  );
+  const [prefix, setPrefix] = useState(props.data.activeBoard.prefix);
 
   const url = "http://localhost:8000/api";
 
@@ -29,23 +32,21 @@ const EditBoardSettingsForm = (props) => {
       },
     });
     //try with new exported axios later
-    axiosInstance.patch(`${url}/board/${dataCtx.activeBoard.id}/update/`, {
+    axiosInstance
+      .patch(`${url}/board/${props.data.activeBoard.id}/update/`, {
         name: boardName,
         organization: organization,
-        prefix: prefix
-    }).then((res)=>{
-      if(res.status == 200){
-        console.log(res)
-      }
-      else {
-        console.log(res);
-        console.log('bad request');
-      }
-    })
-
+        prefix: prefix,
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res);
+        } else {
+          console.log(res);
+          console.log("bad request");
+        }
+      });
   };
-
-
 
   return (
     <Form onSubmit={submitHandler} id="editBoardForm">
@@ -54,9 +55,13 @@ const EditBoardSettingsForm = (props) => {
         <Col xl={8} lg={8} md={10} sm={10} xs={12}>
           <Form.Group controlId="formOrganization" className="mt-2">
             <Form.Label className="font-weight-bold">Organization</Form.Label>
-            <Form.Select onChange={(e) => { setOrganization(e.target.value) }}>
-              {dataCtx.organizations.map((org) =>
-                org.id == dataCtx.activeOrganization.id ? (
+            <Form.Select
+              onChange={(e) => {
+                setOrganization(e.target.value);
+              }}
+            >
+              {props.data.organizations.map((org) =>
+                org.id == props.data.activeOrganization.id ? (
                   <option value={org.id} selected>
                     {org.name}
                   </option>
@@ -70,8 +75,10 @@ const EditBoardSettingsForm = (props) => {
             <Form.Label>Board title</Form.Label>
             <Form.Control
               type="text"
-              defaultValue={dataCtx.activeBoard.name}
-              onChange={(e) => { setBoardName(e.target.value); }}
+              defaultValue={props.data.activeBoard.name}
+              onChange={(e) => {
+                setBoardName(e.target.value);
+              }}
             />
           </Form.Group>
 
@@ -79,8 +86,10 @@ const EditBoardSettingsForm = (props) => {
             <Form.Label>Board Prefix</Form.Label>
             <Form.Control
               type="text"
-              defaultValue={dataCtx.activeBoard.prefix}
-              onChange={(e) => { setPrefix(e.target.value); }}
+              defaultValue={props.data.activeBoard.prefix}
+              onChange={(e) => {
+                setPrefix(e.target.value);
+              }}
             />
           </Form.Group>
         </Col>

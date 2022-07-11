@@ -17,7 +17,7 @@ const CreateTicketForm = (props) => {
   const priorityRef = useRef();
   const url = "http://localhost:8000/api";
 
-  console.log(dataCtx.activeOrganization);
+  console.log('PROPS ', props);
 
   const submitHandler = (e) => {
     
@@ -42,8 +42,8 @@ const CreateTicketForm = (props) => {
 
     axiosInstance
       .post(`${url}/create-ticket/`, {
-        organization: dataCtx.activeOrganization.id,
-        board: dataCtx.activeBoardData.id,
+        organization: props.activeOrganization.id,
+        board: props.activeBoardData.id,
         title: title,
         description: description,
         repro_steps: reproSteps,
@@ -56,8 +56,8 @@ const CreateTicketForm = (props) => {
       .then((res) => {
         if (res.status == 200) {
           props.closeCreateTicketModalHandler();
-          props.getBoardData();
-          props.showToastHandler(`Ticket # - saved successfully`);
+          props.fetchUpdatedBoardData(props.activeBoardData);
+          props.showToastHandler(`Ticket created successfully`);
         } else {
           console.log("handle error"); //! handle this properly with a message
         }
@@ -110,7 +110,7 @@ const CreateTicketForm = (props) => {
               <Form.Group controlId="formAssignee">
                 <Form.Select ref={assigneeRef}>
                 <option label=" "></option>
-                {dataCtx.activeOrganization.users.map((user) => (
+                {props.activeOrganization.users.map((user) => (
                   <option value={user.id}>{user.username}</option>
                 ))}
                 </Form.Select>
@@ -124,7 +124,7 @@ const CreateTicketForm = (props) => {
             <Col>
               <Form.Group controlId="formColumn">
                 <Form.Select ref={columnRef}>
-                  {dataCtx.activeBoardData.columns.map((column) => (
+                  {props.activeBoardData.columns.map((column) => (
                     <option value={column.id}>{column.name}</option>
                   ))}
                 </Form.Select>

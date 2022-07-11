@@ -7,7 +7,7 @@ import AuthContext from "../store/auth-context";
 import DeleteColumnModal from "../Modals/DeleteColumnModal";
 import AddColumnModal from "../Modals/AddColumnModal";
 
-const EditBoardColumnsForm = () => {
+const EditBoardColumnsForm = (props) => {
   const dataCtx = useContext(DataContext);
   const authCtx = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal] = useState({
@@ -38,7 +38,7 @@ const EditBoardColumnsForm = () => {
   //   return generatedId;
   // };
 
-  let [formColumns, setFormColumns] = useState(dataCtx.activeBoardData.columns);
+  let [formColumns, setFormColumns] = useState(props.data.activeBoardData.columns);
   let [columnCount, setColumnCount] = useState(formColumns.length);
 
   // const handleInputChange = (e) => {

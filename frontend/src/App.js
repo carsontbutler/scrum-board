@@ -12,8 +12,7 @@ import {
 } from "react-router-dom";
 import AuthContext from "./components/store/auth-context";
 import DataContext from "./components/store/data-context";
-import JoinOrgPage from "./components/pages/JoinOrgPage";
-import SelectOrgPage from "./components/pages/SelectOrganization";
+
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import { axiosInstance, url } from "./components/store/api";
@@ -26,12 +25,25 @@ function App() {
   const [activeBoard, setActiveBoard] = useState({});
   const [activeBoardData, setActiveBoardData] = useState({});
   const [activeOrganization, setActiveOrganization] = useState("");
+  const [activeTicket, setActiveTicket] = useState("");
+
+  const data = {
+    organizations: organizations,
+    activeOrganization: activeOrganization,
+    activeBoard: activeBoard,
+    activeBoardData: activeBoardData,
+    activeTicket: activeTicket
+  }
 
   const setOrganization = async (e) => {
     setActiveBoard({});
     let targetOrg = organizations.find((obj) => obj.id == e.target.id);
     await setActiveOrganization(targetOrg);
     console.log(activeOrganization);
+  };
+
+  const setActiveTicketHandler = (e) => {
+    setActiveTicket(activeBoardData.tickets.find((obj)=>obj.id == e.target.id));
   };
 
   const fetchAndSetActiveBoardData = async (e) => {
@@ -48,6 +60,21 @@ function App() {
           activeOrganization.boards.find((obj) => obj.id == e.target.id)
         );
       });
+  };
+
+  const fetchUpdatedBoardData = async (board) => {
+    let id = board.id;
+    await axiosInstance
+    .get(`${url}/board/${id}/tickets/`, {
+      headers: { Authorization: "Bearer " + authCtx.access },
+    })
+    .then((res) => {
+      console.log(res.data);
+      setActiveBoardData(res.data);
+      setActiveBoard(
+        activeOrganization.boards.find((obj) => obj.id == id)
+      );
+    });
   };
 
   //fix
@@ -80,6 +107,19 @@ function App() {
       });
   };
 
+  const api = {
+    setActiveBoard: setActiveBoard,
+    setActiveBoardData: setActiveBoardData,
+    setOrganization: setOrganization,
+    setOrganizations: setOrganizations,
+    setActiveOrganization: setActiveOrganization,
+    fetchAndSetActiveBoardData: fetchAndSetActiveBoardData,
+    fetchUpdatedBoardData: fetchUpdatedBoardData,
+    setActiveTicket: setActiveTicket,
+    setActiveTicketHandler: setActiveTicketHandler,
+    getInitialData: getInitialData
+  };
+
   useEffect(() => {
     getInitialData();
   }, [dataCtx.isLoggedIn]);
@@ -90,17 +130,8 @@ function App() {
         {isLoggedIn && (
           <Route path="/" exact>
             <HomePage
-              getInitialData={getInitialData}
-              organizations={organizations}
-              setOrganizations={setOrganizations}
-              activeOrganization={activeOrganization}
-              setActiveOrganization={setActiveOrganization}
-              activeBoard={activeBoard}
-              setActiveBoard={setActiveBoard}
-              activeBoardData={activeBoardData}
-              fetchAndSetActiveBoardData={fetchAndSetActiveBoardData}
-              setActiveBoardData={setActiveBoardData}
-              setOrganization={setOrganization}
+              data={data}
+              api={api}
             />
           </Route>
         )}

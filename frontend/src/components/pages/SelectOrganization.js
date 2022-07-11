@@ -15,10 +15,10 @@ const SelectOrganization = (props) => {
       <Row >
         <Col></Col>
         <Col xl={8} lg={8} md={10} sm={12} xs={12}>
-          {props.organizations.map((org) => (
+          {props.data.organizations.map((org) => (
             <Row>
               <Button
-                onClick={props.setOrganization}
+                onClick={props.api.setOrganization}
                 variant="dark"
                 key={org.id}
                 id={org.id}

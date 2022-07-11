@@ -40,7 +40,7 @@ const CreateBoardForm = (props) => {
         if (res.status == 200) {
           const id = res.data.id.toString();
           props.getInitialData();
-          const targetBoard = dataCtx.activeOrganization.boards.find(
+          const targetBoard = props.data.activeOrganization.boards.find(
             (obj) => obj.id == id
           );
           props.closeCreateBoardModal();
@@ -55,8 +55,8 @@ const CreateBoardForm = (props) => {
       <Form.Group controlId="formOrganization" className="mt-2">
         <Form.Label>Organization</Form.Label>
         <Form.Select ref={organizationRef}>
-          {dataCtx.organizations.map((org) =>
-            org.id == dataCtx.activeOrganization.id ? (
+          {props.data.organizations.map((org) =>
+            org.id == props.data.activeOrganization.id ? (
               <option value={org.id} selected>
                 {org.name}
               </option>

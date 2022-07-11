@@ -16,6 +16,8 @@ const CreateBoardModal = (props) => {
             closeCreateBoardModal={props.closeCreateBoardModal}
             getBoardData={props.getBoardData}
             getInitialData={props.getInitialData}
+            data={props.data}
+            api={props.api}
           />
         </Container>
       </Modal.Body>

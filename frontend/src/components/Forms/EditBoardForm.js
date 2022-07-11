@@ -31,7 +31,6 @@ const EditBoardForm = (props) => {
                 size="lg"
                 variant="secondary"
                 className="text-white shadow-none"
-                
               >
                 Board
               </Button>
@@ -54,7 +53,6 @@ const EditBoardForm = (props) => {
                 size="lg"
                 variant="secondary"
                 className="text-white shadow-none"
-
               >
                 Columns
               </Button>
@@ -64,7 +62,6 @@ const EditBoardForm = (props) => {
                 size="lg"
                 variant="outline-secondary"
                 className="shadow-none"
-
               >
                 Columns
               </Button>
@@ -73,8 +70,12 @@ const EditBoardForm = (props) => {
         </Col>
       </Row>
       <Row className="p-3 m-auto">
-        {showSettings && !showColumns && <EditBoardSettingsForm />}
-        {showColumns && !showSettings && <EditBoardColumnsForm />}
+        {showSettings && !showColumns && (
+          <EditBoardSettingsForm api={props.api} data={props.data} />
+        )}
+        {showColumns && !showSettings && (
+          <EditBoardColumnsForm api={props.api} data={props.data} />
+        )}
       </Row>
     </Container>
   );

@@ -23,9 +23,9 @@ const AddColumnModal = (props) => {
 
     axiosInstance
       .post(`${url}column/create/`, {
-        board: dataCtx.activeBoardData.id,
+        board: props.data.activeBoardData.id,
         name: columnName,
-        position: dataCtx.activeBoardData.columns.length,
+        position: props.data.activeBoardData.columns.length,
       })
       .then((res) => {
         if (res.status == 200) {

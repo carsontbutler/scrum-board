@@ -20,6 +20,8 @@ const HomePage = (props) => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
+  console.log(props);
+
   const url = "http://localhost:8000/api";
 
   const axiosInstance = axios.create({
@@ -36,7 +38,7 @@ const HomePage = (props) => {
       .get(`/board/${board}/tickets`)
       .then((response) => {
         if (response.status === 200) {
-          props.setActiveBoardData(response.data);
+          props.api.setActiveBoardData(response.data);
         } else {
           console.log("error");
         } //handle error properly
@@ -86,23 +88,20 @@ const HomePage = (props) => {
         fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
         setActiveBoardData={props.setActiveBoardData}
         setOrganization={props.setOrganization}
+        data={props.data}
+        api={props.api}
       />
       <Container>
         <div>
-          {Object.keys(props.activeBoard).length === 0 &&
-            !props.activeOrganization && (
+          {Object.keys(props.data.activeBoard).length === 0 &&
+            !props.data.activeOrganization && (
               <SelectOrganization
-                organizations={props.organizations}
-                setOrganizations={props.setOrganizations}
-                activeOrganization={props.activeOrganization}
-                setActiveOrganization={props.setActiveOrganization}
-                activeBoard={props.activeBoard}
-                setActiveBoard={props.setActiveBoard}
-                setOrganization={props.setOrganization}
+                data={props.data}
+                api={props.api}
               />
             )}
-          {Object.keys(props.activeBoard).length === 0 &&
-            props.activeOrganization && (
+          {Object.keys(props.data.activeBoard).length === 0 &&
+            props.data.activeOrganization && (
               <SelectBoard
                 organizations={props.organizations}
                 setOrganizations={props.setOrganizations}
@@ -112,9 +111,11 @@ const HomePage = (props) => {
                 setActiveBoard={props.setActiveBoard}
                 fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
                 setActiveBoardData={props.setActiveBoardData}
+                data={props.data}
+                api={props.api}
               />
             )}
-          {Object.keys(props.activeBoard).length !== 0 && (
+          {Object.keys(props.data.activeBoard).length !== 0 && (
             <Board
               showEditBoardModal={showEditBoardModal}
               getBoardData={getBoardData}
@@ -126,6 +127,13 @@ const HomePage = (props) => {
               setActiveBoard={props.setActiveBoard}
               activeBoardData={props.activeBoardData}
               setActiveBoardData={props.setActiveBoardData}
+              activeTicket={props.activeTicket}
+              setActiveTicket={props.setActiveTicket}
+              setActiveTicketHandler={props.setActiveTicketHandler}
+              fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
+              fetchUpdatedBoardData={props.fetchUpdatedBoardData}
+              data={props.data}
+              api={props.api}
             />
           )}
         </div>
@@ -135,12 +143,16 @@ const HomePage = (props) => {
             closeCreateBoardModal={closeCreateBoardModal}
             getBoardData={getBoardData}
             getInitialData={props.getInitialData}
+            data={props.data}
+            api={props.api}
           />
         )}
         {isEditingBoard && (
           <EditBoardModal
             isEditingBoard={isEditingBoard}
             closeEditBoardModal={closeEditBoardModal}
+            data={props.data}
+            api={props.api}
           />
         )}
       </Container>

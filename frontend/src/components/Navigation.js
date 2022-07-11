@@ -11,6 +11,8 @@ const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
 
+  console.log(props);
+
   const url = "http://localhost:8000/api";
   const axiosInstance = axios.create({
     baseURL: url,
@@ -24,16 +26,16 @@ const Navigation = (props) => {
     console.log("get tickets handler: ");
     const id = board.target.id;
     console.log(id);
-    const targetBoard = props.activeOrganization.boards.find(
+    const targetBoard = props.data.activeOrganization.boards.find(
       (obj) => obj.id == id
     );
     console.log(targetBoard);
-    props.setActiveBoard(targetBoard);
+    props.api.setActiveBoard(targetBoard);
     const response = await axiosInstance
       .get(`/board/${id}/tickets`)
       .then((response) => {
         if (response.status === 200) {
-          props.setActiveBoardData(response.data);
+          props.api.setActiveBoardData(response.data);
         } else {
           console.log("error");
         } //handle error properly
@@ -49,16 +51,16 @@ const Navigation = (props) => {
           <Nav>
             <NavDropdown
               title={
-                props.activeOrganization
-                  ? props.activeOrganization.name
+                props.data.activeOrganization
+                  ? props.data.activeOrganization.name
                   : "Organization"
               }
               id="basic-nav-dropdown"
             >
-              {props.organizations.map((org) => (
+              {props.data.organizations.map((org) => (
                 <NavDropdown.Item
                   className="nav-dropdown"
-                  onClick={props.setOrganization}
+                  onClick={props.api.setOrganization}
                   id={org.id}
                   key={org.id}
                 >
@@ -68,9 +70,9 @@ const Navigation = (props) => {
 
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
-              {props.activeOrganization ? (
+              {props.data.activeOrganization ? (
                 <div>
-                  {props.activeOrganization.boards.map((board) => (
+                  {props.data.activeOrganization.boards.map((board) => (
                     <NavDropdown.Item
                       onClick={switchBoardHandler}
                       id={board.id}

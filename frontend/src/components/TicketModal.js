@@ -7,13 +7,14 @@ import DataContext from "./store/data-context";
 
 const TicketModal = (props) => {
   const dataCtx = useContext(DataContext);
+  console.log(props);
 
   return (
     <Modal size={"xl"} centered show={props.showModal}>
       <Modal.Header closeButton onHide={props.closeModalHandler}>
         <Modal.Title>
-          {props.isEditing && "Editing "}Ticket # / {props.activeTicket.title}{" "}
-          ({props.activeTicket.type})
+          {props.isEditing && "Editing "}Ticket # /{" "}
+          {props.data.activeTicket.title} ({props.data.activeTicket.type})
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -21,12 +22,25 @@ const TicketModal = (props) => {
           {props.isEditing ? (
             <EditTicketForm
               setIsEditing={props.setIsEditing}
-              getBoardData={props.getBoardData}
               closeModalHandler={props.closeModalHandler}
               showToastHandler={props.showToastHandler}
+              activeBoardData={props.activeBoardData}
+              activeOrganization={props.activeOrganization}
+              activeTicket={props.activeTicket}
+              fetchAndSetActiveBoardData={props.fetchAndSetActiveBoardData}
+              fetchUpdatedBoardData={props.fetchUpdatedBoardData}
+              data={props.data}
+              api={props.api}
             />
           ) : (
-            <ViewTicket />
+            <ViewTicket
+              activeTicket={props.activeTicket}
+              setActiveTicket={props.setActiveTicket}
+              activeOrganization={props.activeOrganization}
+              activeBoardData={props.activeBoardData}
+              data={props.data}
+              api={props.api}
+            />
           )}
         </Container>
       </Modal.Body>

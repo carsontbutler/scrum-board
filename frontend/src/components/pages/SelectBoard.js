@@ -16,10 +16,9 @@ const SelectBoard = (props) => {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((res) => {
-        console.log(res.data);
-        props.setActiveBoardData(res.data);
-        props.setActiveBoard(
-          props.activeOrganization.boards.find((obj) => obj.id == e.target.id)
+        props.api.setActiveBoardData(res.data);
+        props.api.setActiveBoard(
+          props.data.activeOrganization.boards.find((obj) => obj.id == e.target.id)
         );
       });
   };
@@ -28,11 +27,11 @@ const SelectBoard = (props) => {
     <Container>
       <h1 className="text-center">Select a board</h1>
       <Row>
-        {props.activeOrganization.boards.map((board) => (
+        {props.data.activeOrganization.boards.map((board) => (
           <Button
             id={board.id}
             key={board.id}
-            onClick={props.fetchAndSetActiveBoardData}
+            onClick={props.api.fetchAndSetActiveBoardData}
           >
             {board.name}
           </Button>

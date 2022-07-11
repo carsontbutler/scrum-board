@@ -14,7 +14,8 @@ const CreateTicketModal = (props) => {
             activeOrganization={props.activeOrganization}
             activeBoardData={props.activeBoardData}
             closeCreateTicketModalHandler={props.closeCreateTicketModalHandler}
-            getBoardData={props.getBoardData}
+            fetchUpdatedBoardData={props.fetchUpdatedBoardData}
+            showToastHandler={props.showToastHandler}
           />
         </Container>
       </Modal.Body>
