@@ -1,0 +1,31 @@
+.text-blue {
+    color: #003366
+}
+
+.background-blue {
+    background-color: #003366;
+}
+
+.text-darkblue {
+    color: #000044;
+}
+
+.background-darkblue {
+    background-color: #000044;
+}
+
+.text-lightblue {
+    color: #6699CC
+}
+
+.background-lightblue {
+background-color: #6699CC;
+}
+
+.text-gray {
+    color: #C0C0C0;
+}
+
+.background-gray {
+    background-color: #C0C0C0;
+}
