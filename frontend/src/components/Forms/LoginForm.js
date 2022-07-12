@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(url, {
+    fetch(`${url}/token/`, {
       method: "POST",
       body: JSON.stringify({
         username: username,

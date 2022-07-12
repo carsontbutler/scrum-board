@@ -6,18 +6,16 @@ import AuthContext from "./store/auth-context";
 import DataContext from "./store/data-context";
 import "./Navigation.css";
 import axios from "axios";
+import {axiosInstance, url} from "./store/api";
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
 
   const switchBoardHandler = async (board) => {
-    console.log("get tickets handler: ");
     const id = board.target.id;
-    console.log(id);
     const targetBoard = props.data.activeOrganization.boards.find(
       (obj) => obj.id == id
     );
-    console.log(targetBoard);
     props.api.setActiveBoard(targetBoard);
     const response = await axiosInstance
       .get(`/board/${id}/tickets`, {
@@ -33,7 +31,7 @@ const Navigation = (props) => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar className="text-gray" style={{ background: "linear-gradient(#003366, #000044)"}} expand="lg">
       <Container>
         <Navbar.Brand href="#home">Scrum</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

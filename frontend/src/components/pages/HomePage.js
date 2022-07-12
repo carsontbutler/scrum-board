@@ -16,8 +16,7 @@ import { axiosInstance, url } from "../store/api";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
-  //test comment 7-12
-
+  
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
