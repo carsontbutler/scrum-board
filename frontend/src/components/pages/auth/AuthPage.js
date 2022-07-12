@@ -3,7 +3,7 @@ import LoginForm from "../../Forms/LoginForm";
 
 const AuthPage = () => {
   return (
-    <div className="d-flex justify-content-center bg-gradient-to-b from-blue-800 to-blue-900 h-screen flex items-center">
+    <div className="d-flex align-items-center justify-content-center" style={{ background: "linear-gradient(#124177, #0B2647)", height: "100vh" }}>
       <LoginForm />
     </div>
   );

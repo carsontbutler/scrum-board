@@ -42,20 +42,20 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="bg-white p-5 max-w-md mx-auto rounded shadow-sm h-80 text-center">
-      <h2 className="text-2xl px-4 text-blue-800">Scrum board</h2>
-      <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+    <div style={{backgroundColor: "#FFF"}} className="p-5 rounded">
+      <h2 className="px-4 text-blue-800">Scrum board</h2>
+      <form onSubmit={handleSubmit} className="mt-4 text-center">
         <input
-          className="w-full border rounded h-12 px-4 focus:outline-none"
+          className="rounded m-2"
           placeholder="Username "
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        <div className="flex items-center">
+        <div className="text-center">
           <input
-            className="w-full border rounded h-12 px-4 focus:outline-none -mr-7"
+            className="rounded m-2"
             placeholder="Password"
             type="password"
             value={password}
@@ -63,10 +63,11 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="flex justify-center text-center">
+        <div className="text-center mt-2">
           <button
             type="submit"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+            className="text-white font-bold py-2 px-4 rounded"
+            style={{backgroundColor: "#4E93E4", borderColor: ""}}
           >
             Login
           </button>

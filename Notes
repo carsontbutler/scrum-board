@@ -1,4 +1,13 @@
 theme
+      theme: {
+        DEFAULT: "#4E93E4",
+        darkblue: "#1C2834",
+        blue: "#2B3C50",
+        lightblue: "#415D73",
+        gray: "#CFCED3",
+        white: "#FFFEFF",
+      },
+      
 colors: {
       "blue": {
         DEFAULT: "#4E93E4",
