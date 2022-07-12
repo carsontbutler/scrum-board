@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
+import {axiosInstance, url} from "../store/api";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -10,8 +11,6 @@ const LoginForm = () => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState();
-
-  const url = "http://localhost:8000/api/token/";
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -18,7 +18,6 @@ import dayjs from "dayjs";
 import { axiosInstance, url } from "./components/store/api";
 function App() {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
   const isLoggedIn = authCtx.isLoggedIn;
 
   const [organizations, setOrganizations] = useState([]);
@@ -122,7 +121,7 @@ function App() {
 
   useEffect(() => {
     getInitialData();
-  }, [dataCtx.isLoggedIn]);
+  }, [authCtx.isLoggedIn]);
 
   return (
     <Router>

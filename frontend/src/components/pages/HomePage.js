@@ -12,6 +12,7 @@ import EditBoardModal from "../Modals/EditBoardModal";
 import DataContext from "../store/data-context";
 import SelectOrganization from "./SelectOrganization";
 import SelectBoard from "./SelectBoard";
+import { axiosInstance, url } from "../store/api";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
@@ -20,20 +21,8 @@ const HomePage = (props) => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
-  console.log(props);
-
-  const url = "http://localhost:8000/api";
-
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
-
   const getBoardData = async () => {
-    const board = dataCtx.activeBoard.id;
+    const board = props.data.activeBoard.id;
     const response = await axiosInstance
       .get(`/board/${board}/tickets`)
       .then((response) => {
