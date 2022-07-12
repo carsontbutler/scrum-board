@@ -9,7 +9,6 @@ import axios from "axios";
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
 
   const switchBoardHandler = async (board) => {
     console.log("get tickets handler: ");

@@ -5,10 +5,7 @@ import "./Column.css";
 import DataContext from "../components/store/data-context";
 
 const Column = (props) => {
-  const dataCtx = useContext(DataContext);
   const col = props.column;
-  console.log(props);
-  console.log(col);
 
   return (
     <Col className="column">

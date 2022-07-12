@@ -19,7 +19,6 @@ import { axiosInstance, url } from "./store/api";
 
 const Board = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
 
   const [showModal, setShowModal] = useState(false);
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
@@ -46,7 +45,6 @@ const Board = (props) => {
   };
 
   const viewTicketHandler = (e) => {
-    console.log('VIEW TICKET HANDLER ', e.target);
     const selectedTicket = props.data.activeBoardData.tickets.filter(
       (ticket) => ticket.id == e.target.id
     );
