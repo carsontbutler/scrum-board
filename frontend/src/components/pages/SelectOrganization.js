@@ -7,7 +7,6 @@ import { axiosInstance, url } from "../store/api";
 
 const SelectOrganization = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
 
   return (
     <Container>

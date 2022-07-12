@@ -3,6 +3,7 @@ import { Col, Row, Form } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DataContext from "../store/data-context";
+import { axiosInstance, url } from "../store/api";
 
 const CreateTicketForm = (props) => {
   const authCtx = useContext(AuthContext);
@@ -15,12 +16,11 @@ const CreateTicketForm = (props) => {
   const columnRef = useRef();
   const typeRef = useRef();
   const priorityRef = useRef();
-  const url = "http://localhost:8000/api";
 
   console.log('PROPS ', props);
 
   const submitHandler = (e) => {
-    
+
     e.preventDefault();
     //check if token is valid?
     const title = titleRef.current.value;
@@ -32,16 +32,10 @@ const CreateTicketForm = (props) => {
     const type = typeRef.current.value;
     const priority = priorityRef.current.value;
 
-    const axiosInstance = axios.create({
-      baseURL: url,
-      timeout: 5000,
-      headers: {
-        Authorization: "Bearer " + authCtx.access,
-      },
-    });
-
     axiosInstance
       .post(`${url}/create-ticket/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      }, {
         organization: props.data.activeOrganization.id,
         board: props.data.activeBoardData.id,
         title: title,
@@ -109,10 +103,10 @@ const CreateTicketForm = (props) => {
             <Col>
               <Form.Group controlId="formAssignee">
                 <Form.Select ref={assigneeRef}>
-                <option label=" "></option>
-                {props.data.activeOrganization.users.map((user) => (
-                  <option value={user.id}>{user.username}</option>
-                ))}
+                  <option label=" "></option>
+                  {props.data.activeOrganization.users.map((user) => (
+                    <option value={user.id}>{user.username}</option>
+                  ))}
                 </Form.Select>
               </Form.Group>
             </Col>

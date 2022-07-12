@@ -5,7 +5,6 @@ import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import DataContext from "./store/data-context";
 
 const Ticket = (props) => {
-  const dataCtx = useContext(DataContext);
   const [borderColor, setBorderColor] = useState("white");
 
   useEffect(() => {

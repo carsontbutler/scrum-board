@@ -3,7 +3,6 @@ import { Modal, Row, Col, Container, Button } from "react-bootstrap";
 import DataContext from "./store/data-context";
 
 const ViewTicket = (props) => {
-  const dataCtx = useContext(DataContext);
   
   return (
     <Row className="justify-content-center">

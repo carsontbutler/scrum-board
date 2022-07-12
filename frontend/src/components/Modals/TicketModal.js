@@ -6,8 +6,6 @@ import EditTicketForm from "../Forms/EditTicketForm";
 import DataContext from "../store/data-context";
 
 const TicketModal = (props) => {
-  const dataCtx = useContext(DataContext);
-  console.log(props);
 
   return (
     <Modal size={"xl"} centered show={props.showModal}>

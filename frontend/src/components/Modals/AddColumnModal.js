@@ -4,25 +4,20 @@ import "./AddColumnModal.css";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DataContext from "../store/data-context";
+import { axiosInstance, url } from "../store/api";
 
 const AddColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
-  const url = "http://localhost:8000/api/";
   const [columnName, setColumnName] = useState();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const axiosInstance = axios.create({
-      baseURL: url,
-      timeout: 5000,
-      headers: {
-        Authorization: "Bearer " + authCtx.access,
-      },
-    });
 
     axiosInstance
       .post(`${url}column/create/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      },{
         board: props.data.activeBoardData.id,
         name: columnName,
         position: props.data.activeBoardData.columns.length,

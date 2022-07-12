@@ -16,17 +16,6 @@ const EditTicketForm = (props) => {
   const typeRef = useRef();
   const priorityRef = useRef();
   const ticketNum = props.data.activeTicket.id;
-  const url = "http://localhost:8000/api";
-
-  console.log(props);
-
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
 
   const [isDeleting, setIsDeleting] = useState(false);
   const openDeleteHandler = () => {
@@ -38,7 +27,9 @@ const EditTicketForm = (props) => {
 
   const deleteTicketHandler = () => {
     axiosInstance
-      .delete(`${url}/ticket/${props.data.activeTicket.id}/delete/`)
+      .delete(`${url}/ticket/${props.data.activeTicket.id}/delete/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      })
       .then((res) => {
         if (res.status == 204) {
           props.closeModalHandler();

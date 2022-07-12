@@ -3,7 +3,7 @@ import { Form, Row, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
 import DataContext from "../store/data-context";
-import { axiosInstance } from "../store/api";
+import { axiosInstance, url } from "../store/api";
 
 // use state to present 2 forms: 1 for editing the name/prefix/organization and another for editing the columns
 
@@ -19,21 +19,14 @@ const EditBoardSettingsForm = (props) => {
   );
   const [prefix, setPrefix] = useState(props.data.activeBoard.prefix);
 
-  const url = "http://localhost:8000/api";
-
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const axiosInstance = axios.create({
-      baseURL: url,
-      timeout: 5000,
-      headers: {
-        Authorization: "Bearer " + authCtx.access,
-      },
-    });
     //try with new exported axios later
     axiosInstance
       .patch(`${url}/board/${props.data.activeBoard.id}/update/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      },{
         name: boardName,
         organization: organization,
         prefix: prefix,

@@ -15,6 +15,7 @@ import TicketModal from "./Modals/TicketModal";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import CreateTicketModal from "./Modals/CreateTicketModal";
+import { axiosInstance, url } from "./store/api";
 
 const Board = (props) => {
   const authCtx = useContext(AuthContext);
@@ -64,16 +65,6 @@ const Board = (props) => {
   const cancelEditHandler = () => {
     setIsEditing(false);
   };
-
-  const url = "http://localhost:8000/api";
-
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
 
   axiosInstance.interceptors.request.use(async (req) => {
     const user = jwt_decode(authCtx.access);

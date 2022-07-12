@@ -2,6 +2,7 @@ import react, { useContext } from "react";
 import { Modal, Container, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
+import { axiosInstance, url } from "../store/api";
 
 const DeleteColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
@@ -11,19 +12,8 @@ const DeleteColumnModal = (props) => {
     (col) => col.id == props.showDeleteModal.id
   );
 
-  console.log(targetCol);
-
-  const url = "http://localhost:8000/api";
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
-
   const deleteColumnHandler = () => {
-
+    //remove TEMP part of this if not in use
     switch (true) {
       case targetCol !== undefined && targetCol.id.toString().includes("temp"):
         let data = [...props.formColumns].filter((col) => col !== targetCol);
@@ -32,7 +22,9 @@ const DeleteColumnModal = (props) => {
         break;
       case targetCol !== undefined && !targetCol.id.toString().includes("temp"):
         axiosInstance
-          .delete(`${url}/column/${targetCol.id}/delete/`)
+          .delete(`${url}/column/${targetCol.id}/delete/`, {
+            headers: { Authorization: "Bearer " + authCtx.access },
+          })
           .then((res) => {
             if (res.status == 204) {
               let data = [...props.formColumns].filter(

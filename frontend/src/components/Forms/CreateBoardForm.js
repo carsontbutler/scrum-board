@@ -4,6 +4,7 @@ import AuthContext from "../store/auth-context";
 import axios from "axios";
 import "./CreateBoardForm.css";
 import DataContext from "../store/data-context";
+import { axiosInstance, url } from "../store/api";
 
 const CreateBoardForm = (props) => {
   console.log(props);
@@ -13,8 +14,6 @@ const CreateBoardForm = (props) => {
   const organizationRef = useRef();
   const prefixRef = useRef();
 
-  const url = "http://localhost:8000/api";
-
   const submitHandler = (e) => {
     e.preventDefault();
     //check if token is valid?
@@ -22,16 +21,10 @@ const CreateBoardForm = (props) => {
     const organization = organizationRef.current.value;
     const prefix = prefixRef.current.value;
 
-    const axiosInstance = axios.create({
-      baseURL: url,
-      timeout: 5000,
-      headers: {
-        Authorization: "Bearer " + authCtx.access,
-      },
-    });
-
     axiosInstance
       .post(`${url}/create-board/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      }, {
         name: name,
         organization: organization,
         prefix: prefix,

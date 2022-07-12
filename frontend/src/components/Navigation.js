@@ -11,17 +11,6 @@ const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
   const dataCtx = useContext(DataContext);
 
-  console.log(props);
-
-  const url = "http://localhost:8000/api";
-  const axiosInstance = axios.create({
-    baseURL: url,
-    timeout: 5000,
-    headers: {
-      Authorization: "Bearer " + authCtx.access,
-    },
-  });
-
   const switchBoardHandler = async (board) => {
     console.log("get tickets handler: ");
     const id = board.target.id;
@@ -32,7 +21,9 @@ const Navigation = (props) => {
     console.log(targetBoard);
     props.api.setActiveBoard(targetBoard);
     const response = await axiosInstance
-      .get(`/board/${id}/tickets`)
+      .get(`/board/${id}/tickets`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      })
       .then((response) => {
         if (response.status === 200) {
           props.api.setActiveBoardData(response.data);
