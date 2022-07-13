@@ -74,7 +74,7 @@ const EditBoardForm = (props) => {
           <EditBoardSettingsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
         )}
         {showColumns && !showSettings && (
-          <EditBoardColumnsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
+          <EditBoardColumnsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal} />
         )}
       </Row>
     </Container>

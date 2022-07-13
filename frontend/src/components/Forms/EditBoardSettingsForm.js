@@ -12,9 +12,14 @@ const EditBoardSettingsForm = (props) => {
   const dataCtx = useContext(DataContext);
   console.log(props);
 
-  //set these to default values
-  const [boardName, setBoardName] = useState(props.data.activeBoard.name);
-  const [prefix, setPrefix] = useState(props.data.activeBoard.prefix);
+  //changed these to reference activeBoardData
+  //see if this updates state after saving changes
+  //if not, try a new function to set the state with  useEffect
+  //on the fetchAndUpdate function
+  const [boardName, setBoardName] = useState(props.data.activeBoardData.name);
+  const [prefix, setPrefix] = useState(props.data.activeBoardData.prefix);
+  
+
 
   const submitHandler = async (e) => {
     e.preventDefault();
