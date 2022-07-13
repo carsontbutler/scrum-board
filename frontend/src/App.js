@@ -11,15 +11,12 @@ import {
   Redirect,
 } from "react-router-dom";
 import AuthContext from "./components/store/auth-context";
-import DataContext from "./components/store/data-context";
 
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import { axiosInstance, url } from "./components/store/api";
 function App() {
   const authCtx = useContext(AuthContext);
-  const isLoggedIn = authCtx.isLoggedIn;
-
   const [organizations, setOrganizations] = useState([]);
   const [activeBoard, setActiveBoard] = useState({});
   const [activeBoardData, setActiveBoardData] = useState({});
@@ -126,16 +123,16 @@ function App() {
   return (
     <Router>
       <Switch>
-        {isLoggedIn && (
+        {authCtx.isLoggedIn && (
           <Route path="/" exact>
             <HomePage data={data} api={api} />
           </Route>
         )}
-        {!isLoggedIn && <Route path="/login" component={AuthPage} />}
+        {!authCtx.isLoggedIn && <Route path="/login" component={AuthPage} />}
 
         <Route path="*">
-          {isLoggedIn && <Redirect to="/" />}
-          {!isLoggedIn && <Redirect to="/login" />}
+          {authCtx.isLoggedIn && <Redirect to="/" />}
+          {!authCtx.isLoggedIn && <Redirect to="/login" />}
         </Route>
       </Switch>
     </Router>
