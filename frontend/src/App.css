@@ -3,11 +3,6 @@
     background-color: #C0C0C0 !important;
 }
 
-.selection-card{
-    border-radius: .75em;
-    color: #003366;
-}
-
 .btn-primary-custom{
     background-color: #003366!important;
     border: none!important;
@@ -28,7 +23,7 @@
 }
 
 .text-blue {
-    color: #003366
+    color: #003366;
 }
 
 .background-blue {
