@@ -24,8 +24,8 @@ const SelectBoard = (props) => {
   };
 
   return (
-    <Container>
-      <h1 className="text-center">Select a board</h1>
+    <div className="mt-5">
+      <h3 className="text-center">{props.data.activeOrganization.name} boards</h3>
       <Row>
         {props.data.activeOrganization.boards.map((board) => (
           <Button
@@ -38,7 +38,7 @@ const SelectBoard = (props) => {
         ))}
         <Button>New</Button>
       </Row>
-    </Container>
+    </div>
   );
 };
 

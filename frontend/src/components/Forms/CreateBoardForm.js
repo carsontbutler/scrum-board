@@ -22,13 +22,17 @@ const CreateBoardForm = (props) => {
     const prefix = prefixRef.current.value;
 
     axiosInstance
-      .post(`${url}/create-board/`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      }, {
-        name: name,
-        organization: organization,
-        prefix: prefix,
-      })
+      .post(
+        `${url}/create-board/`,
+        {
+          name: name,
+          organization: organization,
+          prefix: prefix,
+        },
+        {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           const id = res.data.id.toString();

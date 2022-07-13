@@ -59,7 +59,7 @@ const Ticket = (props) => {
             md={2}
             sm={2}
             xs={2}
-            style={{ pointerEvents: "none" }}
+            style={{ pointerEvents: "none", padding: 0 }}
           >
             {props.ticket.priority == "Low" && (
               <CaretDown size={18} color="blue" id={props.ticket.id} />

@@ -49,6 +49,8 @@ const HomePage = (props) => {
     setIsEditingBoard(false);
   };
 
+
+
   axiosInstance.interceptors.request.use(async (req) => {
     const user = jwt_decode(authCtx.access);
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
@@ -65,7 +67,7 @@ const HomePage = (props) => {
   });
 
   return (
-    <div>
+    <div className="">
       <Navigation
         data={props.data}
         api={props.api}
@@ -109,6 +111,7 @@ const HomePage = (props) => {
             closeEditBoardModal={closeEditBoardModal}
             data={props.data}
             api={props.api}
+            
           />
         )}
       </Container>

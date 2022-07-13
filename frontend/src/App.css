@@ -1,3 +1,32 @@
+.navbar-toggler{
+    color: #6699CC !important;
+    background-color: #C0C0C0 !important;
+}
+
+.selection-card{
+    border-radius: .75em;
+    color: #003366;
+}
+
+.btn-primary-custom{
+    background-color: #003366!important;
+    border: none!important;
+}
+
+.btn-primary-custom:hover{
+    background-color:  #000044  !important;
+}
+
+.btn-secondary-custom{
+    background-color:#C0C0C0 !important;
+    color: #003366 !important;
+    border: none !important;
+}
+
+.btn-secondary-custom:hover{
+    background-color: #a0a0a0 !important;
+}
+
 .text-blue {
     color: #003366
 }

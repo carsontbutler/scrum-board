@@ -71,10 +71,10 @@ const EditBoardForm = (props) => {
       </Row>
       <Row className="p-3 m-auto">
         {showSettings && !showColumns && (
-          <EditBoardSettingsForm api={props.api} data={props.data} />
+          <EditBoardSettingsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
         )}
         {showColumns && !showSettings && (
-          <EditBoardColumnsForm api={props.api} data={props.data} />
+          <EditBoardColumnsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
         )}
       </Row>
     </Container>

@@ -14,26 +14,27 @@ const EditBoardSettingsForm = (props) => {
 
   //set these to default values
   const [boardName, setBoardName] = useState(props.data.activeBoard.name);
-  const [organization, setOrganization] = useState(
-    props.data.activeOrganization.id
-  );
   const [prefix, setPrefix] = useState(props.data.activeBoard.prefix);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     //try with new exported axios later
-    axiosInstance
-      .patch(`${url}/board/${props.data.activeBoard.id}/update/`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      },{
-        name: boardName,
-        organization: organization,
-        prefix: prefix,
-      })
+    await axiosInstance
+      .patch(
+        `${url}/board/${props.data.activeBoard.id}/update/`,
+        {
+          name: boardName,
+          prefix: prefix,
+        },
+        {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
-          console.log(res);
+          props.closeEditBoardModal();
+          props.api.fetchUpdatedBoardData(props.data.activeBoardData);
         } else {
           console.log(res);
           console.log("bad request");
@@ -46,24 +47,6 @@ const EditBoardSettingsForm = (props) => {
       <Row>
         <Col></Col>
         <Col xl={8} lg={8} md={10} sm={10} xs={12}>
-          <Form.Group controlId="formOrganization" className="mt-2">
-            <Form.Label className="font-weight-bold">Organization</Form.Label>
-            <Form.Select
-              onChange={(e) => {
-                setOrganization(e.target.value);
-              }}
-            >
-              {props.data.organizations.map((org) =>
-                org.id == props.data.activeOrganization.id ? (
-                  <option value={org.id} selected>
-                    {org.name}
-                  </option>
-                ) : (
-                  <option value={org.id}>{org.name}</option>
-                )
-              )}
-            </Form.Select>
-          </Form.Group>
           <Form.Group controlId="formName" className="mt-2">
             <Form.Label>Board title</Form.Label>
             <Form.Control

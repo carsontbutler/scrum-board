@@ -17,10 +17,9 @@ const CreateTicketForm = (props) => {
   const typeRef = useRef();
   const priorityRef = useRef();
 
-  console.log('PROPS ', props);
+  console.log("PROPS ", props);
 
   const submitHandler = (e) => {
-
     e.preventDefault();
     //check if token is valid?
     const title = titleRef.current.value;
@@ -33,20 +32,24 @@ const CreateTicketForm = (props) => {
     const priority = priorityRef.current.value;
 
     axiosInstance
-      .post(`${url}/create-ticket/`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      }, {
-        organization: props.data.activeOrganization.id,
-        board: props.data.activeBoardData.id,
-        title: title,
-        description: description,
-        repro_steps: reproSteps,
-        acceptance_criteria: acceptanceCriteria,
-        assignee: assignee,
-        column: column,
-        type: type,
-        priority: priority,
-      })
+      .post(
+        `${url}/create-ticket/`,
+        {
+          organization: props.data.activeOrganization.id,
+          board: props.data.activeBoardData.id,
+          title: title,
+          description: description,
+          repro_steps: reproSteps,
+          acceptance_criteria: acceptanceCriteria,
+          assignee: assignee,
+          column: column,
+          type: type,
+          priority: priority,
+        },
+        {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           props.closeCreateTicketModalHandler();

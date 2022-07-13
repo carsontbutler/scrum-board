@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Row, Col } from "react-bootstrap";
 import AuthContext from "./store/auth-context";
 import DataContext from "./store/data-context";
 import "./Navigation.css";
 import axios from "axios";
-import {axiosInstance, url} from "./store/api";
+import { axiosInstance, url } from "./store/api";
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
@@ -16,14 +16,14 @@ const Navigation = (props) => {
     const targetBoard = props.data.activeOrganization.boards.find(
       (obj) => obj.id == id
     );
-    props.api.setActiveBoard(targetBoard);
-    const response = await axiosInstance
+    await axiosInstance
       .get(`/board/${id}/tickets`, {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((response) => {
         if (response.status === 200) {
           props.api.setActiveBoardData(response.data);
+          props.api.setActiveBoard(targetBoard);
         } else {
           console.log("error");
         } //handle error properly
@@ -31,7 +31,11 @@ const Navigation = (props) => {
   };
 
   return (
-    <Navbar className="text-gray" style={{ background: "linear-gradient(#003366, #000044)"}} expand="lg">
+    <Navbar
+      className="text-gray"
+      style={{ background: "linear-gradient(#003366, #000044)" }}
+      expand="lg"
+    >
       <Container>
         <Navbar.Brand href="#home">Scrum</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -55,7 +59,6 @@ const Navigation = (props) => {
                   {org.name}
                 </NavDropdown.Item>
               ))}
-
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.data.activeOrganization ? (

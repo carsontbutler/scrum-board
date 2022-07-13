@@ -31,8 +31,8 @@ function App() {
     activeOrganization: activeOrganization,
     activeBoard: activeBoard,
     activeBoardData: activeBoardData,
-    activeTicket: activeTicket
-  }
+    activeTicket: activeTicket,
+  };
 
   const setOrganization = async (e) => {
     setActiveBoard({});
@@ -42,7 +42,9 @@ function App() {
   };
 
   const setActiveTicketHandler = (e) => {
-    setActiveTicket(data.activeBoardData.tickets.find((obj)=>obj.id == e.target.id));
+    setActiveTicket(
+      data.activeBoardData.tickets.find((obj) => obj.id == e.target.id)
+    );
   };
 
   const fetchAndSetActiveBoardData = async (e) => {
@@ -64,16 +66,14 @@ function App() {
   const fetchUpdatedBoardData = async (board) => {
     let id = board.id;
     await axiosInstance
-    .get(`${url}/board/${id}/tickets/`, {
-      headers: { Authorization: "Bearer " + authCtx.access },
-    })
-    .then((res) => {
-      console.log(res.data);
-      setActiveBoardData(res.data);
-      setActiveBoard(
-        activeOrganization.boards.find((obj) => obj.id == id)
-      );
-    });
+      .get(`${url}/board/${id}/tickets/`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setActiveBoardData(res.data);
+        setActiveBoard(activeOrganization.boards.find((obj) => obj.id == id));
+      });
   };
 
   //fix
@@ -116,7 +116,7 @@ function App() {
     fetchUpdatedBoardData: fetchUpdatedBoardData,
     setActiveTicket: setActiveTicket,
     setActiveTicketHandler: setActiveTicketHandler,
-    getInitialData: getInitialData
+    getInitialData: getInitialData,
   };
 
   useEffect(() => {
@@ -128,10 +128,7 @@ function App() {
       <Switch>
         {isLoggedIn && (
           <Route path="/" exact>
-            <HomePage
-              data={data}
-              api={api}
-            />
+            <HomePage data={data} api={api} />
           </Route>
         )}
         {!isLoggedIn && <Route path="/login" component={AuthPage} />}

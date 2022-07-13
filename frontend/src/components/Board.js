@@ -105,7 +105,7 @@ const Board = (props) => {
             <Col xl={2} lg={2} md={2} sm={2} xs={2} className="my-3">
               <Button
                 onClick={props.showEditBoardModal}
-                className="fw-bold"
+                className="fw-bold btn-secondary-custom"
                 variant="secondary"
               >
                 Board Settings
@@ -119,11 +119,11 @@ const Board = (props) => {
               xs={8}
               className="text-center my-3"
             >
-              <h4>{props.data.activeBoard.name}</h4>
+              <h4>{props.data.activeBoardData.name}</h4>
             </Col>
             <Col xl={2} lg={2} md={2} sm={2} xs={2} className="my-3">
               <Button
-                className="fw-bold"
+                className="fw-bold btn-primary-custom"
                 onClick={showCreateTicketModalHandler}
               >
                 New Ticket

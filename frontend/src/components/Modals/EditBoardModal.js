@@ -12,7 +12,7 @@ const EditBoardModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <EditBoardForm api={props.api} data={props.data} />
+          <EditBoardForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">

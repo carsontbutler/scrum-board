@@ -3,11 +3,10 @@ import { Col, Row, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DataContext from "../store/data-context";
-import {axiosInstance, url} from "../store/api";
+import { axiosInstance, url } from "../store/api";
 
 const EditTicketForm = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
   const titleRef = useRef();
   const descriptionRef = useRef();
   const reproStepsRef = useRef();
@@ -25,6 +24,8 @@ const EditTicketForm = (props) => {
   const closeDeleteHandler = () => {
     setIsDeleting(false);
   };
+
+  console.log(authCtx.access);
 
   const deleteTicketHandler = () => {
     axiosInstance
@@ -57,16 +58,22 @@ const EditTicketForm = (props) => {
     const priority = priorityRef.current.value;
 
     axiosInstance
-      .patch(`${url}/ticket/${ticketNum}/update/`, {
-        title: title,
-        description: description,
-        repro_steps: reproSteps,
-        acceptance_criteria: acceptanceCriteria,
-        assignee: assignee,
-        column: column,
-        type: type,
-        priority: priority,
-      })
+      .patch(
+        `${url}/ticket/${ticketNum}/update/`,
+        {
+          title: title,
+          description: description,
+          repro_steps: reproSteps,
+          acceptance_criteria: acceptanceCriteria,
+          assignee: assignee,
+          column: column,
+          type: type,
+          priority: priority,
+        },
+        {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           props.closeModalHandler();

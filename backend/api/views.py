@@ -119,16 +119,13 @@ class UpdateBoardView(generics.UpdateAPIView):
         instance = self.get_object() #get the board tied to the ticket
         organization = instance.organization
         if organization in organizations:
-            print('organization matches')
-        else:
-            print('organization does NOT match')
-        print(request.data)
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        if serializer.is_valid():
-            print('VALID')
-            serializer.save()
-            return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
-        print('INVALID')
+            print(request.data)
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                print('VALID')
+                serializer.save()
+                return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
+            print('INVALID')
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
 
 class DeleteBoardView(APIView):

@@ -41,8 +41,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div style={{backgroundColor: "#FFF"}} className="p-5 rounded">
-      <h2 className="px-4 text-blue-800">Scrum board</h2>
+    <div style={{background: "linear-gradient(#FFF, #C0C0C0 80%)"}} className="p-5 rounded">
+      <h2 className="px-4">Scrum board</h2>
       <form onSubmit={handleSubmit} className="mt-4 text-center">
         <input
           className="rounded m-2"
