@@ -31,13 +31,6 @@ const EditBoardColumnsForm = (props) => {
     setShowDeleteModal({ show: false, id: null });
   };
 
-  //Is this still needed?
-  // const generateTempId = () => {
-  //   let randomId = Math.floor(Math.random() * 1000);
-  //   let generatedId = `tempId${randomId}`;
-  //   return generatedId;
-  // };
-
   let [formColumns, setFormColumns] = useState(props.data.activeBoardData.columns);
   let [columnCount, setColumnCount] = useState(formColumns.length);
 
