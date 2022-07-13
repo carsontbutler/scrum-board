@@ -16,7 +16,6 @@ import { axiosInstance, url } from "../store/api";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
-  
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
@@ -67,7 +66,7 @@ const HomePage = (props) => {
   });
 
   return (
-    <div className="">
+    <div>
       <Navigation
         data={props.data}
         api={props.api}
