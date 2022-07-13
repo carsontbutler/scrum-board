@@ -3,9 +3,9 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
-import {axiosInstance, url} from "../store/api";
+import { axiosInstance, url } from "../store/api";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const authCtx = useContext(AuthContext);
@@ -29,7 +29,7 @@ const LoginForm = () => {
           return response.json();
         } else {
           return response.json().then((data) => {
-            setErrorMessage("Invalid credentials");
+            props.setErrorMessage("Invalid credentials");
             throw new Error(errorMessage);
           });
         }
@@ -41,37 +41,33 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="auth-container p-5 rounded">
-      <h2 className="px-4">Scrum board</h2>
-      <form onSubmit={handleSubmit} className="mt-4 text-center">
-        <input
-          className="rounded m-2"
-          placeholder="Username "
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <div className="text-center">
+    <div className="auth-container">
+      <h2>Scrum board</h2>
+      <div className="content">
+        <form onSubmit={handleSubmit} className="input-field">
           <input
-            className="rounded m-2"
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Username "
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
 
-        <div className="text-center mt-2">
-          <button
-            type="submit"
-            className="text-white font-bold py-2 px-4 rounded"
-            style={{backgroundColor: "#4E93E4", borderColor: ""}}
-          >
-            Login
-          </button>
-        </div>
-      </form>
+          <div>
+            <input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <div className="action">
+            <button type="submit">Login</button>
+            <div id="error-message">{props.errorMessage}</div>
+            <a onClick={console.log('hello')}>Don't have an account?</a>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
