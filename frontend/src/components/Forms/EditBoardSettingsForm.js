@@ -56,7 +56,7 @@ const EditBoardSettingsForm = (props) => {
             <Form.Label>Board title</Form.Label>
             <Form.Control
               type="text"
-              defaultValue={props.data.activeBoard.name}
+              defaultValue={props.data.activeBoardData.name}
               onChange={(e) => {
                 setBoardName(e.target.value);
               }}
