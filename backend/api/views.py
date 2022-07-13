@@ -25,6 +25,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+class RegisterUser(APIView):
+    pass
+
 #Organizations
 class GetOrganizations(APIView):
     permission_classes = [IsAuthenticated]
