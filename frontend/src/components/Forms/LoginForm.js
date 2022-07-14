@@ -11,10 +11,11 @@ const LoginForm = (props) => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState();
+  console.log(props);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch(`${url}/token/`, {
+    await fetch(`${url}/token/`, {
       method: "POST",
       body: JSON.stringify({
         username: username,
@@ -26,6 +27,7 @@ const LoginForm = (props) => {
     })
       .then((response) => {
         if (response.ok) {
+          console.log(response);
           return response.json();
         } else {
           return response.json().then((data) => {
@@ -52,19 +54,17 @@ const LoginForm = (props) => {
             onChange={(e) => setUsername(e.target.value)}
           />
 
-          <div>
-            <input
-              placeholder="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+          <input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <div className="action">
             <button type="submit">Login</button>
             <div id="error-message">{props.errorMessage}</div>
-            <a onClick={console.log('hello')}>Don't have an account?</a>
+            <a onClick={console.log("hello")}>Don't have an account?</a>
           </div>
         </form>
       </div>
