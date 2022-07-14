@@ -58,16 +58,15 @@
 .form-content {
     text-align: left;
     text-transform: uppercase;
-    color: #C0C0C0;
+    color: #003366;
   }
-
-  .column-name{
+.column-name{
     width: 100%;
     }
     
-    .delete-button{
+.delete-button{
         z-index: 1000;
     }
-    .delete-button:hover{
+.delete-button:hover{
         cursor: pointer;
     }
