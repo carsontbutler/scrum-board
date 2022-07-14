@@ -1,0 +1,43 @@
+#save-btn button{
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    padding: 18px;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #003366;
+    color: #FFF;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    letter-spacing: 0.2px;
+    outline: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+#save-btn button:hover {
+    background: #000044;
+  }
+
+  #cancel-btn button{
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    padding: 18px;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #e8e9ec;
+    color: #003366;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    letter-spacing: 0.2px;
+    outline: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+#cancel-btn button:hover {
+    background: #c0c0c0;
+  }

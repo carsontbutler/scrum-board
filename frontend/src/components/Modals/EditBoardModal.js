@@ -12,20 +12,31 @@ const EditBoardModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <EditBoardForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
+          <EditBoardForm
+            api={props.api}
+            data={props.data}
+            closeEditBoardModal={props.closeEditBoardModal}
+          />
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button size="lg" type="submit" form="editBoardForm" variant="primary">
-          Save
-        </Button>
-        <Button
-          size="lg"
-          onClick={props.closeEditBoardModal}
-          variant="secondary"
-        >
-          Cancel
-        </Button>
+        <div id="save-btn">
+          <Button
+            type="submit"
+            form="editBoardForm"
+            className="save-btn"
+          >
+            Save
+          </Button>
+        </div>
+        <div id="cancel-btn">
+          <Button
+            onClick={props.closeEditBoardModal}
+            className="cancel-btn"
+          >
+            Cancel
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );

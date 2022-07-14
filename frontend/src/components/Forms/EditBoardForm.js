@@ -27,54 +27,65 @@ const EditBoardForm = (props) => {
         <Col>
           <Row>
             {showSettings ? (
-              <Button
-                size="lg"
-                variant="secondary"
-                className="text-white shadow-none"
-              >
-                Board
-              </Button>
+              <div className="active">
+                <Button size="lg" className="text-white shadow-none">
+                  Board
+                </Button>
+              </div>
             ) : (
-              <Button
-                onClick={showSettingsHandler}
-                size="lg"
-                variant="outline-secondary"
-                className="shadow-none"
-              >
-                Board
-              </Button>
+              <div className="inactive">
+                <Button
+                  onClick={showSettingsHandler}
+                  size="lg"
+                  className="shadow-none"
+                >
+                  Board
+                </Button>
+              </div>
             )}
           </Row>
         </Col>
         <Col>
           <Row>
             {showColumns ? (
-              <Button
-                size="lg"
-                variant="secondary"
-                className="text-white shadow-none"
-              >
-                Columns
-              </Button>
+              <div className="active">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="text-white shadow-none"
+                >
+                  Columns
+                </Button>
+              </div>
             ) : (
-              <Button
-                onClick={showColumnsHandler}
-                size="lg"
-                variant="outline-secondary"
-                className="shadow-none"
-              >
-                Columns
-              </Button>
+              <div className="inactive">
+                <Button
+                  onClick={showColumnsHandler}
+                  size="lg"
+                  variant="outline-secondary"
+                  className="shadow-none"
+                >
+                  Columns
+                </Button>
+              </div>
             )}
           </Row>
         </Col>
       </Row>
       <Row className="p-3 m-auto">
         {showSettings && !showColumns && (
-          <EditBoardSettingsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal}/>
+          <EditBoardSettingsForm
+            api={props.api}
+            data={props.data}
+            closeEditBoardModal={props.closeEditBoardModal}
+          />
         )}
         {showColumns && !showSettings && (
-          <EditBoardColumnsForm api={props.api} data={props.data} closeEditBoardModal={props.closeEditBoardModal} />
+          <EditBoardColumnsForm
+            api={props.api}
+            data={props.data}
+            closeEditBoardModal={props.closeEditBoardModal}
+          />
         )}
       </Row>
     </Container>
