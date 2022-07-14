@@ -164,6 +164,25 @@ class CreateColumnView(APIView):
                     new_col.save()
                     return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateColumnView(generics.UpdateAPIView):
+    permission_classes=[IsAuthenticated]
+    serializer_class = CreateColumnSerializer
+    queryset = Column.objects.all()
+    lookup_field = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        instance = self.get_object()
+        print(instance.name)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        print(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
+        print('INVALID')
+        return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
             
 class DeleteColumnView(APIView):
     permission_classes=[IsAuthenticated]
@@ -236,8 +255,8 @@ class UpdateTicket(generics.UpdateAPIView):
     lookup_field = 'pk'
 
     def patch(self, request, *args, **kwargs):
-        user = request.user #get the organizations the user belongs to
-        organizations = Organization.objects.filter(members__in=[user]) #get user organizations
+        user = request.user 
+        organizations = Organization.objects.filter(members__in=[user])#get the organizations the user belongs to
         instance = self.get_object() #get the board tied to the ticket
         print('INSTANCE', instance)
         board = instance.board #get the organization tied to the board
