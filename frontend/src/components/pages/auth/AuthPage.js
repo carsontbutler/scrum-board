@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LoginForm from "../../Forms/LoginForm";
 
-const AuthPage = () => {
+const AuthPage = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const showLoginForm = () => {

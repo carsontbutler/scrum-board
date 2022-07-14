@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Modal, Row, Col, Container, Button } from "react-bootstrap";
 import DataContext from "./store/data-context";
-import "./ViewTicket.css";
 
 const ViewTicket = (props) => {
   
