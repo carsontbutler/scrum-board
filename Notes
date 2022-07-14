@@ -1,3 +1,8 @@
+NEW NOTES:
+-fix EditBoardSettingsForm prefix - it does not automatically reload. probably need the backend view to send the prefix in the GetTickets view or think of something else
+-Fix the data not automatically loading when logging in. Can I nest async/await calls to the backend?
+
+
 theme
       theme: {
         DEFAULT: "#4E93E4",
