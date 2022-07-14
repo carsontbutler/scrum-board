@@ -8,8 +8,8 @@ import AddColumnModal from "../Modals/AddColumnModal";
 import "./EditBoardForm.css";
 
 const EditBoardColumnsForm = (props) => {
-  const dataCtx = useContext(DataContext);
   const authCtx = useContext(AuthContext);
+  console.log(props);
   const [showDeleteModal, setShowDeleteModal] = useState({
     show: false,
     id: null,
