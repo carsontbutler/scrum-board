@@ -9,9 +9,12 @@ const Column = (props) => {
 
   return (
     <Col className="column">
-      <h6>
-        {col.name} <span className="ticket-count">{col.tickets.length}</span>
-      </h6>
+      <div className="column-header">
+        <h6>
+          {col.name}
+          <span className="ticket-count"> {col.tickets.length}</span>
+        </h6>
+      </div>
       {col["tickets"].map((ticket) => (
         <Ticket
           viewTicketHandler={props.viewTicketHandler}

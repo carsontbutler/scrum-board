@@ -1,10 +1,24 @@
 .column{
     background-color: #D3D3D3;
-    padding: .5em .2em;
+    padding: 0;
     margin: 0 .35em;
+    border-radius: .3em;
 }
 
 .ticket-count{
-    color: #666666;
-    font-size: 14px;
+    color: #C0C0C0;
+    font-size: 85%;
+    margin-left: .1em;
+}
+
+.column-header{
+    background: linear-gradient(#003366, #000044 90%);
+    padding: .2em;
+    color: #C0C0C0;
+    border-top-left-radius: .3em;
+    border-top-right-radius: .3em;
+}
+
+.column-header h6{
+    margin:0 0 0 .5em;
 }
