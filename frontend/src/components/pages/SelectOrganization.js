@@ -17,7 +17,6 @@ const SelectOrganization = (props) => {
             <div className="card-header">
               <h1 className="text-center">Your organizations</h1>
             </div>
-
             <Row>
               <Col></Col>
               <Col xl={8} lg={8} md={10} sm={12} xs={12}>
