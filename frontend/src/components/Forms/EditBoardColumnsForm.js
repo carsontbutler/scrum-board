@@ -1,11 +1,11 @@
 import react, { useContext, useState } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
-import "./EditBoardColumnsForm.css";
 import DataContext from "../store/data-context";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DeleteColumnModal from "../Modals/DeleteColumnModal";
 import AddColumnModal from "../Modals/AddColumnModal";
+import "./EditBoardForm.css";
 
 const EditBoardColumnsForm = (props) => {
   const dataCtx = useContext(DataContext);
@@ -33,12 +33,6 @@ const EditBoardColumnsForm = (props) => {
 
   let [formColumns, setFormColumns] = useState(props.data.activeBoardData.columns);
   let [columnCount, setColumnCount] = useState(formColumns.length);
-
-  // const handleInputChange = (e) => {
-  //   let newFormColumnsArray = [...formColumns];
-  //   newFormColumnsArray[e.target.id]["disabled"] = false;
-  //   console.log(newFormColumnsArray);
-  // };
 
   const MappedColumns = () => {
     return formColumns
@@ -107,11 +101,11 @@ const EditBoardColumnsForm = (props) => {
   return (
     <Form>
       <Row className="mt-3">
-        <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-          <h6 className="text-decoration-underline">Position</h6>
+        <Col xl={2} lg={2} md={2} sm={2} xs={2} className="form-content">
+          <h6>Position</h6>
         </Col>
-        <Col xl={8} lg={8} md={8} sm={8} xs={8}>
-          <h6 className="text-decoration-underline">Column name</h6>
+        <Col xl={8} lg={8} md={8} sm={8} xs={8} className="form-content">
+          <h6>Column name</h6>
         </Col>
         <Col xl={1} lg={1} md={1} sm={1} xs={1}></Col>
       </Row>

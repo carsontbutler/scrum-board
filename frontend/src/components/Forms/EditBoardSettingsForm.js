@@ -4,27 +4,16 @@ import AuthContext from "../store/auth-context";
 import axios from "axios";
 import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
+import "./EditBoardForm.css";
 
-// use state to present 2 forms: 1 for editing the name/prefix/organization and another for editing the columns
 
 const EditBoardSettingsForm = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
-  console.log(props);
-
-  //changed these to reference activeBoardData
-  //see if this updates state after saving changes
-  //if not, try a new function to set the state with  useEffect
-  //on the fetchAndUpdate function
   const [boardName, setBoardName] = useState(props.data.activeBoardData.name);
   const [prefix, setPrefix] = useState(props.data.activeBoardData.prefix);
-  
-
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    //try with new exported axios later
     await axiosInstance
       .patch(
         `${url}/board/${props.data.activeBoard.id}/update/`,
@@ -51,9 +40,9 @@ const EditBoardSettingsForm = (props) => {
     <Form onSubmit={submitHandler} id="editBoardForm">
       <Row>
         <Col></Col>
-        <Col xl={8} lg={8} md={10} sm={10} xs={12}>
-          <Form.Group controlId="formName" className="mt-2">
-            <Form.Label>Board title</Form.Label>
+        <Col xl={8} lg={8} md={10} sm={10} xs={12} className="form-content">
+          <Form.Group controlId="formName" className="mt-4">
+            <h6>Board title</h6>
             <Form.Control
               type="text"
               defaultValue={props.data.activeBoardData.name}
@@ -63,8 +52,8 @@ const EditBoardSettingsForm = (props) => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formPrefix" className="mt-2">
-            <Form.Label>Board Prefix</Form.Label>
+          <Form.Group controlId="formPrefix" className="mt-4">
+          <h6>Prefix</h6>
             <Form.Control
               type="text"
               defaultValue={props.data.activeBoard.prefix}

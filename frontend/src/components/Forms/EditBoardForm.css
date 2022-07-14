@@ -54,3 +54,20 @@
 .inactive button:hover {
     background: #003366;
   }
+
+.form-content {
+    text-align: left;
+    text-transform: uppercase;
+    color: #C0C0C0;
+  }
+
+  .column-name{
+    width: 100%;
+    }
+    
+    .delete-button{
+        z-index: 1000;
+    }
+    .delete-button:hover{
+        cursor: pointer;
+    }

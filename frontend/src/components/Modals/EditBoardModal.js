@@ -8,7 +8,7 @@ const EditBoardModal = (props) => {
   return (
     <Modal size={"xl"} centered show={props.isEditingBoard}>
       <Modal.Header closeButton onHide={props.closeEditBoardModal}>
-        <Modal.Title>Editing (board name)</Modal.Title>
+        <Modal.Title>Editing {props.data.activeBoardData.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
