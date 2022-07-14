@@ -29,6 +29,7 @@ const TicketModal = (props) => {
             <ViewTicket
               data={props.data}
               api={props.api}
+              setIsEditing={props.setIsEditing}
             />
           )}
         </Container>

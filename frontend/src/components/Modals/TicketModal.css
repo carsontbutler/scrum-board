@@ -12,10 +12,15 @@
     cursor:text;
 }
 
-.content-section{
-    margin-bottom: 2em;
+.value-section{
+    margin-bottom: .5em;
 }
 
 .detail-row{
     margin-bottom: 1em;
+}
+
+.value-section:hover{
+    cursor: text;
+    background-color: rgb(231, 231, 231);
 }
