@@ -11,6 +11,15 @@ import { axiosInstance, url } from "./store/api";
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
 
+  const logoutHandler = () => {
+    props.api.setActiveTicket();
+    props.api.setActiveBoard();
+    props.api.setActiveBoardData();
+    authCtx.logout();
+    window.location.reload();
+  };
+
+
   const switchBoardHandler = async (board) => {
     const id = board.target.id;
     const targetBoard = props.data.activeOrganization.boards.find(
@@ -84,7 +93,7 @@ const Navigation = (props) => {
                 <h6 className="text-center">No organization selected</h6>
               )}
             </NavDropdown>
-            <Nav.Link onClick={authCtx.logout}>Logout</Nav.Link>
+            <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

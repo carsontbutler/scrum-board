@@ -89,13 +89,12 @@ function App() {
   });
 
   const getInitialData = async () => {
-    const response = await axiosInstance
+    await axiosInstance
       .get(`/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           setOrganizations(response.data.organizations);
         } else {
           console.log("error"); //! handle this error properly
@@ -125,7 +124,7 @@ function App() {
       <Switch>
         {authCtx.isLoggedIn && (
           <Route path="/" exact>
-            <HomePage data={data} api={api} />
+            <HomePage data={data} api={api} organizations={data.organizations}/>
           </Route>
         )}
         {!authCtx.isLoggedIn && <Route path="/login" component={AuthPage} />}
