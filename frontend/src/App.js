@@ -124,7 +124,11 @@ function App() {
       <Switch>
         {authCtx.isLoggedIn && (
           <Route path="/" exact>
-            <HomePage data={data} api={api} organizations={data.organizations}/>
+            <HomePage
+              data={data}
+              api={api}
+              organizations={data.organizations}
+            />
           </Route>
         )}
         {!authCtx.isLoggedIn && <Route path="/login" component={AuthPage} />}
