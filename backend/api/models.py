@@ -52,8 +52,8 @@ class Column(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     position = models.PositiveIntegerField(default=0)
 
-    class Meta:
-        unique_together = ['board', 'position']
+    # class Meta:
+    #     unique_together = ['board', 'position']
 
     def save(self, **kwargs):
         position_max_value = type(self).objects.filter(board=self.board).count()

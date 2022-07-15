@@ -85,7 +85,7 @@ class GetBoards(APIView):
             data['organizations'].append(OrganizationSerializer(organizations[i]).data)
             data['organizations'][i]['boards'] = BoardSerializer(org_boards, many=True).data
             data['organizations'][i]['users'] = UserSerializer(users, many=True).data
-        #print(data)
+        print(data)
         return Response(data, status=status.HTTP_200_OK)
       
 class CreateBoardView(APIView):
