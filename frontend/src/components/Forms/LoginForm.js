@@ -13,6 +13,7 @@ const LoginForm = (props) => {
   const [errorMessage, setErrorMessage] = useState();
   console.log(props);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await fetch(`${url}/token/`, {
@@ -37,7 +38,7 @@ const LoginForm = (props) => {
         }
       })
       .then((data) => {
-        authCtx.login(data.id, data.username, data.access, data.refresh);
+        authCtx.login(data.id, data.username, data.access.toString(), data.refresh);
         history.replace("/");
       });
   };

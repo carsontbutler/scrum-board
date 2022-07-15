@@ -19,6 +19,22 @@ const HomePage = (props) => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
+  useEffect(() => {
+    axiosInstance
+      .get(`/boards`, {
+        headers: { Authorization: "Bearer " + authCtx.access },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          props.api.setOrganizations(response.data.organizations);
+          props.setIsLoading(false);
+        } else {
+          console.log("error"); //! handle this error properly
+        }
+      });
+      props.api.getInitialData();
+  }, []);
+
   const getBoardData = async () => {
     const board = props.data.activeBoard.id;
     const response = await axiosInstance
@@ -48,44 +64,20 @@ const HomePage = (props) => {
     setIsEditingBoard(false);
   };
 
-
-
-  axiosInstance.interceptors.request.use(async (req) => {
-    const user = jwt_decode(authCtx.access);
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-    console.log("HomePage Axios Interceptor");
-    console.log(req.headers.Authorization);
-    if (!isExpired) return req;
-
-    const response = await axios.post(`${url}/token/refresh`, {
-      refresh: authCtx.refresh,
-    });
-    localStorage.setItem("access", response.data.access);
-    req.headers.Authorization = `Bearer  ${response.data.access}`;
-    return req;
-  });
-
-  return (
+  return props.isLoading ? (
+    <div>loading</div>
+  ) : (
     <div>
-      <Navigation
-        data={props.data}
-        api={props.api}
-      />
+      <Navigation data={props.data} api={props.api} />
       <Container>
         <div>
           {Object.keys(props.data.activeBoard).length === 0 &&
             !props.data.activeOrganization && (
-              <SelectOrganization
-                data={props.data}
-                api={props.api}
-              />
+              <SelectOrganization data={props.data} api={props.api} />
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
             props.data.activeOrganization && (
-              <SelectBoard
-                data={props.data}
-                api={props.api}
-              />
+              <SelectBoard data={props.data} api={props.api} />
             )}
           {Object.keys(props.data.activeBoard).length !== 0 && (
             <Board
@@ -110,7 +102,6 @@ const HomePage = (props) => {
             closeEditBoardModal={closeEditBoardModal}
             data={props.data}
             api={props.api}
-            
           />
         )}
       </Container>

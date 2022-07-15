@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LoginForm from "../../Forms/LoginForm";
 
 const AuthPage = (props) => {
+  console.log(props);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const showLoginForm = () => {
@@ -10,6 +11,7 @@ const AuthPage = (props) => {
   const showRegisterForm = () => {
     setIsLoggingIn(false);
   };
+
 
   return (
     <div
@@ -23,6 +25,9 @@ const AuthPage = (props) => {
         <LoginForm
           errorMessage={errorMessage}
           setErrorMessage={setErrorMessage}
+          api={props.api}
+          data={props.data}
+          setIsLoading={props.setIsLoading}
         />
       ) : (
         <h6>RegisterForm</h6>

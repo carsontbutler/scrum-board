@@ -8,7 +8,7 @@ import "./SelectScreen.css";
 
 const SelectOrganization = (props) => {
   const authCtx = useContext(AuthContext);
-
+  
   return (
     <Container>
       <Row className="justify-content-center mt-3">

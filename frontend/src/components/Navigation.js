@@ -19,7 +19,6 @@ const Navigation = (props) => {
     window.location.reload();
   };
 
-
   const switchBoardHandler = async (board) => {
     const id = board.target.id;
     const targetBoard = props.data.activeOrganization.boards.find(
