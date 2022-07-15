@@ -7,10 +7,10 @@ import {
   ToastContainer,
   Button,
   Container,
+  Alert
 } from "react-bootstrap";
 import Column from "./Column";
 import AuthContext from "./store/auth-context";
-import DataContext from "./store/data-context";
 import TicketModal from "./Modals/TicketModal";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
@@ -19,13 +19,29 @@ import { axiosInstance, url } from "./store/api";
 
 const Board = (props) => {
   const authCtx = useContext(AuthContext);
-
   const [showModal, setShowModal] = useState(false);
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState();
+  const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
+    useState(false);
+
+  const checkForDuplicateColumnPositions = (arr) => {
+    let emptyArr = [];
+    arr.forEach((col) => {
+      if (emptyArr.includes(col.position)) {
+        setFoundDuplicateColPosition(true);
+      } else {
+        emptyArr.push(col.position);
+      }
+    });
+  };
+
+  useEffect(() => {
+    checkForDuplicateColumnPositions(props.data.activeBoardData.columns);
+  }, []);
 
   const showToastHandler = (message) => {
     setToastMessage(message);
@@ -131,7 +147,11 @@ const Board = (props) => {
             </Col>
           </Row>
         </Container>
-
+        {foundDuplicateColPosition && (
+          <Row>
+            <Alert variant="danger" className="text-center">Warning: Two or more of your columns are assigned to the same position. This should be fixed in the Board Settings menu to prevent incorrect ordering.</Alert>
+          </Row>
+        )}
         <Row>
           {props.data.activeBoardData["columns"]
             .sort((a, b) => {
