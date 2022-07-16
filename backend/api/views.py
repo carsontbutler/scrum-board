@@ -210,6 +210,7 @@ class GetTickets(APIView):
         if boards.filter(id=pk).count() == 1:
             board = boards.filter(id=pk)[0]
             data['name'] = board.name
+            data['prefix'] = board.prefix
             data['id'] = board.id
             data['columns'] = []
             columns = Column.objects.filter(board=board)

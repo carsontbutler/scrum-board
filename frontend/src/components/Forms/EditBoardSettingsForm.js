@@ -12,6 +12,7 @@ const EditBoardSettingsForm = (props) => {
   const [boardName, setBoardName] = useState(props.data.activeBoardData.name);
   const [prefix, setPrefix] = useState(props.data.activeBoardData.prefix);
 
+
   const submitHandler = async (e) => {
     e.preventDefault();
     await axiosInstance
@@ -56,7 +57,7 @@ const EditBoardSettingsForm = (props) => {
           <h6>Prefix</h6>
             <Form.Control
               type="text"
-              defaultValue={props.data.activeBoard.prefix}
+              defaultValue={props.data.activeBoardData.prefix}
               onChange={(e) => {
                 setPrefix(e.target.value);
               }}
