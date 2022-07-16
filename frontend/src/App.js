@@ -36,7 +36,6 @@ function App() {
     setActiveBoard({});
     let targetOrg = organizations.find((obj) => obj.id == e.target.id);
     await setActiveOrganization(targetOrg);
-    console.log(activeOrganization);
   };
 
   const setActiveTicketHandler = (e) => {
@@ -47,7 +46,6 @@ function App() {
 
   const fetchAndSetActiveBoardData = async (e) => {
     console.log(e.target);
-    console.log("fetchActiveBoardData");
     await axiosInstance
       .get(`${url}/board/${e.target.id}/tickets/`, {
         headers: { Authorization: "Bearer " + authCtx.access },
@@ -75,6 +73,7 @@ function App() {
   };
 
   const getInitialData = async () => {
+    console.log('get initial data');
     await axiosInstance
       .get(`/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },

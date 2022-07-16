@@ -19,6 +19,20 @@ const HomePage = (props) => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
 
+  const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
+    useState(false);
+
+  const checkForDuplicateColumnPositions = (arr) => {
+    let emptyArr = [];
+    arr.forEach((col) => {
+      if (emptyArr.includes(col.position)) {
+        setFoundDuplicateColPosition(true);
+      } else {
+        emptyArr.push(col.position);
+      }
+    });
+  };
+
   useEffect(() => {
     axiosInstance
       .get(`/boards`, {
@@ -32,7 +46,7 @@ const HomePage = (props) => {
           console.log("error"); //! handle this error properly
         }
       });
-      props.api.getInitialData();
+    props.api.getInitialData();
   }, []);
 
   const getBoardData = async () => {
@@ -68,7 +82,13 @@ const HomePage = (props) => {
     <div>loading</div>
   ) : (
     <div>
-      <Navigation data={props.data} api={props.api} />
+      <Navigation
+        data={props.data}
+        api={props.api}
+        foundDuplicateColPosition={foundDuplicateColPosition}
+        setFoundDuplicateColPosition={setFoundDuplicateColPosition}
+        checkForDuplicateColumnPositions={checkForDuplicateColumnPositions}
+      />
       <Container>
         <div>
           {Object.keys(props.data.activeBoard).length === 0 &&
@@ -84,6 +104,11 @@ const HomePage = (props) => {
               showEditBoardModal={showEditBoardModal}
               data={props.data}
               api={props.api}
+              foundDuplicateColPosition={foundDuplicateColPosition}
+              setFoundDuplicateColPosition={setFoundDuplicateColPosition}
+              checkForDuplicateColumnPositions={
+                checkForDuplicateColumnPositions
+              }
             />
           )}
         </div>

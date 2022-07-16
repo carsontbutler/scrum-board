@@ -25,22 +25,9 @@ const Board = (props) => {
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState();
-  const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
-    useState(false);
-
-  const checkForDuplicateColumnPositions = (arr) => {
-    let emptyArr = [];
-    arr.forEach((col) => {
-      if (emptyArr.includes(col.position)) {
-        setFoundDuplicateColPosition(true);
-      } else {
-        emptyArr.push(col.position);
-      }
-    });
-  };
 
   useEffect(() => {
-    checkForDuplicateColumnPositions(props.data.activeBoardData.columns);
+    props.checkForDuplicateColumnPositions(props.data.activeBoardData.columns);
   }, []);
 
   const showToastHandler = (message) => {
@@ -147,7 +134,7 @@ const Board = (props) => {
             </Col>
           </Row>
         </Container>
-        {foundDuplicateColPosition && (
+        {props.foundDuplicateColPosition && (
           <Row>
             <Alert variant="danger" className="text-center">Warning: Two or more of your columns are assigned to the same position. This should be fixed in the Board Settings menu to prevent incorrect ordering.</Alert>
           </Row>
@@ -160,7 +147,7 @@ const Board = (props) => {
             .map((col) => (
               <Column
                 column={col}
-                key={col.position}
+                key={col.id}
                 viewTicketHandler={viewTicketHandler}
                 data={props.data}
                 api={props.api}

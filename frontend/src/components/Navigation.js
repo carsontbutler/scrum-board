@@ -20,6 +20,7 @@ const Navigation = (props) => {
   };
 
   const switchBoardHandler = async (board) => {
+    props.setFoundDuplicateColPosition(false);
     const id = board.target.id;
     const targetBoard = props.data.activeOrganization.boards.find(
       (obj) => obj.id == id
