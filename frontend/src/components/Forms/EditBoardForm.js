@@ -3,7 +3,7 @@ import { Container, Row, Button, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
 import DataContext from "../store/data-context";
-import "./EditBoardForm.css";
+import "../Modals/Modal.css";
 import EditBoardSettingsForm from "./EditBoardSettingsForm";
 import EditBoardColumnsForm from "./EditBoardColumnsForm";
 

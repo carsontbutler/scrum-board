@@ -4,7 +4,7 @@ import AuthContext from "../store/auth-context";
 import axios from "axios";
 import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
-import "./EditBoardForm.css";
+import "../Modals/Modal.css";
 
 const EditBoardSettingsForm = (props) => {
   const authCtx = useContext(AuthContext);

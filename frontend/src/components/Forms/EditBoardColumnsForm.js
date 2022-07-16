@@ -5,7 +5,7 @@ import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DeleteColumnModal from "../Modals/DeleteColumnModal";
 import AddColumnModal from "../Modals/AddColumnModal";
-import "./EditBoardForm.css";
+import "../Modals/Modal.css";
 
 const EditBoardColumnsForm = (props) => {
   const authCtx = useContext(AuthContext);
