@@ -73,7 +73,7 @@ function App() {
   };
 
   const getInitialData = async () => {
-    console.log('get initial data');
+    console.log("get initial data");
     await axiosInstance
       .get(`/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },

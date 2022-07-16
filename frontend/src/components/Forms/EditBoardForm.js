@@ -8,25 +8,12 @@ import EditBoardSettingsForm from "./EditBoardSettingsForm";
 import EditBoardColumnsForm from "./EditBoardColumnsForm";
 
 const EditBoardForm = (props) => {
-  const [showSettings, setShowSettings] = useState(true);
-  const [showColumns, setShowColumns] = useState(false);
-
-  const showSettingsHandler = () => {
-    setShowSettings(true);
-    setShowColumns(false);
-  };
-
-  const showColumnsHandler = () => {
-    setShowColumns(true);
-    setShowSettings(false);
-  };
-
   return (
     <Container className="text-center">
       <Row>
         <Col>
           <Row>
-            {showSettings ? (
+            {props.showSettings ? (
               <div className="active">
                 <Button size="lg" className="text-white shadow-none">
                   Board
@@ -35,7 +22,7 @@ const EditBoardForm = (props) => {
             ) : (
               <div className="inactive">
                 <Button
-                  onClick={showSettingsHandler}
+                  onClick={props.showSettingsHandler}
                   size="lg"
                   className="shadow-none"
                 >
@@ -47,7 +34,7 @@ const EditBoardForm = (props) => {
         </Col>
         <Col>
           <Row>
-            {showColumns ? (
+            {props.showColumns ? (
               <div className="active">
                 <Button
                   size="lg"
@@ -60,7 +47,7 @@ const EditBoardForm = (props) => {
             ) : (
               <div className="inactive">
                 <Button
-                  onClick={showColumnsHandler}
+                  onClick={props.showColumnsHandler}
                   size="lg"
                   variant="outline-secondary"
                   className="shadow-none"
@@ -73,14 +60,14 @@ const EditBoardForm = (props) => {
         </Col>
       </Row>
       <Row className="p-3 m-auto">
-        {showSettings && !showColumns && (
+        {props.showSettings && !props.showColumns && (
           <EditBoardSettingsForm
             api={props.api}
             data={props.data}
             closeEditBoardModal={props.closeEditBoardModal}
           />
         )}
-        {showColumns && !showSettings && (
+        {props.showColumns && !props.showSettings && (
           <EditBoardColumnsForm
             api={props.api}
             data={props.data}

@@ -6,12 +6,10 @@ import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
 import "./EditBoardForm.css";
 
-
 const EditBoardSettingsForm = (props) => {
   const authCtx = useContext(AuthContext);
   const [boardName, setBoardName] = useState(props.data.activeBoardData.name);
   const [prefix, setPrefix] = useState(props.data.activeBoardData.prefix);
-
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -30,6 +28,7 @@ const EditBoardSettingsForm = (props) => {
         if (res.status == 200) {
           props.closeEditBoardModal();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
+          props.api.getInitialData();
         } else {
           console.log(res);
           console.log("bad request");
@@ -38,7 +37,7 @@ const EditBoardSettingsForm = (props) => {
   };
 
   return (
-    <Form onSubmit={submitHandler} id="editBoardForm">
+    <Form onSubmit={submitHandler} id="editBoardSettingsForm">
       <Row>
         <Col></Col>
         <Col xl={8} lg={8} md={10} sm={10} xs={12} className="form-content">
@@ -54,7 +53,7 @@ const EditBoardSettingsForm = (props) => {
           </Form.Group>
 
           <Form.Group controlId="formPrefix" className="mt-4">
-          <h6>Prefix</h6>
+            <h6>Prefix</h6>
             <Form.Control
               type="text"
               defaultValue={props.data.activeBoardData.prefix}

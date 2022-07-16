@@ -9,7 +9,6 @@ import "./EditBoardForm.css";
 
 const EditBoardColumnsForm = (props) => {
   const authCtx = useContext(AuthContext);
-  console.log(props);
   const [showDeleteModal, setShowDeleteModal] = useState({
     show: false,
     id: null,
@@ -31,8 +30,14 @@ const EditBoardColumnsForm = (props) => {
     setShowDeleteModal({ show: false, id: null });
   };
 
-  let [formColumns, setFormColumns] = useState(props.data.activeBoardData.columns);
+  let [formColumns, setFormColumns] = useState(
+    props.data.activeBoardData.columns
+  );
   let [columnCount, setColumnCount] = useState(formColumns.length);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
 
   const MappedColumns = () => {
     return formColumns
@@ -99,7 +104,7 @@ const EditBoardColumnsForm = (props) => {
   };
 
   return (
-    <Form>
+    <Form onSubmit={submitHandler} id="editBoardColumnsForm">
       <Row className="mt-3">
         <Col xl={2} lg={2} md={2} sm={2} xs={2} className="form-content">
           <h6>Position</h6>
