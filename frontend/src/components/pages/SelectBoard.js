@@ -51,7 +51,7 @@ const SelectBoard = (props) => {
                   </Row>
                 ))}
                 <Row className="new-button">
-                  <Button size="lg">New</Button>
+                  <Button size="lg" onClick={props.showCreateBoardModal}>New</Button>
                 </Row>
               </Col>
               <Col></Col>

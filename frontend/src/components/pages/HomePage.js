@@ -97,7 +97,11 @@ const HomePage = (props) => {
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
             props.data.activeOrganization && (
-              <SelectBoard data={props.data} api={props.api} />
+              <SelectBoard
+                data={props.data}
+                api={props.api}
+                showCreateBoardModal={showCreateBoardModal}
+              />
             )}
           {Object.keys(props.data.activeBoard).length !== 0 && (
             <Board
