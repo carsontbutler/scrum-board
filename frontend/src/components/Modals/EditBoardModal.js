@@ -2,7 +2,7 @@ import react, { useState } from "react";
 import { Modal, Container, Button } from "react-bootstrap";
 import EditBoardForm from "../Forms/EditBoardForm";
 import EditBoardSettingsForm from "../Forms/EditBoardSettingsForm";
-import "./EditBoardModal.css";
+import "./Modal.css";
 
 const EditBoardModal = (props) => {
   const [showSettings, setShowSettings] = useState(true);
@@ -36,7 +36,7 @@ const EditBoardModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <div id="save-btn">
+        <div className="save-btn">
           {showSettings ? (
             <Button
               type="submit"
@@ -55,7 +55,7 @@ const EditBoardModal = (props) => {
             </Button>
           )}
         </div>
-        <div id="cancel-btn">
+        <div className="cancel-btn">
           <Button onClick={props.closeEditBoardModal} className="cancel-btn">
             Cancel
           </Button>
