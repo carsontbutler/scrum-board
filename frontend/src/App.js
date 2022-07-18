@@ -42,17 +42,22 @@ function App() {
   };
 
   const fetchAndSetActiveBoardData = async (e) => {
+    console.log(data);
     await axiosInstance
       .get(`${url}/board/${e.target.id}/tickets/`, {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((res) => {
-        console.log(res.data);
-        setActiveBoardData(res.data);
-        setActiveBoard(
-          activeOrganization.boards.find((obj) => obj.id == e.target.id)
-        );
+        console.log(res);
+        setData({
+          ...data,
+          activeBoardData: res.data,
+          activeBoard: data.activeOrganization.boards.find(
+            (obj) => obj.id == e.target.id
+          ),
+        });
       });
+      
   };
 
   const fetchUpdatedBoardData = async (board) => {

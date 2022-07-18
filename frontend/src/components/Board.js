@@ -18,6 +18,7 @@ import CreateTicketModal from "./Modals/CreateTicketModal";
 import { axiosInstance, url } from "./store/api";
 
 const Board = (props) => {
+  console.log(props);
   const authCtx = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
