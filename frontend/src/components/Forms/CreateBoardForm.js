@@ -17,7 +17,7 @@ const CreateBoardForm = (props) => {
     const name = nameRef.current.value;
     const organization = organizationRef.current.value;
     const prefix = prefixRef.current.value;
-
+    console.log(props.data);
     axiosInstance
       .post(
         `${url}/create-board/`,
@@ -30,13 +30,11 @@ const CreateBoardForm = (props) => {
           headers: { Authorization: "Bearer " + authCtx.access },
         }
       )
-      .then((res) => {
+      .then(async (res) => {
         if (res.status == 200) {
           let id = res.data.id.toString();
-          props.api.getInitialData();
-          const targetBoard = props.data.activeOrganization.boards.find(
-            (obj) => obj.id == id
-          );
+          await props.api.getInitialData();
+          console.log(props.data);
           props.closeCreateBoardModal();
         } else {
           console.log(res); //! handle this properly with a message
