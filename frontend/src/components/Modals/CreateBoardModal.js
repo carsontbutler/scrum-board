@@ -14,6 +14,7 @@ const CreateBoardModal = (props) => {
           <CreateBoardForm
             closeCreateBoardModal={props.closeCreateBoardModal}
             data={props.data}
+            setData={props.setData}
             api={props.api}
           />
         </Container>

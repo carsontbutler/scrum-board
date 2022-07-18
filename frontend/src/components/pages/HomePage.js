@@ -84,6 +84,7 @@ const HomePage = (props) => {
     <div>
       <Navigation
         data={props.data}
+        setData={props.setData}
         api={props.api}
         foundDuplicateColPosition={foundDuplicateColPosition}
         setFoundDuplicateColPosition={setFoundDuplicateColPosition}
@@ -122,6 +123,7 @@ const HomePage = (props) => {
             isCreatingBoard={isCreatingBoard}
             closeCreateBoardModal={closeCreateBoardModal}
             data={props.data}
+            setData={props.setData}
             api={props.api}
           />
         )}

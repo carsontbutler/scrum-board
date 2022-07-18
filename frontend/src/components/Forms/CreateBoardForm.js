@@ -17,7 +17,6 @@ const CreateBoardForm = (props) => {
     const name = nameRef.current.value;
     const organization = organizationRef.current.value;
     const prefix = prefixRef.current.value;
-    console.log(props.data);
     axiosInstance
       .post(
         `${url}/create-board/`,
@@ -32,9 +31,10 @@ const CreateBoardForm = (props) => {
       )
       .then(async (res) => {
         if (res.status == 200) {
-          let id = res.data.id.toString();
-          await props.api.getInitialData();
-          console.log(props.data);
+          let newBoard = res.data;
+          let activeOrg = { ...props.data.activeOrganization };
+          activeOrg.boards.push(newBoard);
+          props.setData({ ...props.data, activeOrganization: activeOrg });
           props.closeCreateBoardModal();
         } else {
           console.log(res); //! handle this properly with a message

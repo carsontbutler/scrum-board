@@ -22,18 +22,17 @@ function App() {
   const [activeOrganization, setActiveOrganization] = useState("");
   const [activeTicket, setActiveTicket] = useState("");
 
-  const data = {
-    organizations: organizations,
-    activeOrganization: activeOrganization,
-    activeBoard: activeBoard,
-    activeBoardData: activeBoardData,
-    activeTicket: activeTicket,
-  };
+  const [data, setData] = useState({
+    organizations: [],
+    activeOrganization: "",
+    activeBoard: {},
+    activeBoardData: {},
+    activeTicket: "",
+  });
 
   const setOrganization = async (e) => {
-    setActiveBoard({});
-    let targetOrg = organizations.find((obj) => obj.id == e.target.id);
-    await setActiveOrganization(targetOrg);
+    let targetOrg = data.organizations.find((obj) => obj.id == e.target.id);
+    setData({ ...data, activeOrganization: targetOrg });
   };
 
   const setActiveTicketHandler = (e) => {
@@ -77,8 +76,8 @@ function App() {
       })
       .then((response) => {
         if (response.status === 200) {
-          setOrganizations(response.data.organizations);
-          console.log(response.data.organizations);
+          let newOrganizations = response.data.organizations;
+          setData({ ...data, organizations: newOrganizations });
         } else {
           console.log("error"); //! handle this error properly
         }
@@ -121,6 +120,7 @@ function App() {
           <Route path="/" exact>
             <HomePage
               data={data}
+              setData={setData}
               api={api}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
