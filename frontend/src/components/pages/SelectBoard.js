@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
-import DataContext from "../store/data-context";
 import { Button, Row, Container, Col } from "react-bootstrap";
 import { axiosInstance, url } from "../store/api";
 import "./SelectScreen.css";

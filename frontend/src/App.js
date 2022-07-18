@@ -11,10 +11,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import AuthContext from "./components/store/auth-context";
-
-import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
 import { axiosInstance, url } from "./components/store/api";
+
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
@@ -45,7 +43,6 @@ function App() {
   };
 
   const fetchAndSetActiveBoardData = async (e) => {
-    console.log(e.target);
     await axiosInstance
       .get(`${url}/board/${e.target.id}/tickets/`, {
         headers: { Authorization: "Bearer " + authCtx.access },

@@ -2,21 +2,18 @@ import react, { useRef, useContext } from "react";
 import { Form, Row } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import axios from "axios";
-import "./CreateBoardForm.css";
-import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
+import "../Modals/Modal.css";
 
 const CreateBoardForm = (props) => {
   console.log(props);
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
   const nameRef = useRef();
   const organizationRef = useRef();
   const prefixRef = useRef();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    //check if token is valid?
     const name = nameRef.current.value;
     const organization = organizationRef.current.value;
     const prefix = prefixRef.current.value;
@@ -35,8 +32,8 @@ const CreateBoardForm = (props) => {
       )
       .then((res) => {
         if (res.status == 200) {
-          const id = res.data.id.toString();
-          props.getInitialData();
+          let id = res.data.id.toString();
+          props.api.getInitialData();
           const targetBoard = props.data.activeOrganization.boards.find(
             (obj) => obj.id == id
           );
@@ -49,28 +46,30 @@ const CreateBoardForm = (props) => {
 
   return (
     <Form onSubmit={submitHandler} id="createBoardForm">
-      <Form.Group controlId="formOrganization" className="mt-2">
-        <Form.Label>Organization</Form.Label>
-        <Form.Select ref={organizationRef}>
-          {props.data.organizations.map((org) =>
-            org.id == props.data.activeOrganization.id ? (
-              <option value={org.id} selected>
-                {org.name}
-              </option>
-            ) : (
-              <option value={org.id}>{org.name}</option>
-            )
-          )}
-        </Form.Select>
-      </Form.Group>
-      <Form.Group controlId="formName" className="mt-2">
-        <Form.Label>Board title</Form.Label>
-        <Form.Control as="textarea" ref={nameRef} />
-      </Form.Group>
-      <Form.Group controlId="formPrefix" className="mt-2">
-        <Form.Label>Board Prefix</Form.Label>
-        <Form.Control as="textarea" ref={prefixRef} />
-      </Form.Group>
+      <div className="form-content">
+        <Form.Group controlId="formOrganization" className="mt-2">
+          <h6>Organization</h6>
+          <Form.Select ref={organizationRef}>
+            {props.data.organizations.map((org) =>
+              org.id == props.data.activeOrganization.id ? (
+                <option value={org.id} selected>
+                  {org.name}
+                </option>
+              ) : (
+                <option value={org.id}>{org.name}</option>
+              )
+            )}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group controlId="formName" className="mt-2">
+          <h6>Board Title</h6>
+          <Form.Control as="textarea" ref={nameRef} />
+        </Form.Group>
+        <Form.Group controlId="formPrefix" className="mt-2">
+          <h6>Board Prefix</h6>
+          <Form.Control as="textarea" ref={prefixRef} />
+        </Form.Group>
+      </div>
     </Form>
   );
 };

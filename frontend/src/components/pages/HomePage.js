@@ -88,6 +88,7 @@ const HomePage = (props) => {
         foundDuplicateColPosition={foundDuplicateColPosition}
         setFoundDuplicateColPosition={setFoundDuplicateColPosition}
         checkForDuplicateColumnPositions={checkForDuplicateColumnPositions}
+        showCreateBoardModal={showCreateBoardModal}
       />
       <Container>
         <div>

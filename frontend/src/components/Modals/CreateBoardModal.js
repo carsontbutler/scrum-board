@@ -1,12 +1,13 @@
 import react from "react";
 import { Modal, Container, Button } from "react-bootstrap";
 import CreateBoardForm from "../Forms/CreateBoardForm";
+import "./Modal.css";
 
 const CreateBoardModal = (props) => {
   return (
     <Modal size={"xl"} centered show={props.isCreatingBoard}>
       <Modal.Header closeButton onHide={props.closeCreateBoardModal}>
-        <Modal.Title>Creating board for x</Modal.Title>
+        <Modal.Title>Creating new board</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -18,12 +19,14 @@ const CreateBoardModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button type="submit" form="createBoardForm" variant="primary">
-          Save
-        </Button>
-        <Button onClick={props.closeCreateBoardModal} variant="secondary">
-          Cancel
-        </Button>
+        <div className="save-btn">
+          <Button type="submit" form="createBoardForm">
+            Save
+          </Button>
+        </div>
+        <div className="cancel-btn">
+          <Button onClick={props.closeCreateBoardModal}>Cancel</Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );

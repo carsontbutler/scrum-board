@@ -108,6 +108,7 @@ class CreateBoardView(APIView):
             board = Board(name=name, organization=organization, prefix=prefix)
             board.save()
             return Response(CreateBoardSerializer(board).data, status=status.HTTP_200_OK)
+        print(serializer.errors)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateBoardView(generics.UpdateAPIView):
