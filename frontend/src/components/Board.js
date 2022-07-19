@@ -48,11 +48,19 @@ const Board = (props) => {
     setShowCreateTicketModal(false);
   };
 
+  // const viewTicketHandler = (e) => {
+  //   const selectedTicket = props.data.activeBoardData.tickets.filter(
+  //     (ticket) => ticket.id == e.target.id
+  //   );
+  //   props.api.setActiveTicket(selectedTicket[0]);
+  //   setShowModal(true);
+  // };
+
   const viewTicketHandler = (e) => {
-    const selectedTicket = props.data.activeBoardData.tickets.filter(
+    let selectedTicket = props.data.activeBoardData.tickets.filter(
       (ticket) => ticket.id == e.target.id
     );
-    props.api.setActiveTicket(selectedTicket[0]);
+    props.setData({...props.data, activeTicket: selectedTicket[0]})
     setShowModal(true);
   };
 
@@ -93,6 +101,7 @@ const Board = (props) => {
         setIsEditing={setIsEditing}
         showToastHandler={showToastHandler}
         data={props.data}
+        setData={props.setData}
         api={props.api}
       />
 
@@ -101,6 +110,7 @@ const Board = (props) => {
         showCreateTicketModal={showCreateTicketModal}
         showToastHandler={showToastHandler}
         data={props.data}
+        setData={props.setData}
         api={props.api}
       />
       <Col>

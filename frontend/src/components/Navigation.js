@@ -12,9 +12,7 @@ const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
 
   const logoutHandler = () => {
-    props.api.setActiveTicket();
-    props.api.setActiveBoard();
-    props.api.setActiveBoardData();
+    props.setData({});
     authCtx.logout();
     window.location.reload();
   };
@@ -61,7 +59,7 @@ const Navigation = (props) => {
               {props.data.organizations.map((org) => (
                 <NavDropdown.Item
                   className="nav-dropdown"
-                  onClick={props.api.setOrganization}
+                  onClick={props.api.selectOrganization}
                   id={org.id}
                   key={org.id}
                 >

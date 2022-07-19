@@ -22,6 +22,8 @@ function App() {
   const [activeOrganization, setActiveOrganization] = useState("");
   const [activeTicket, setActiveTicket] = useState("");
 
+  console.log(authCtx);
+
   const [data, setData] = useState({
     organizations: [],
     activeOrganization: "",
@@ -30,7 +32,7 @@ function App() {
     activeTicket: "",
   });
 
-  const setOrganization = async (e) => {
+  const selectOrganization = async (e) => {
     let targetOrg = data.organizations.find((obj) => obj.id == e.target.id);
     setData({ ...data, activeOrganization: targetOrg });
   };
@@ -57,7 +59,6 @@ function App() {
           ),
         });
       });
-      
   };
 
   const fetchUpdatedBoardData = async (board) => {
@@ -97,7 +98,7 @@ function App() {
       .then((response) => {
         if (response.status === 200) {
           let newOrganizations = response.data.organizations;
-          api.setOrganizations(newOrganizations);
+          setData({ ...data, organizations: newOrganizations });
           setIsLoading(false);
         } else {
           console.log("error"); //! handle this error properly
@@ -106,15 +107,11 @@ function App() {
   }, [authCtx.login]);
 
   const api = {
-    setActiveBoard: setActiveBoard,
-    setActiveBoardData: setActiveBoardData,
-    setOrganization: setOrganization,
-    setOrganizations: setOrganizations,
-    setActiveOrganization: setActiveOrganization,
     fetchAndSetActiveBoardData: fetchAndSetActiveBoardData,
     fetchUpdatedBoardData: fetchUpdatedBoardData,
     setActiveTicket: setActiveTicket,
     setActiveTicketHandler: setActiveTicketHandler,
+    selectOrganization:selectOrganization,
     getInitialData: getInitialData,
   };
 
@@ -136,7 +133,12 @@ function App() {
           <Route
             path="/login"
             component={() => (
-              <AuthPage setIsLoading={setIsLoading} api={api} data={data} />
+              <AuthPage
+                setIsLoading={setIsLoading}
+                api={api}
+                data={data}
+                setData={setData}
+              />
             )}
           />
         )}

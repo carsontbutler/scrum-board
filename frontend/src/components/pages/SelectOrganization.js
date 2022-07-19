@@ -8,7 +8,8 @@ import "./SelectScreen.css";
 
 const SelectOrganization = (props) => {
   const authCtx = useContext(AuthContext);
-  
+
+
   return (
     <Container>
       <Row className="justify-content-center mt-3">
@@ -23,7 +24,7 @@ const SelectOrganization = (props) => {
                 {props.data.organizations.map((org) => (
                   <Row className="select-buttons">
                     <Button
-                      onClick={props.api.setOrganization}
+                      onClick={props.api.selectOrganization}
                       key={org.id}
                       id={org.id}
                       size="lg"

@@ -11,7 +11,6 @@ const LoginForm = (props) => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState();
-  console.log(props);
 
 
   const handleSubmit = async (e) => {
@@ -38,6 +37,7 @@ const LoginForm = (props) => {
         }
       })
       .then((data) => {
+        console.log(data);
         authCtx.login(data.id, data.username, data.access.toString(), data.refresh);
         history.replace("/");
       });

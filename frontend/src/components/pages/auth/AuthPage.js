@@ -27,6 +27,7 @@ const AuthPage = (props) => {
           setErrorMessage={setErrorMessage}
           api={props.api}
           data={props.data}
+          setData={props.setData}
           setIsLoading={props.setIsLoading}
         />
       ) : (
