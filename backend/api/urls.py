@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .views import RegisterUser, GetOrganizations,GetBoard, GetTickets, GetBoards, UpdateTicket, CreateBoardView, UpdateBoardView, DeleteBoardView, CreateTicketView, DeleteTicketView, DeleteColumnView, CreateColumnView, UpdateColumnView
+from .views import RegisterUser, GetOrganizations,GetBoard, GetTickets, GetBoards, UpdateTicket, CreateBoardView, UpdateBoardView, DeleteBoardView, CreateTicketView, DeleteTicketView, DeleteColumnView, CreateColumnView, UpdateColumnView, CreateOrganizationView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -15,6 +15,7 @@ urlpatterns = [
     #Jira
 
     path('organizations/', GetOrganizations.as_view()),
+    path('create-organization/', CreateOrganizationView.as_view()),
     #Board Endpoints
     path('boards/', GetBoards.as_view()),
     path('board/<str:pk>/', GetBoard.as_view()), #! is this needed?

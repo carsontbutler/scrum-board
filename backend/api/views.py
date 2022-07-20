@@ -39,19 +39,22 @@ class GetOrganizations(APIView):
 
 class CreateOrganizationView(APIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = OrganizationSerializer
+    serializer_class = CreateOrganizationSerializer
 
     def post(self, request):
         owner = request.user
         serializer = self.serializer_class(data=request.data)
-
+        print(request)
         if serializer.is_valid():
             name = serializer.data.get('name')
-            owner = request.owner
-            members = [request.owner]
-            organization = Organization(name=name, owner=owner, members=members)
+            owner = request.user
+            members_list = [owner]
+            organization = Organization(name=name, owner=owner)
+            organization.save() #I had to 
+            organization.members.set(members_list)
             organization.save()
             return Response(CreateOrganizationSerializer(organization).data, status=status.HTTP_200_OK)
+        print(serializer.errors)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 #Boards
