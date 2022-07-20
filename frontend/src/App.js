@@ -34,7 +34,7 @@ function App() {
 
   const selectOrganization = async (e) => {
     let targetOrg = data.organizations.find((obj) => obj.id == e.target.id);
-    setData({ ...data, activeOrganization: targetOrg });
+    setData({ ...data, activeBoard: {}, activeOrganization: targetOrg });
   };
 
   const setActiveTicketHandler = (e) => {
@@ -111,7 +111,7 @@ function App() {
     fetchUpdatedBoardData: fetchUpdatedBoardData,
     setActiveTicket: setActiveTicket,
     setActiveTicketHandler: setActiveTicketHandler,
-    selectOrganization:selectOrganization,
+    selectOrganization: selectOrganization,
     getInitialData: getInitialData,
   };
 
