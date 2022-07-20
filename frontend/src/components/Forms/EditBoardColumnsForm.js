@@ -43,7 +43,7 @@ const EditBoardColumnsForm = (props) => {
     //   `${url}/${id}/update/`,
     //   {},
     //   { headers: { Authorization: "Bearer " + authCtx.access } }
-    );
+    // );
   };
 
   const MappedColumns = () => {
