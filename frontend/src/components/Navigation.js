@@ -17,24 +17,9 @@ const Navigation = (props) => {
     window.location.reload();
   };
 
-  const switchBoardHandler = async (board) => {
+  const switchBoardHandler = async (e) => {
     props.setFoundDuplicateColPosition(false);
-    const id = board.target.id;
-    const targetBoard = props.data.activeOrganization.boards.find(
-      (obj) => obj.id == id
-    );
-    await axiosInstance
-      .get(`/board/${id}/tickets`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          props.api.setActiveBoardData(response.data);
-          props.api.setActiveBoard(targetBoard);
-        } else {
-          console.log("error");
-        } //handle error properly
-      });
+    await props.api.fetchAndSetActiveBoardData(e);
   };
 
   return (
