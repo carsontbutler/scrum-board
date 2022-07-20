@@ -69,8 +69,11 @@ function App() {
       })
       .then((res) => {
         console.log(res.data);
-        setActiveBoardData(res.data);
-        setActiveBoard(activeOrganization.boards.find((obj) => obj.id == id));
+        setData({
+          ...data,
+          activeBoardData: res.data,
+          activeBoard: data.activeOrganization.boards.find((obj) => obj.id == id),
+        });
       });
   };
 

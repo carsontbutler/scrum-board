@@ -2,6 +2,7 @@ import react, { useContext, useState } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 import DataContext from "../store/data-context";
 import axios from "axios";
+import { axiosInstance, url } from "../store/api";
 import AuthContext from "../store/auth-context";
 import DeleteColumnModal from "../Modals/DeleteColumnModal";
 import AddColumnModal from "../Modals/AddColumnModal";
@@ -37,6 +38,12 @@ const EditBoardColumnsForm = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // let id;
+    // axiosInstance.patch(
+    //   `${url}/${id}/update/`,
+    //   {},
+    //   { headers: { Authorization: "Bearer " + authCtx.access } }
+    );
   };
 
   const MappedColumns = () => {

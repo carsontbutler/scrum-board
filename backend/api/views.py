@@ -168,7 +168,7 @@ class CreateColumnView(APIView):
 
 class UpdateColumnView(generics.UpdateAPIView):
     permission_classes=[IsAuthenticated]
-    serializer_class = CreateColumnSerializer
+    serializer_class = ColumnSerializer
     queryset = Column.objects.all()
     lookup_field = 'pk'
 

@@ -40,22 +40,6 @@ const HomePage = (props) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          props.api.setOrganizations(response.data.organizations);
-          props.setIsLoading(false);
-        } else {
-          console.log("error"); //! handle this error properly
-        }
-      });
-    props.api.getInitialData();
-  }, []);
-
-  useEffect(() => {
-    axiosInstance
-      .get(`/boards`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      })
-      .then((response) => {
-        if (response.status === 200) {
           props.setData({
             ...props.data,
             organizations: response.data.organizations,
@@ -114,7 +98,11 @@ const HomePage = (props) => {
         <div>
           {Object.keys(props.data.activeBoard).length === 0 &&
             !props.data.activeOrganization && (
-              <SelectOrganization data={props.data} api={props.api} setData={props.setData}/>
+              <SelectOrganization
+                data={props.data}
+                api={props.api}
+                setData={props.setData}
+              />
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
             props.data.activeOrganization && (
@@ -153,6 +141,7 @@ const HomePage = (props) => {
             isEditingBoard={isEditingBoard}
             closeEditBoardModal={closeEditBoardModal}
             data={props.data}
+            setData={props.setData}
             api={props.api}
           />
         )}

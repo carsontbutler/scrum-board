@@ -27,6 +27,7 @@ const EditBoardModal = (props) => {
           <EditBoardForm
             api={props.api}
             data={props.data}
+            setData={props.setData}
             closeEditBoardModal={props.closeEditBoardModal}
             showColumns={showColumns}
             showColumnsHandler={showColumnsHandler}

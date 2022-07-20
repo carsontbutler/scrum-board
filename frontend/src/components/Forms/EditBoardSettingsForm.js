@@ -28,7 +28,6 @@ const EditBoardSettingsForm = (props) => {
         if (res.status == 200) {
           props.closeEditBoardModal();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
-          props.api.getInitialData();
         } else {
           console.log(res);
           console.log("bad request");

@@ -64,6 +64,7 @@ const EditBoardForm = (props) => {
           <EditBoardSettingsForm
             api={props.api}
             data={props.data}
+            setData={props.setData}
             closeEditBoardModal={props.closeEditBoardModal}
           />
         )}
@@ -71,6 +72,7 @@ const EditBoardForm = (props) => {
           <EditBoardColumnsForm
             api={props.api}
             data={props.data}
+            setData={props.setData}
             closeEditBoardModal={props.closeEditBoardModal}
           />
         )}
