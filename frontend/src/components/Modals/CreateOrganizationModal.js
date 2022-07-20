@@ -4,6 +4,7 @@ import CreateOrganizationForm from "../Forms/CreateOrganizationForm";
 import "./Modal.css";
 
 const CreateOrganizationModal = (props) => {
+  
   return (
     <Modal size={"md"} centered show={props.isCreatingOrganization}>
       <Modal.Header closeButton onHide={props.closeCreateOrganizationModal}>
@@ -21,7 +22,7 @@ const CreateOrganizationModal = (props) => {
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
         <div className="save-btn">
-          <Button type="submit" form="createOrganizationForm">
+          <Button type="submit" form="CreateOrganizationForm">
             Save
           </Button>
         </div>
