@@ -34,7 +34,7 @@ const SelectOrganization = (props) => {
                   </Row>
                 ))}
                 <Row className="new-button">
-                  <Button size="lg">New</Button>
+                  <Button onClick={props.showCreateOrganizationModal} size="lg">New</Button>
                 </Row>
               </Col>
               <Col></Col>

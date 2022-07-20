@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import Navigation from "../Navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import Board from "../Board";
-import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
+import CreateOrganizationModal from "../Modals/CreateOrganizationModal";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
-import DataContext from "../store/data-context";
 import SelectOrganization from "./SelectOrganization";
 import SelectBoard from "./SelectBoard";
 import { axiosInstance, url } from "../store/api";
@@ -18,6 +15,7 @@ const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
+  const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
 
   const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
     useState(false);
@@ -65,6 +63,14 @@ const HomePage = (props) => {
       });
   };
 
+  const showCreateOrganizationModal = () => {
+    setIsCreatingOrganization(true);
+  };
+
+  const closeCreateOrganizationModal = () => {
+    setIsCreatingOrganization(false);
+  };
+
   const showCreateBoardModal = () => {
     setIsCreatingBoard(true);
   };
@@ -93,6 +99,7 @@ const HomePage = (props) => {
         setFoundDuplicateColPosition={setFoundDuplicateColPosition}
         checkForDuplicateColumnPositions={checkForDuplicateColumnPositions}
         showCreateBoardModal={showCreateBoardModal}
+        showCreateOrganizationModal={showCreateOrganizationModal}
       />
       <Container>
         <div>
@@ -102,6 +109,7 @@ const HomePage = (props) => {
                 data={props.data}
                 api={props.api}
                 setData={props.setData}
+                showCreateOrganizationModal={showCreateOrganizationModal}
               />
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
@@ -126,6 +134,12 @@ const HomePage = (props) => {
             />
           )}
         </div>
+        {isCreatingOrganization && (
+          <CreateOrganizationModal
+            isCreatingOrganization={isCreatingOrganization}
+            closeCreateOrganizationModal={closeCreateOrganizationModal}
+          />
+        )}
         {isCreatingBoard && (
           <CreateBoardModal
             isCreatingBoard={isCreatingBoard}

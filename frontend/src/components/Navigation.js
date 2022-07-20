@@ -51,6 +51,10 @@ const Navigation = (props) => {
                   {org.name}
                 </NavDropdown.Item>
               ))}
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={props.showCreateOrganizationModal} className="dropdown-header text-center">
+                New organization
+              </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.data.activeOrganization ? (
