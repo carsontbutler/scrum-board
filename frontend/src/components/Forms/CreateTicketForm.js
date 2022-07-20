@@ -4,6 +4,7 @@ import axios from "axios";
 import AuthContext from "../store/auth-context";
 import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
+import "../Modals/Modal.css";
 
 const CreateTicketForm = (props) => {
   const authCtx = useContext(AuthContext);
@@ -64,35 +65,35 @@ const CreateTicketForm = (props) => {
     <Form onSubmit={submitHandler} id="createTicketForm">
       <Row className="justify-content-center">
         <Col xl={7} lg={7} md={7} sm={7} xs={7}>
-          <div className="content-section">
+          <div className="form-content mt-2">
             <Form.Group controlId="formTitle">
-              <Form.Label>Title</Form.Label>
+              <h6>Title</h6>
               <Form.Control as="textarea" ref={titleRef} />
             </Form.Group>
           </div>
 
-          <div className="content-section">
+          <div className="form-content mt-2">
             <Form.Group controlId="formDescription">
-              <Form.Label>Description</Form.Label>
+              <h6>Description</h6>
               <Form.Control as="textarea" ref={descriptionRef} />
             </Form.Group>
           </div>
 
-          <div className="content-section">
+          <div className="form-content mt-2">
             <Form.Group controlId="formReproSteps">
-              <Form.Label>Reproduction Steps</Form.Label>
+              <h6>Reproduction Steps</h6>
               <Form.Control as="textarea" ref={reproStepsRef} />
             </Form.Group>
           </div>
-          <div className="content-section">
+          <div className="form-content mt-2">
             <Form.Group controlId="formAcceptanceCriteria">
-              <Form.Label>Acceptance Criteria</Form.Label>
+            <h6>Acceptance Criteria</h6>
               <Form.Control as="textarea" ref={acceptanceCriteriaRef} />
             </Form.Group>
           </div>
         </Col>
         <Col
-          className="text-center right-col"
+          className="text-center right-col form-content"
           xl={5}
           lg={5}
           md={5}
@@ -101,7 +102,7 @@ const CreateTicketForm = (props) => {
         >
           <Row className="detail-row">
             <Col>
-              <h6>Assignee</h6>
+              <h6 className="mt-2">Assignee</h6>
             </Col>
             <Col>
               <Form.Group controlId="formAssignee">
@@ -116,7 +117,7 @@ const CreateTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Column</h6>
+              <h6 className="mt-2">Column</h6>
             </Col>
             <Col>
               <Form.Group controlId="formColumn">
@@ -130,7 +131,7 @@ const CreateTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Type</h6>
+              <h6 className="mt-2">Type</h6>
             </Col>
             <Col>
               <Form.Group controlId="formType">
@@ -144,7 +145,7 @@ const CreateTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Priority</h6>
+              <h6 className="mt-2">Priority</h6>
             </Col>
             <Col>
               <Form.Group controlId="formPriority">

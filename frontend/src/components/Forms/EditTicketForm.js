@@ -25,8 +25,6 @@ const EditTicketForm = (props) => {
     setIsDeleting(false);
   };
 
-  console.log(authCtx.access);
-
   const deleteTicketHandler = () => {
     axiosInstance
       .delete(`${url}/ticket/${props.data.activeTicket.id}/delete/`, {
@@ -42,8 +40,6 @@ const EditTicketForm = (props) => {
         }
       });
   };
-
-  console.log(props);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -87,11 +83,11 @@ const EditTicketForm = (props) => {
 
   return (
     <Form onSubmit={submitHandler} id="editTicketForm">
-      <Row className="justify-content-center">
+      <Row className="justify-content-center form-content">
         <Col xl={7} lg={7} md={7} sm={7} xs={7}>
           <div className="content-section">
             <Form.Group controlId="formTitle">
-              <Form.Label>Title</Form.Label>
+              <h6 className="mt-2">Title</h6>
               <Form.Control
                 as="textarea"
                 defaultValue={props.data.activeTicket.title}
@@ -102,7 +98,7 @@ const EditTicketForm = (props) => {
 
           <div className="content-section">
             <Form.Group controlId="formDescription">
-              <Form.Label>Description</Form.Label>
+              <h6 className="mt-2">Description</h6>
               <Form.Control
                 as="textarea"
                 defaultValue={props.data.activeTicket.description}
@@ -113,7 +109,7 @@ const EditTicketForm = (props) => {
 
           <div className="content-section">
             <Form.Group controlId="formReproSteps">
-              <Form.Label>Reproduction Steps</Form.Label>
+            <h6 className="mt-2">Reproduction Steps</h6>
               <Form.Control
                 as="textarea"
                 defaultValue={props.data.activeTicket.repro_steps}
@@ -123,7 +119,7 @@ const EditTicketForm = (props) => {
           </div>
           <div className="content-section">
             <Form.Group controlId="formAcceptanceCriteria">
-              <Form.Label>Acceptance Criteria</Form.Label>
+              <h6 className="mt-2">Acceptance Criteria</h6>
               <Form.Control
                 as="textarea"
                 defaultValue={props.data.activeTicket.acceptance_criteria}
@@ -142,7 +138,7 @@ const EditTicketForm = (props) => {
         >
           <Row className="detail-row">
             <Col>
-              <h6>Assignee</h6>
+              <h6 className="mt-2">Assignee</h6>
             </Col>
             <Col>
               <Form.Group controlId="formAssignee">
@@ -163,10 +159,10 @@ const EditTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Reporter</h6>
+              <h6 className="mt-2">Reporter</h6>
             </Col>
             <Col>
-              <h6>
+              <h6 className="plain-h6 mt-2">
                 {
                   props.data.activeOrganization.users.find(
                     (e) => e.id == props.data.activeTicket.reporter
@@ -177,7 +173,7 @@ const EditTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Column</h6>
+              <h6 className="mt-2">Column</h6>
             </Col>
             <Col>
               <Form.Group controlId="formColumn">
@@ -197,7 +193,7 @@ const EditTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Type</h6>
+              <h6 className="mt-2">Type</h6>
             </Col>
             <Col>
               <Form.Group controlId="formType">
@@ -233,7 +229,7 @@ const EditTicketForm = (props) => {
           </Row>
           <Row className="detail-row">
             <Col>
-              <h6>Priority</h6>
+              <h6 className="mt-2">Priority</h6>
             </Col>
             <Col>
               <Form.Group controlId="formPriority">

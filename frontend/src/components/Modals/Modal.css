@@ -2,6 +2,10 @@
     color:white;
 }
 
+.modal-title{
+  color:#003366;
+}
+
 .form-label{
     text-decoration: underline;
     font-weight: bold;
@@ -115,5 +119,8 @@
       background: #c0c0c0;
     }
   
-    
+.plain-h6{
+  font-size: 90%;
+  color: #C0c0c0;
+}
   

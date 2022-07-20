@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { Modal, Row, Col, Container, Button } from "react-bootstrap";
 import "./TicketModal.css";
+import "./Modal.css";
 import ViewTicket from "../ViewTicket";
 import EditTicketForm from "../Forms/EditTicketForm";
-import DataContext from "../store/data-context";
 
 const TicketModal = (props) => {
-
   return (
     <Modal size={"xl"} centered show={props.showModal}>
       <Modal.Header closeButton onHide={props.closeModalHandler}>
@@ -36,18 +35,24 @@ const TicketModal = (props) => {
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
         {props.isEditing ? (
-          <Button onClick={props.cancelEditHandler} variant="secondary">
-            Cancel
-          </Button>
+          <div className="cancel-btn">
+            <Button onClick={props.cancelEditHandler} variant="secondary">
+              Cancel
+            </Button>
+          </div>
         ) : (
-          <Button onClick={props.startEditingHandler} variant="secondary">
-            Edit
-          </Button>
+          <div className="cancel-btn">
+            <Button onClick={props.startEditingHandler} variant="secondary">
+              Edit
+            </Button>
+          </div>
         )}
         {props.isEditing && (
-          <Button type="submit" form="editTicketForm" value="Submit">
-            Save
-          </Button>
+          <div className="save-btn">
+            <Button type="submit" form="editTicketForm" value="Submit">
+              Save
+            </Button>
+          </div>
         )}
       </Modal.Footer>
     </Modal>
