@@ -138,6 +138,9 @@ const HomePage = (props) => {
           <CreateOrganizationModal
             isCreatingOrganization={isCreatingOrganization}
             closeCreateOrganizationModal={closeCreateOrganizationModal}
+            api={props.api}
+            data={props.data}
+            setData={props.setData}
           />
         )}
         {isCreatingBoard && (

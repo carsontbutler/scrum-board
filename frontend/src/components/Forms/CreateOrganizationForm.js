@@ -7,6 +7,7 @@ import "../Modals/Modal.css";
 const CreateOrganizationForm = (props) => {
   const authCtx = useContext(AuthContext);
   const [name, setName] = useState("");
+  console.log(props);
 
   const submitHandler = (e) => {
     console.log("submit handler ran");
@@ -20,9 +21,20 @@ const CreateOrganizationForm = (props) => {
       .then((res) => {
         if (res.status == 200) {
         }
-        console.log(res);
-        //need the backend to return the id
-        //then request the organization data and set the active organization to that id
+        let newOrganizationId = res.data.id;
+        axiosInstance
+          .get(`/boards`, {
+            headers: { Authorization: "Bearer " + authCtx.access },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              console.log(response.data);
+              let newOrganizations = response.data.organizations;
+              props.setData({ ...props.data, organizations: newOrganizations });
+            } else {
+              console.log("error"); //! handle this error properly
+            }
+          });
         props.closeCreateOrganizationModal();
       });
   };

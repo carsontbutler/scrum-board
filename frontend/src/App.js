@@ -95,7 +95,7 @@ function App() {
 
   useEffect(() => {
     axiosInstance
-      .get(`/boards`, {
+      .get(`${url}/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((response) => {
