@@ -5,6 +5,11 @@ import { useHistory } from "react-router-dom";
 import { axiosInstance, url } from "../store/api";
 
 const RegisterForm = (props) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     axiosInstance
@@ -15,18 +20,18 @@ const RegisterForm = (props) => {
       })
       .then((res) => {
         console.log(res);
-        if (res.status == 200) {
+        if (res.status == 201) {
+          props.setToastMessage(
+            "Account created successfully! Log in to continue."
+          );
+          props.setShowToast(true);
           props.showLoginForm();
-        } 
+        } else {
+          console.log(res);
+          setErrorMessage("Something went wrong.");
+        }
       });
   };
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const authCtx = useContext(AuthContext);
-  const history = useHistory();
-  const [errorMessage, setErrorMessage] = useState();
 
   return (
     <div className="auth-container">
@@ -55,7 +60,7 @@ const RegisterForm = (props) => {
 
           <div className="action">
             <button type="submit">Register</button>
-            <div id="error-message">{errorMessage}</div>
+            {errorMessage && <div id="error-message">{errorMessage}</div>}
             <a onClick={props.showLoginForm}>
               Already have an account? Sign in.
             </a>

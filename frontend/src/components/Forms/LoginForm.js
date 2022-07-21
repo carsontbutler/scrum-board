@@ -69,6 +69,7 @@ const LoginForm = (props) => {
           <div className="action">
             <button type="submit">Login</button>
             <div id="error-message">{errorMessage}</div>
+            {props.successMessage && <h6 className="success-message">{props.successMessage}</h6>}
             <a onClick={props.showRegisterForm}>Don't have an account?</a>
           </div>
         </form>
