@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .views import RegisterUser, GetOrganizations,GetBoard, GetTickets, GetBoards, UpdateTicket, CreateBoardView, UpdateBoardView, DeleteBoardView, CreateTicketView, DeleteTicketView, DeleteColumnView, CreateColumnView, UpdateColumnView, CreateOrganizationView
+from .views import GetOrganizations,GetBoard, GetTickets, GetBoards, UpdateTicket, CreateBoardView, UpdateBoardView, DeleteBoardView, CreateTicketView, DeleteTicketView, DeleteColumnView, CreateColumnView, UpdateColumnView, CreateOrganizationView, RegisterUserView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -10,10 +10,9 @@ urlpatterns = [
     #Users
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
-    path('register/', RegisterUser.as_view()),
+    path('register/', RegisterUserView.as_view()),
 
     #Jira
-
     path('organizations/', GetOrganizations.as_view()),
     path('create-organization/', CreateOrganizationView.as_view()),
     #Board Endpoints

@@ -12,7 +12,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Organization, Board, Ticket, Column
-from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer, CreateColumnSerializer
+from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer, CreateColumnSerializer, RegisterSerializer
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -25,8 +25,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-class RegisterUser(APIView):
-    pass
+class RegisterUserView(generics.CreateAPIView):
+  serializer_class = RegisterSerializer
 
 #Organizations
 class GetOrganizations(APIView):
