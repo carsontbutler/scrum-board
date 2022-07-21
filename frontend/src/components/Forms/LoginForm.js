@@ -12,7 +12,6 @@ const LoginForm = (props) => {
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState();
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     await fetch(`${url}/token/`, {
@@ -31,14 +30,19 @@ const LoginForm = (props) => {
           return response.json();
         } else {
           return response.json().then((data) => {
-            props.setErrorMessage("Invalid credentials");
+            setErrorMessage("Invalid credentials");
             throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
         console.log(data);
-        authCtx.login(data.id, data.username, data.access.toString(), data.refresh);
+        authCtx.login(
+          data.id,
+          data.username,
+          data.access.toString(),
+          data.refresh
+        );
         history.replace("/");
       });
   };
@@ -64,8 +68,8 @@ const LoginForm = (props) => {
 
           <div className="action">
             <button type="submit">Login</button>
-            <div id="error-message">{props.errorMessage}</div>
-            <a onClick={console.log("hello")}>Don't have an account?</a>
+            <div id="error-message">{errorMessage}</div>
+            <a onClick={props.showRegisterForm}>Don't have an account?</a>
           </div>
         </form>
       </div>
