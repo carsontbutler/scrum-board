@@ -9,7 +9,6 @@ import "./SelectScreen.css";
 const SelectOrganization = (props) => {
   const authCtx = useContext(AuthContext);
 
-
   return (
     <Container>
       <Row className="justify-content-center mt-3">
@@ -21,20 +20,41 @@ const SelectOrganization = (props) => {
             <Row>
               <Col></Col>
               <Col xl={8} lg={8} md={10} sm={12} xs={12}>
-                {props.data.organizations.map((org) => (
-                  <Row className="select-buttons">
-                    <Button
-                      onClick={props.api.selectOrganization}
-                      key={org.id}
-                      id={org.id}
+                {props.data.organizations.length > 0 ? (
+                  props.data.organizations.map((org) => (
+                    <Row className="select-buttons">
+                      <Button
+                        onClick={props.api.selectOrganization}
+                        key={org.id}
+                        id={org.id}
+                        size="lg"
+                      >
+                        {org.name}
+                      </Button>
+                    </Row>
+                  ))
+                ) : (
+                  <h6 className="text-center p-3">
+                    You aren't a member of any organizations yet.
+                  </h6>
+                )}
+                <Row className="new-button mt-2">
+                  <Col>
+                    <button
+                      onClick={props.showJoinOrganizationModal}
                       size="lg"
                     >
-                      {org.name}
-                    </Button>
-                  </Row>
-                ))}
-                <Row className="new-button">
-                  <Button onClick={props.showCreateOrganizationModal} size="lg">New</Button>
+                      Join
+                    </button>
+                  </Col>
+                  <Col>
+                    <button
+                      onClick={props.showCreateOrganizationModal}
+                      size="lg"
+                    >
+                      Create
+                    </button>
+                  </Col>
                 </Row>
               </Col>
               <Col></Col>

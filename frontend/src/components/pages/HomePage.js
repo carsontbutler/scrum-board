@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import Board from "../Board";
 import CreateOrganizationModal from "../Modals/CreateOrganizationModal";
+import JoinOrganizationModal from "../Modals/JoinOrganizationModal";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
 import SelectOrganization from "./SelectOrganization";
@@ -16,6 +17,7 @@ const HomePage = (props) => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
+  const [isJoiningOrganization, setIsJoiningOrganization] = useState(false);
 
   const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
     useState(false);
@@ -71,6 +73,14 @@ const HomePage = (props) => {
     setIsCreatingOrganization(false);
   };
 
+  const showJoinOrganizationModal = () => {
+    setIsJoiningOrganization(true);
+  };
+
+  const closeJoinOrganizationModal = () => {
+    setIsJoiningOrganization(false);
+  };
+
   const showCreateBoardModal = () => {
     setIsCreatingBoard(true);
   };
@@ -110,6 +120,7 @@ const HomePage = (props) => {
                 api={props.api}
                 setData={props.setData}
                 showCreateOrganizationModal={showCreateOrganizationModal}
+                showJoinOrganizationModal={showJoinOrganizationModal}
               />
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
@@ -138,6 +149,15 @@ const HomePage = (props) => {
           <CreateOrganizationModal
             isCreatingOrganization={isCreatingOrganization}
             closeCreateOrganizationModal={closeCreateOrganizationModal}
+            api={props.api}
+            data={props.data}
+            setData={props.setData}
+          />
+        )}
+        {isJoiningOrganization && (
+          <JoinOrganizationModal
+            isJoiningOrganization={isJoiningOrganization}
+            closeJoinOrganizationModal={closeJoinOrganizationModal}
             api={props.api}
             data={props.data}
             setData={props.setData}

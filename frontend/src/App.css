@@ -53,3 +53,9 @@ background-color: #6699CC;
 .background-gray {
     background-color: #C0C0C0;
 }
+
+.btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+

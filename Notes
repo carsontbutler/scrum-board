@@ -1,6 +1,8 @@
 
 Join Organization feature
 --add join code or something similar
+--add backend endpoint
+--finish join organizaiton form functionality, add Toast after requesting
 Auth: Register - fix back end to actually return a response, and include reasons in response if it can't be checked on frontend
 Fix interceptor / tokens
 EditBoardColumns - find solution
