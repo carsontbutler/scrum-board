@@ -25,6 +25,9 @@ def generate_organization_code():
             break
     return code
 
+def generate_ticket_number():
+    pass
+
 class Organization(models.Model):
     name = models.CharField(max_length=30, unique=True)
     owner = models.ForeignKey(User, related_name="organization_owner", on_delete=models.PROTECT) #!not sure about the protect
@@ -47,13 +50,9 @@ class Board(models.Model):
         return self.name
     
 class Column(models.Model):
-    
     name = models.CharField(max_length=25)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     position = models.PositiveIntegerField(default=0)
-
-    # class Meta:
-    #     unique_together = ['board', 'position']
 
     def save(self, **kwargs):
         position_max_value = type(self).objects.filter(board=self.board).count()
@@ -67,6 +66,7 @@ class Column(models.Model):
 
 class Ticket(models.Model):
     title = models.CharField(max_length=150)
+    ticket_number = models.CharField(max_length=50, default=generate_ticket_number)
     description = models.CharField(max_length=5000)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     repro_steps = models.TextField(max_length=5000, blank=True)
@@ -76,7 +76,8 @@ class Ticket(models.Model):
     type = models.CharField(max_length=20, choices=TICKET_TYPE_CHOICES, blank=False)
     column = models.ForeignKey(Column, on_delete=models.SET_NULL, null=True) #! might need to change later. Maybe protect instead?
     priority = models.CharField(max_length=20, choices=TICKET_PRIORITY_CHOICES, blank=False, default="medium")
-    #created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    
 
     def __str__(self):
         return self.title
