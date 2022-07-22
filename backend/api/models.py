@@ -1,3 +1,4 @@
+from operator import ge
 from django.db import models
 import string
 import random
@@ -24,9 +25,6 @@ def generate_organization_code():
         if Organization.objects.filter(code=code).count() == 0:
             break
     return code
-
-def generate_ticket_number():
-    pass
 
 class Organization(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -66,7 +64,7 @@ class Column(models.Model):
 
 class Ticket(models.Model):
     title = models.CharField(max_length=150)
-    ticket_number = models.CharField(max_length=50, default=generate_ticket_number)
+    #ticket_number - wanted to add an AutoField for ticket_numb, but django only allows 1 AutoField which is the id.
     description = models.CharField(max_length=5000)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     repro_steps = models.TextField(max_length=5000, blank=True)
@@ -77,7 +75,7 @@ class Ticket(models.Model):
     column = models.ForeignKey(Column, on_delete=models.SET_NULL, null=True) #! might need to change later. Maybe protect instead?
     priority = models.CharField(max_length=20, choices=TICKET_PRIORITY_CHOICES, blank=False, default="medium")
     created = models.DateTimeField(auto_now_add=True)
-    
+
 
     def __str__(self):
         return self.title

@@ -1,6 +1,7 @@
 /env
 Notes.txt
 Theme 1.png
+Notes
 
 
 /frontend/node_modules
@@ -17,4 +18,4 @@ Theme 1.png
 /backend/api/__pycache__/
 /backend/api/migrations/
 
-
+dump.json

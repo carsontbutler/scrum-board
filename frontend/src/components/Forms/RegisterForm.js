@@ -9,10 +9,15 @@ const RegisterForm = (props) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   const handleSubmit = (e) => {
+    setErrorMessage("");
     e.preventDefault();
-    axiosInstance
+    if (password !== password2) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+    let res = axiosInstance
       .post(`${url}/register/`, {
         username: username,
         password: password,
@@ -26,10 +31,13 @@ const RegisterForm = (props) => {
           );
           props.setShowToast(true);
           props.showLoginForm();
-        } else {
-          console.log(res);
-          setErrorMessage("Something went wrong.");
         }
+      })
+      .catch(() => {
+        setErrorMessage(
+          "Please try a different username."
+        );
+        return;
       });
   };
 
