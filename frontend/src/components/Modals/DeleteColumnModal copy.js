@@ -1,4 +1,4 @@
-import react, { useContext, useState } from "react";
+import react, { useContext } from "react";
 import { Modal, Container, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
@@ -6,27 +6,38 @@ import { axiosInstance, url } from "../store/api";
 
 const DeleteColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
-  const [errorMessage, setErrorMessage] = useState("");
-  let targetCol = props.data.activeBoardData.columns.find(
+  console.log(props);
+  console.log(props.showDeleteModal.id);
+  let targetCol = props.formColumns.find(
     (col) => col.id == props.showDeleteModal.id
   );
 
-  console.log(props);
-
   const deleteColumnHandler = () => {
-    console.log(props);
-    axiosInstance
-      .delete(`${url}/column/${targetCol.id}/delete/`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      })
-      .then((res) => {
-        if (res.status == 204) {
-          props.api.fetchUpdatedBoardData(props.data.activeBoard);
-          props.closeDeleteModal();
-        } else {
-          setErrorMessage("Something went wrong. Please try again.");
-        }
-      });
+    //remove TEMP part of this if not in use
+    switch (true) {
+      case targetCol !== undefined && targetCol.id.toString().includes("temp"):
+        let data = [...props.formColumns].filter((col) => col !== targetCol);
+        props.setFormColumns(data);
+        props.closeDeleteModal();
+        break;
+      case targetCol !== undefined && !targetCol.id.toString().includes("temp"):
+        axiosInstance
+          .delete(`${url}/column/${targetCol.id}/delete/`, {
+            headers: { Authorization: "Bearer " + authCtx.access },
+          })
+          .then((res) => {
+            if (res.status == 204) {
+              let data = [...props.formColumns].filter(
+                (col) => col !== targetCol
+              );
+              props.closeDeleteModal();
+              props.setFormColumns(data);
+            } else {
+              console.log(res); //! handle this properly with a message
+            }
+          });
+        break;
+    }
   };
 
   return (
@@ -42,8 +53,8 @@ const DeleteColumnModal = (props) => {
                 WARNING:
               </h5>
               <h5 className="text-center mt-3">
-                All tickets ({targetCol.tickets.length}) in this column will be
-                deleted.
+                All tickets ({targetCol.tickets.length}) in this column
+                will be deleted.
               </h5>
               <h6 className="text-center mt-3">
                 Move the tickets to another column to avoid data loss.

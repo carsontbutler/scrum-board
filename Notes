@@ -1,13 +1,8 @@
-
 Join Organization feature
---add join code or something similar
 --add backend endpoint
---finish join organizaiton form functionality, add Toast after requesting
-Auth: Register - fix back end to actually return a response, and include reasons in response if it can't be checked on frontend
+--finish join organization form functionality, add Toast after requesting
 Fix interceptor / tokens
-EditBoardColumns - find solution
-Ticket model - add incremental numbers
-Organization model - add join code (random 4-5 digit string)
+EditBoardColumns - find solution ---> use for loop on frontend and await responses
 
 theme
       theme: {
@@ -59,7 +54,6 @@ Need to test more: Create Ticket form
 -Logging out needs to clear all saved data. currently isn't
 -Refresh tokens are only refreshing once. Then the next one is giving unauthorized message. but the refresh token still works in postman.
 -Reduce the access token time once the above is fixed
--Switching from gmail board to yahoo board sometimes causes error (with props.ticket?)
 -NEED TO CHANGE COLUMN FIELD ON TICKET MODEL TO BE REQUIRED = TRUE
 
 **Frontend**
@@ -69,8 +63,3 @@ Need to test more: Create Ticket form
 -Center it vertically
 <Function>
 -store activeOrganization in localStorage
-
-**Backend**
--add ticket number to Ticket model
-
-debt: axios interceptor, refresh token, change access token duration

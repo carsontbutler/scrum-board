@@ -1,7 +1,5 @@
 import react, { useContext, useState } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
-import DataContext from "../store/data-context";
-import axios from "axios";
 import { axiosInstance, url } from "../store/api";
 import AuthContext from "../store/auth-context";
 import DeleteColumnModal from "../Modals/DeleteColumnModal";
@@ -14,6 +12,8 @@ const EditBoardColumnsForm = (props) => {
     show: false,
     id: null,
   });
+
+  let requests = []
 
   const [showAddColumnModal, setShowAddColumnModal] = useState(false);
 
@@ -31,23 +31,13 @@ const EditBoardColumnsForm = (props) => {
     setShowDeleteModal({ show: false, id: null });
   };
 
-  let [formColumns, setFormColumns] = useState(
-    props.data.activeBoardData.columns
-  );
-  let [columnCount, setColumnCount] = useState(formColumns.length);
-
   const submitHandler = (e) => {
     e.preventDefault();
-    // let id;
-    // axiosInstance.patch(
-    //   `${url}/${id}/update/`,
-    //   {},
-    //   { headers: { Authorization: "Bearer " + authCtx.access } }
-    // );
+    axiosInstance.patch(`${url}/${id}/update`)
   };
 
-  const MappedColumns = () => {
-    return formColumns
+  const MappedColumns = (props) => {
+    return props.cols
       .sort((a, b) => {
         return a.position - b.position;
       })
@@ -58,7 +48,7 @@ const EditBoardColumnsForm = (props) => {
               <Form.Control
                 type="number"
                 min="0"
-                max={columnCount}
+                max={props.data.activeBoardData.columns.length}
                 defaultValue={col.position}
               />
             </Form.Group>
@@ -94,16 +84,10 @@ const EditBoardColumnsForm = (props) => {
           ></Col>
           {showDeleteModal.show == true && (
             <DeleteColumnModal
+              data={props.data}
+              api={props.api}
               showDeleteModal={showDeleteModal}
               closeDeleteModal={closeDeleteModal}
-              formColumns={formColumns}
-              setFormColumns={setFormColumns}
-            />
-          )}
-          {showAddColumnModal && (
-            <AddColumnModal
-              showAddColumnModal={showAddColumnModal}
-              closeAddColumnModalHandler={closeAddColumnModalHandler}
             />
           )}
         </Row>
@@ -122,14 +106,29 @@ const EditBoardColumnsForm = (props) => {
         <Col xl={1} lg={1} md={1} sm={1} xs={1}></Col>
       </Row>
       <Col></Col>
-      <MappedColumns />
-      <Button
-        onClick={showAddColumnModalHandler}
-        className="mt-3"
-        variant="outline-primary"
-      >
-        Add column
-      </Button>
+      <MappedColumns
+        cols={props.data.activeBoardData.columns}
+        data={props.data}
+        api={props.api}
+      />
+      {showAddColumnModal && (
+        <AddColumnModal
+          showAddColumnModal={showAddColumnModal}
+          closeAddColumnModalHandler={closeAddColumnModalHandler}
+          data={props.data}
+          setData={props.setData}
+          api={props.api}
+        />
+      )}
+      <div className="add-btn">
+        <Button
+          onClick={showAddColumnModalHandler}
+          className="mt-3"
+          variant="outline-primary"
+        >
+          Add column
+        </Button>
+      </div>
     </Form>
   );
 };

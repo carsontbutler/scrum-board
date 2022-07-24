@@ -178,6 +178,7 @@ class UpdateColumnView(generics.UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        #! add checks to make sure user belongs in organization etc 
         instance = self.get_object()
         print(instance.name)
         serializer = self.get_serializer(instance, data=request.data, partial=True)

@@ -1,32 +1,37 @@
 import react, { useContext, useRef, useState, useEffect } from "react";
 import { Modal, Container, Button, Row, Form } from "react-bootstrap";
 import "./AddColumnModal.css";
-import axios from "axios";
 import AuthContext from "../store/auth-context";
-import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
+import "./Modal.css";
 
 const AddColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
   const [columnName, setColumnName] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
+  console.log(props);
   const submitHandler = (e) => {
     e.preventDefault();
 
     axiosInstance
-      .post(`${url}column/create/`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      },{
-        board: props.data.activeBoardData.id,
-        name: columnName,
-        position: props.data.activeBoardData.columns.length,
-      })
+      .post(
+        `${url}/column/create/`,
+        {
+          board: props.data.activeBoardData.id,
+          name: columnName,
+          position: props.data.activeBoardData.columns.length,
+        },
+        {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
-          console.log("success");
+          props.api.fetchUpdatedBoardData(props.data.activeBoard);
+          props.closeAddColumnModalHandler();
         } else {
-          console.log("bad request");
+          setErrorMessage("Something went wrong. Please try again.");
         }
       });
   };
@@ -38,10 +43,10 @@ const AddColumnModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <Row className="text-center">
+          <Row className="text-center form-content">
             <Form onSubmit={submitHandler} id="addColumnForm">
               <Form.Group className="mt-2">
-                <Form.Label>Column name</Form.Label>
+                <h6>Column name</h6>
                 <Form.Control
                   type="text"
                   value={columnName}
@@ -52,15 +57,26 @@ const AddColumnModal = (props) => {
               </Form.Group>
             </Form>
           </Row>
+          <Row className="text-center error-message">
+            {errorMessage && <span>{errorMessage}</span>}
+          </Row>
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button onClick={submitHandler} size="md" variant="primary">
-          Save
-        </Button>
-        <Button size="md" variant="outline-primary">
-          Cancel
-        </Button>
+        <div className="save-btn">
+          <Button onClick={submitHandler} size="md" variant="primary">
+            Save
+          </Button>
+        </div>
+        <div className="cancel-btn">
+          <Button
+            onClick={props.closeAddColumnModalHandler}
+            size="md"
+            variant="outline-primary"
+          >
+            Cancel
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );
