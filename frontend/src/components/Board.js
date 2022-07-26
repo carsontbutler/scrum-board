@@ -76,20 +76,6 @@ const Board = (props) => {
     setIsEditing(false);
   };
 
-  axiosInstance.interceptors.request.use(async (req) => {
-    const user = jwt_decode(authCtx.access);
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-    if (!isExpired) return req;
-
-    const response = await axios.post(`${url}/token/refresh`, {
-      refresh: authCtx.refresh,
-    });
-    localStorage.setItem("access", response.data.access);
-    localStorage.setItem("refresh", response.data.refresh);
-    req.headers.Authorization = `Bearer  ${response.data.access}`;
-    return req;
-  });
-
   return (
     <Row>
       <TicketModal
