@@ -6,4 +6,3 @@ admin.site.register(Board)
 admin.site.register(Ticket)
 admin.site.register(Column)
 admin.site.register(Organization)
-

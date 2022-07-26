@@ -74,6 +74,7 @@ class GetBoard(APIView):
 class GetBoards(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
+        print(request.headers)
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
         boards = Board.objects.filter(organization__in=[org for org in organizations])

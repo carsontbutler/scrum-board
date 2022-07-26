@@ -17,7 +17,6 @@ export const AuthContextProvider = (props) => {
   const [loginTimestamp, setLoginTimestamp] = useState();
   const tokenDuration = new Date(Date.now() + 5 * 60 * 1000);
 
-
   const userIsLoggedIn = !!access;
 
   const logoutHandler = () => {
@@ -28,7 +27,7 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
     localStorage.removeItem("loginTimestamp");
-    console.log('logged out');
+    console.log("logged out");
 
     //need to add the resets to token calculations when logged out
   };
@@ -46,6 +45,13 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("loginTimestamp", new Date().getTime());
   };
 
+  const refreshTokens = (access, refresh) => {
+    setAccess(access);
+    setRefresh(refresh);
+    localStorage.setItem("access", access);
+    localStorage.setItem("refresh", refresh);
+  };
+
   const tokenIsValid = () => {
     const currentTime = new Date().getTime();
     const timeExpired = currentTime - loginTimestamp;
@@ -55,7 +61,6 @@ export const AuthContextProvider = (props) => {
       return true;
     }
   };
-
 
   const contextValue = {
     access: access,
@@ -67,6 +72,7 @@ export const AuthContextProvider = (props) => {
     tokenIsValid: tokenIsValid,
     login: loginHandler,
     logout: logoutHandler,
+    refreshTokens: refreshTokens
   };
 
   return (

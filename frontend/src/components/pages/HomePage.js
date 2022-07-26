@@ -34,6 +34,7 @@ const HomePage = (props) => {
   };
 
   useEffect(() => {
+    console.log("authctx", authCtx.access);
     axiosInstance
       .get(`/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },
@@ -49,7 +50,6 @@ const HomePage = (props) => {
           console.log("error"); //! handle this error properly
         }
       });
-    props.api.getInitialData();
   }, []);
 
   const getBoardData = async () => {

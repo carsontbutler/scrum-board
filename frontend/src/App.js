@@ -12,6 +12,8 @@ import {
 } from "react-router-dom";
 import AuthContext from "./components/store/auth-context";
 import { axiosInstance, url } from "./components/store/api";
+import jwt_decode from "jwt-decode";
+import dayjs from "dayjs";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +24,6 @@ function App() {
   const [activeOrganization, setActiveOrganization] = useState("");
   const [activeTicket, setActiveTicket] = useState("");
 
-  console.log(authCtx);
-
   const [data, setData] = useState({
     organizations: [],
     activeOrganization: "",
@@ -31,6 +31,24 @@ function App() {
     activeBoardData: {},
     activeTicket: "",
   });
+
+  axiosInstance.interceptors.request.use(
+    async (req) => {
+      const user = jwt_decode(localStorage.getItem("access"));
+      const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+      if (!isExpired) return req;
+      const response = await axios.post(`${url}/token/refresh`, {
+        refresh: localStorage.getItem("refresh"),
+      });
+      authCtx.refreshTokens(response.data.access, response.data.refresh);
+      req.headers.Authorization = `Bearer  ${response.data.access}`;
+      console.log(req);
+      return req;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   const selectOrganization = async (e) => {
     let targetOrg = data.organizations.find((obj) => obj.id == e.target.id);
@@ -72,7 +90,9 @@ function App() {
         setData({
           ...data,
           activeBoardData: res.data,
-          activeBoard: data.activeOrganization.boards.find((obj) => obj.id == id),
+          activeBoard: data.activeOrganization.boards.find(
+            (obj) => obj.id == id
+          ),
         });
       });
   };
@@ -92,22 +112,6 @@ function App() {
         }
       });
   };
-
-  useEffect(() => {
-    axiosInstance
-      .get(`${url}/boards`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          let newOrganizations = response.data.organizations;
-          setData({ ...data, organizations: newOrganizations });
-          setIsLoading(false);
-        } else {
-          console.log("error"); //! handle this error properly
-        }
-      });
-  }, [authCtx.login]);
 
   const api = {
     fetchAndSetActiveBoardData: fetchAndSetActiveBoardData,

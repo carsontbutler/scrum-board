@@ -2,7 +2,10 @@ Join Organization feature
 --add backend endpoint
 --finish join organization form functionality, add Toast after requesting
 Fix interceptor / tokens
-EditBoardColumns - find solution ---> use for loop on frontend and await responses
+--I am calculating the expiration correctly on the interceptor
+--Multiple requests were being sent from useEffect and it was using up my refresh. Fixed this, but:
+--need to research error "Cannot read properties of undefined (reading 'cancelToken')" -- still not reloading my data
+
 
 theme
       theme: {
