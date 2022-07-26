@@ -175,19 +175,24 @@ class UpdateColumnView(generics.UpdateAPIView):
     queryset = Column.objects.all()
     lookup_field = 'pk'
 
-    def patch(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
         #! add checks to make sure user belongs in organization etc 
         instance = self.get_object()
-        print(instance.name)
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        print(request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
-        print('INVALID')
-        return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
+        this_board = instance.board
+        this_boards_columns = Column.objects.filter(board=this_board)
+        column_count = len(this_boards_columns)
+        max_position_value = column_count - 1
+        if int(request.data['position']) > max_position_value:
+            return(Response({'message':'Request exceeded max column position'}, status=status.HTTP_400_BAD_REQUEST))
+        else:
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
+            print('INVALID')
+            return(Response({'message':'failed to update'}, status=status.HTTP_400_BAD_REQUEST))
             
 class DeleteColumnView(APIView):
     permission_classes=[IsAuthenticated]

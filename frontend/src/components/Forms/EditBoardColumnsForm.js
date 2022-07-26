@@ -1,4 +1,4 @@
-import react, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 import { axiosInstance, url } from "../store/api";
 import AuthContext from "../store/auth-context";
@@ -12,10 +12,8 @@ const EditBoardColumnsForm = (props) => {
     show: false,
     id: null,
   });
-
-  let requests = []
-
   const [showAddColumnModal, setShowAddColumnModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
 
   const showAddColumnModalHandler = () => {
     setShowAddColumnModal(true);
@@ -25,92 +23,176 @@ const EditBoardColumnsForm = (props) => {
   };
 
   const showDeleteModalHandler = (e) => {
+    console.log(e.target);
     setShowDeleteModal({ show: true, id: e.target.id });
   };
   const closeDeleteModal = () => {
     setShowDeleteModal({ show: false, id: null });
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    axiosInstance.patch(`${url}/${id}/update`)
-  };
+  const EditColumnForm = (props) => {
+    let formId = `editBoardForm${props.col.id}`;
+    const [colPosition, setColPosition] = useState(props.col.position);
+    const [colName, setColName] = useState(props.col.name);
+    const [isEditing, setIsEditing] = useState(false);
 
-  const MappedColumns = (props) => {
-    return props.cols
-      .sort((a, b) => {
-        return a.position - b.position;
-      })
-      .map((col, i) => (
+    const submitHandler = async (e) => {
+      props.setErrorMessage("");
+      let maxPositionValue = props.activeBoardData.columns.length - 1;
+      if (colPosition > maxPositionValue){
+        props.setErrorMessage(`Max position value is ${maxPositionValue}`)
+        return
+      }
+      console.log(colPosition);
+      console.log(props.activeBoardData.columns.length);
+      e.preventDefault();
+      await axiosInstance
+        .put(
+          `${url}/column/${props.col.id}/update/`,
+          { position: colPosition, name: colName },
+          { headers: { Authorization: "Bearer " + authCtx.access } }
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+            console.log('200');
+            props.api.fetchUpdatedBoardData(props.activeBoardData);
+          } else {
+            props.setErrorMessage("Something went wrong.");
+          }
+        });
+    };
+
+    const startEditingHandler = () => {
+      setIsEditing(true);
+    };
+
+    const stopEditingHandler = () => {
+      setIsEditing(false);
+      setColName(props.col.name);
+      setColPosition(props.col.position);
+    };
+
+    return (
+      <Form onSubmit={submitHandler} id={formId}>
+        <Row className="mt-3">
+          <Col xl={2} lg={2} md={2} sm={2} xs={2}></Col>
+          <Col xl={2} lg={2} md={2} sm={2} xs={2} className="form-content">
+            <h6>Position</h6>
+          </Col>
+          <Col xl={6} lg={6} md={6} sm={6} xs={6} className="form-content">
+            <h6>Column name</h6>
+          </Col>
+          <Col xl={2} lg={2} md={2} sm={2} xs={2}></Col>
+        </Row>
         <Row className="form-column text-center">
           <Col xl={2} lg={2} md={2} sm={2} xs={2}>
-            <Form.Group controlId={col.id} id={col.id} className="mt-2">
+            <div className="align-items-center pt-2">
+              {!isEditing ? (
+                <Button
+                  onClick={startEditingHandler}
+                  variant="outline-primary"
+                  className="edit-btn"
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Button
+                  onClick={stopEditingHandler}
+                  variant="outline-secondary"
+                >
+                  X
+                </Button>
+              )}
+            </div>
+          </Col>
+          <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+            <Form.Group
+              controlId={props.col.id}
+              id={props.col.id}
+              className="mt-2"
+            >
               <Form.Control
+                disabled={!isEditing}
                 type="number"
                 min="0"
-                max={props.data.activeBoardData.columns.length}
-                defaultValue={col.position}
+                max={props.activeBoardData.columns.length}
+                value={colPosition}
+                onChange={(e) => {
+                  setColPosition(e.target.value);
+                }}
               />
             </Form.Group>
           </Col>
-          <Col xl={8} lg={8} md={8} sm={8} xs={8}>
-            <Form.Group controlId={col.id} className="mt-2" id={col.id}>
+          <Col xl={6} lg={6} md={6} sm={6} xs={6}>
+            <Form.Group
+              controlId={props.col.id}
+              className="mt-2"
+              id={props.col.id}
+            >
               <Form.Control
+                disabled={!isEditing}
                 type="text"
                 className="column-name"
-                defaultValue={col.name}
+                value={colName}
+                onChange={(e) => {
+                  setColName(e.target.value);
+                }}
               />
             </Form.Group>
           </Col>
-          <Col xl={1} lg={1} md={1} sm={1} xs={1} className="pt-2" id={col.id}>
-            <Button
-              variant="danger"
-              size={22}
-              id={col.id}
-              className="delete-button"
-              onClick={showDeleteModalHandler}
-            >
-              Delete
-            </Button>
-          </Col>
-          <Col
-            xl={1}
-            lg={1}
-            md={1}
-            sm={1}
-            xs={1}
-            className="pt-2"
-            id={col.id}
-          ></Col>
-          {showDeleteModal.show == true && (
-            <DeleteColumnModal
-              data={props.data}
-              api={props.api}
-              showDeleteModal={showDeleteModal}
-              closeDeleteModal={closeDeleteModal}
-            />
+          {isEditing ? (
+            <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+              <div className="align-items-center pt-2">
+                <Button
+                  type="submit"
+                  size={22}
+                  className="edit-btn"
+                  onClick={submitHandler}
+                >
+                  Save
+                </Button>
+              </div>
+            </Col>
+          ) : (
+            <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+              <div className="align-items-center pt-2">
+                <Button
+                  variant="danger"
+                  size={22}
+                  className="delete-button"
+                  onClick={showDeleteModalHandler}
+                  id={props.col.id}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Col>
           )}
         </Row>
-      ));
+      </Form>
+    );
   };
 
   return (
-    <Form onSubmit={submitHandler} id="editBoardColumnsForm">
-      <Row className="mt-3">
-        <Col xl={2} lg={2} md={2} sm={2} xs={2} className="form-content">
-          <h6>Position</h6>
-        </Col>
-        <Col xl={8} lg={8} md={8} sm={8} xs={8} className="form-content">
-          <h6>Column name</h6>
-        </Col>
-        <Col xl={1} lg={1} md={1} sm={1} xs={1}></Col>
-      </Row>
-      <Col></Col>
-      <MappedColumns
-        cols={props.data.activeBoardData.columns}
-        data={props.data}
-        api={props.api}
-      />
+    <div>
+      {props.data.activeBoardData.columns.map((col) => (
+        <EditColumnForm
+          col={col}
+          activeBoardData={props.data.activeBoardData}
+          api={props.api}
+          setErrorMessage={setErrorMessage}
+          key={col.id}
+        />
+      ))}
+      {showDeleteModal.show == true && (
+        <DeleteColumnModal
+          data={props.data}
+          api={props.api}
+          showDeleteModal={showDeleteModal}
+          closeDeleteModal={closeDeleteModal}
+        />
+      )}
       {showAddColumnModal && (
         <AddColumnModal
           showAddColumnModal={showAddColumnModal}
@@ -120,6 +202,7 @@ const EditBoardColumnsForm = (props) => {
           api={props.api}
         />
       )}
+      {errorMessage && <span className="error-message">{errorMessage}</span>}
       <div className="add-btn">
         <Button
           onClick={showAddColumnModalHandler}
@@ -129,7 +212,7 @@ const EditBoardColumnsForm = (props) => {
           Add column
         </Button>
       </div>
-    </Form>
+    </div>
   );
 };
 

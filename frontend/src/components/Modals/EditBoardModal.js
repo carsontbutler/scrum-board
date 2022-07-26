@@ -1,5 +1,5 @@
 import react, { useState } from "react";
-import { Modal, Container, Button } from "react-bootstrap";
+import { Modal, Container, Button, Row, Col } from "react-bootstrap";
 import EditBoardForm from "../Forms/EditBoardForm";
 import EditBoardSettingsForm from "../Forms/EditBoardSettingsForm";
 import "./Modal.css";
@@ -39,27 +39,34 @@ const EditBoardModal = (props) => {
       <Modal.Footer className="justify-content-center">
         <div className="save-btn">
           {showSettings ? (
-            <Button
-              type="submit"
-              form="editBoardSettingsForm"
-              className="save-btn"
-            >
-              Save
-            </Button>
+            <Row>
+              <Col>
+                <Button
+                  type="submit"
+                  form="editBoardSettingsForm"
+                  className="save-btn"
+                >
+                  Save
+                </Button>
+              </Col>
+              <Col>
+                <div className="cancel-btn">
+                  <Button
+                    onClick={props.closeEditBoardModal}
+                    className="cancel-btn"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </Col>
+            </Row>
           ) : (
-            <Button
-              type="submit"
-              form="editBoardColumnsForm"
-              className="save-btn"
-            >
-              Save
+            <div className="cancel-btn">
+            <Button onClick={props.closeEditBoardModal} className="cancel-btn">
+              Close
             </Button>
+            </div>
           )}
-        </div>
-        <div className="cancel-btn">
-          <Button onClick={props.closeEditBoardModal} className="cancel-btn">
-            Cancel
-          </Button>
         </div>
       </Modal.Footer>
     </Modal>
