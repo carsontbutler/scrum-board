@@ -17,6 +17,12 @@ TICKET_PRIORITY_CHOICES = (
     ("Highest", "Highest")
 )
 
+STATUS_CHOICES = (
+    ("Pending", "Pending"),
+    ("Accepted", "Accepted"),
+    ("Denied", "Denied")
+)
+
 
 def generate_organization_code():
     length = 6
@@ -64,7 +70,6 @@ class Column(models.Model):
 
 class Ticket(models.Model):
     title = models.CharField(max_length=150)
-    #ticket_number - wanted to add an AutoField for ticket_numb, but django only allows 1 AutoField which is the id.
     description = models.CharField(max_length=5000)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     repro_steps = models.TextField(max_length=5000, blank=True)
@@ -80,8 +85,17 @@ class Ticket(models.Model):
     def __str__(self):
         return self.title
 
-class Comment(models.Model):
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE) #! make sure this is right
-    content = models.TextField(max_length=5000, blank=False)
-    author = models.ForeignKey(User, on_delete=models.PROTECT)
-    time = models.DateTimeField(auto_now_add=True)
+
+class JoinRequest(models.Model):
+    requester = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=False)
+    sent = models.DateTimeField(auto_now_add=True)
+
+
+# class Comment(models.Model):
+#     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE) #! make sure this is right
+#     content = models.TextField(max_length=5000, blank=False)
+#     author = models.ForeignKey(User, on_delete=models.PROTECT)
+#     time = models.DateTimeField(auto_now_add=True)
+
