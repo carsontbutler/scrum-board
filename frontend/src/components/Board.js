@@ -48,14 +48,6 @@ const Board = (props) => {
     setShowCreateTicketModal(false);
   };
 
-  // const viewTicketHandler = (e) => {
-  //   const selectedTicket = props.data.activeBoardData.tickets.filter(
-  //     (ticket) => ticket.id == e.target.id
-  //   );
-  //   props.api.setActiveTicket(selectedTicket[0]);
-  //   setShowModal(true);
-  // };
-
   const viewTicketHandler = (e) => {
     let selectedTicket = props.data.activeBoardData.tickets.filter(
       (ticket) => ticket.id == e.target.id

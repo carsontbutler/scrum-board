@@ -10,10 +10,12 @@ import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
 import SelectOrganization from "./SelectOrganization";
 import SelectBoard from "./SelectBoard";
+import InboxModal from "../Modals/InboxModal";
 import { axiosInstance, url } from "../store/api";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
+  const [isViewingInbox, setIsViewingInbox] = useState(false);
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
@@ -34,7 +36,6 @@ const HomePage = (props) => {
   };
 
   useEffect(() => {
-    console.log("authctx", authCtx.access);
     axiosInstance
       .get(`/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },
@@ -97,6 +98,15 @@ const HomePage = (props) => {
     setIsEditingBoard(false);
   };
 
+  const showInboxModalHandler = () => {
+    console.log('ran');
+    setIsViewingInbox(true);
+  };
+
+  const closeInboxModalHandler = () => {
+    setIsViewingInbox(false);
+  };
+
   return props.isLoading ? (
     <div>loading</div>
   ) : (
@@ -110,9 +120,19 @@ const HomePage = (props) => {
         checkForDuplicateColumnPositions={checkForDuplicateColumnPositions}
         showCreateBoardModal={showCreateBoardModal}
         showCreateOrganizationModal={showCreateOrganizationModal}
+        showInboxModalHandler={showInboxModalHandler}
       />
       <Container>
         <div>
+          {isViewingInbox && (
+            <InboxModal
+              closeInboxModalHandler={closeInboxModalHandler}
+              isViewingInbox={isViewingInbox}
+              api={props.api}
+              data={props.data}
+              setData={props.setData}
+            />
+          )}
           {Object.keys(props.data.activeBoard).length === 0 &&
             !props.data.activeOrganization && (
               <SelectOrganization

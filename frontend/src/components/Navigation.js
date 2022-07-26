@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Container, Nav, NavDropdown, Row, Col } from "react-bootstrap";
 import AuthContext from "./store/auth-context";
-import DataContext from "./store/data-context";
 import "./Navigation.css";
 import axios from "axios";
 import { axiosInstance, url } from "./store/api";
@@ -89,8 +88,8 @@ const Navigation = (props) => {
                 <h6 className="text-center">No organization selected</h6>
               )}
             </NavDropdown>
-            <NavDropdown title={authCtx.username} id="basic-nav-dropdown">
-              <Nav.Link>Inbox</Nav.Link>
+            <NavDropdown title="Profile" id="basic-nav-dropdown">
+              <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
               <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
             </NavDropdown>
           </Nav>
