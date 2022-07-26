@@ -52,11 +52,17 @@ const Navigation = (props) => {
                 </NavDropdown.Item>
               ))}
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={props.showCreateOrganizationModal} className="dropdown-header text-center">
-                New
+              <NavDropdown.Item
+                onClick={props.showJoinOrganizationModal}
+                className="dropdown-header text-center"
+              >
+                Join organization
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={props.showJoinOrganizationModal} className="dropdown-header text-center">
-                Join
+              <NavDropdown.Item
+                onClick={props.showCreateOrganizationModal}
+                className="dropdown-header text-center"
+              >
+                Create new
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
@@ -83,7 +89,10 @@ const Navigation = (props) => {
                 <h6 className="text-center">No organization selected</h6>
               )}
             </NavDropdown>
-            <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+            <NavDropdown title={authCtx.username} id="basic-nav-dropdown">
+              <Nav.Link>Inbox</Nav.Link>
+              <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
