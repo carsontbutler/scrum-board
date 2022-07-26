@@ -32,6 +32,10 @@ const Navigation = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
+            <NavDropdown title="Profile" id="basic-nav-dropdown">
+              <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
+              <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+            </NavDropdown>
             <NavDropdown
               title={
                 props.data.activeOrganization
@@ -55,13 +59,13 @@ const Navigation = (props) => {
                 onClick={props.showJoinOrganizationModal}
                 className="dropdown-header text-center"
               >
-                Join organization
+                Join Organization
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={props.showCreateOrganizationModal}
                 className="dropdown-header text-center"
               >
-                Create new
+                Create Organization
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
@@ -87,10 +91,6 @@ const Navigation = (props) => {
               ) : (
                 <h6 className="text-center">No organization selected</h6>
               )}
-            </NavDropdown>
-            <NavDropdown title="Profile" id="basic-nav-dropdown">
-              <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
-              <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

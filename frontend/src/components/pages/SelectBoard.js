@@ -34,6 +34,7 @@ const SelectBoard = (props) => {
               <h1 className="text-center">
                 {props.data.activeOrganization.name} boards
               </h1>
+              <h6 className="text-center">(Join code: {props.data.activeOrganization.code})</h6>
             </div>
             <Row>
               <Col></Col>
