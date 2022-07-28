@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .views import GetOrganizations,GetBoard, GetTickets, GetBoards, UpdateTicket, CreateBoardView, UpdateBoardView, DeleteBoardView, CreateTicketView, DeleteTicketView, DeleteColumnView, CreateColumnView, UpdateColumnView, CreateOrganizationView, RegisterUserView
+from .views import GetJoinRequestsView, GetOrganizations,GetBoard, GetTickets, GetBoards, UpdateTicket, CreateBoardView, UpdateBoardView, DeleteBoardView, CreateTicketView, DeleteTicketView, DeleteColumnView, CreateColumnView, UpdateColumnView, CreateOrganizationView, RegisterUserView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -29,5 +29,7 @@ urlpatterns = [
     #Ticket Endpoints
     path('create-ticket/', CreateTicketView.as_view()),
     path('ticket/<str:pk>/update/', UpdateTicket.as_view()),
-    path('ticket/<str:pk>/delete/', DeleteTicketView.as_view())
+    path('ticket/<str:pk>/delete/', DeleteTicketView.as_view()),
+    #JoinRequests
+    path('get-join-requests/', GetJoinRequestsView.as_view()),
 ]

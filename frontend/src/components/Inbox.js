@@ -3,7 +3,8 @@ import { Modal, Container, Button, Row, Col, Table } from "react-bootstrap";
 import "./Modals/Modal.css";
 import "./Inbox.css";
 
-const Inbox = () => {
+const Inbox = (props) => {
+  console.log(props);
   const [selectedRequest, setSelectedRequest] = useState("");
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
@@ -62,7 +63,7 @@ const Inbox = () => {
           {props.selectedRequest.organization}?
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
-          <div >
+          <div>
             <Button variant="danger">Decline</Button>
           </div>
 
@@ -92,11 +93,18 @@ const Inbox = () => {
   ];
 
   const RequestData = (props) => {
-    return props.requests.map((req) => (
+    console.log(props);
+    return props.data.joinRequests.map((req) => (
       <tr id={req.id}>
-        <td id={req.id}>{req.time}</td>
-        <td id={req.id}>{req.username}</td>
-        <td id={req.id}>{req.organization}</td>
+        <td id={req.id}>{req.time.split('T')[0]}</td>
+        {/* Need to redo backend view to provide user+id in an array */}
+        <td id={req.id}>{req.requester_username}</td>
+        <td id={req.id}>
+          {
+            props.data.organizations.find((obj) => obj.id == req.organization)
+              .name
+          }
+        </td>
         <td id={req.id}>{req.status}</td>
         <td className="approve-btn" id={req.id}>
           <Button id={req.id} onClick={showApproveModalHandler}>
@@ -104,7 +112,11 @@ const Inbox = () => {
           </Button>
         </td>
         <td className="decline-btn">
-          <Button onClick={showDeclineModalHandler} id={req.id} variant="danger">
+          <Button
+            onClick={showDeclineModalHandler}
+            id={req.id}
+            variant="danger"
+          >
             Decline
           </Button>
         </td>
@@ -124,7 +136,7 @@ const Inbox = () => {
           </tr>
         </thead>
         <tbody>
-          <RequestData requests={dummyData} />
+          <RequestData data={props.data} />
         </tbody>
       </Table>
       <ApproveModal

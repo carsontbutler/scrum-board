@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Organization, Board, Ticket, Column
+from .models import Organization, Board, Ticket, Column, JoinRequest
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
@@ -86,3 +86,9 @@ class CreateColumnSerializer(serializers.ModelSerializer):
     class Meta:
         model = Column
         fields = ['name', 'board']
+
+class JoinRequestSerializer(serializers.ModelSerializer):
+
+  class Meta:
+      model = JoinRequest
+      fields = ['id', 'time', 'organization', 'requester', 'status']

@@ -30,6 +30,7 @@ function App() {
     activeBoard: {},
     activeBoardData: {},
     activeTicket: "",
+    joinRequests: [],
   });
 
   axiosInstance.interceptors.request.use(

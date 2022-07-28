@@ -1,12 +1,12 @@
 Join Organization feature
 --add backend endpoint
 --finish join organization form functionality, add Toast after requesting
-Fix interceptor / tokens
---I am calculating the expiration correctly on the interceptor
---Multiple requests were being sent from useEffect and it was using up my refresh. Fixed this, but:
---need to research error "Cannot read properties of undefined (reading 'cancelToken')" -- still not reloading my data
 
+7/27 Inbox: 
+--worked on: JoinRequest view, JoinRequest serializer, frontend Inbox logic
+--need to finish datetime
 
+Update/Modify Organization
 theme
       theme: {
         DEFAULT: "#4E93E4",

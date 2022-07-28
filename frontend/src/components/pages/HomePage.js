@@ -45,6 +45,7 @@ const HomePage = (props) => {
           props.setData({
             ...props.data,
             organizations: response.data.organizations,
+            joinRequests: response.data.join_requests
           });
           props.setIsLoading(false);
         } else {
@@ -99,7 +100,6 @@ const HomePage = (props) => {
   };
 
   const showInboxModalHandler = () => {
-    console.log('ran');
     setIsViewingInbox(true);
   };
 

@@ -90,7 +90,14 @@ class JoinRequest(models.Model):
     requester = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=False)
-    sent = models.DateTimeField(auto_now_add=True)
+    time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['requester','organization']
+
+    def __str__(self):
+        custom_str = f'{self.requester} to join {self.organization} {self.id}'
+        return custom_str
 
 
 # class Comment(models.Model):

@@ -11,8 +11,8 @@ from .serializers import CreateOrganizationSerializer, CreateTicketSerializer, U
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Organization, Board, Ticket, Column
-from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer, CreateColumnSerializer, RegisterSerializer
+from .models import Organization, Board, Ticket, Column, JoinRequest
+from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer, CreateColumnSerializer, RegisterSerializer, JoinRequestSerializer
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -81,7 +81,7 @@ class GetBoards(APIView):
 
         data = {}
         data['organizations'] = []
-        data['organizations']
+        data['join_requests'] = []
         
         for i in range(len(organizations)):
             users = organizations[i].members.all()
@@ -89,7 +89,18 @@ class GetBoards(APIView):
             data['organizations'].append(OrganizationSerializer(organizations[i]).data)
             data['organizations'][i]['boards'] = BoardSerializer(org_boards, many=True).data
             data['organizations'][i]['users'] = UserSerializer(users, many=True).data
-        print(data)
+
+        owned_organizations = []
+        for org in organizations:
+            if org.owner == user:
+                owned_organizations.append(org)
+        requests = JoinRequest.objects.filter(organization__in=[org for org in owned_organizations])
+        requests_data = JoinRequestSerializer(requests, many=True).data
+        data['join_requests'] = requests_data
+        for i in range(len(requests_data)):
+            requester_username = UserSerializer(User.objects.get(id=int(requests_data[i]['requester']))).data
+            data['join_requests'][i]['requester_info'] = requester_username
+                   
         return Response(data, status=status.HTTP_200_OK)
       
 class CreateBoardView(APIView):
@@ -301,4 +312,19 @@ class DeleteTicketView(APIView):
             ticket.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
+#!not currently used
+class GetJoinRequestsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        owned_organizations = []
+        for org in organizations:
+            if org.owner == user:
+                owned_organizations.append(org)
+        requests = JoinRequest.objects.filter(organization__in=[org for org in owned_organizations])
+        data = JoinRequestSerializer(requests, many=True).data
+        print(data)
+        return Response(data, status=status.HTTP_200_OK)
