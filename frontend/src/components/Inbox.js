@@ -5,12 +5,14 @@ import "./Inbox.css";
 
 const Inbox = (props) => {
   console.log(props);
-  const [selectedRequest, setSelectedRequest] = useState("");
+  const [selectedRequest, setSelectedRequest] = useState();
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
 
   const showApproveModalHandler = (e) => {
-    setSelectedRequest(dummyData.find((obj) => obj.id == e.target.id));
+    setSelectedRequest(
+      props.data.joinRequests.find((obj) => obj.id == e.target.id)
+    );
     setShowApproveModal(true);
   };
 
@@ -20,7 +22,9 @@ const Inbox = (props) => {
   };
 
   const showDeclineModalHandler = (e) => {
-    setSelectedRequest(dummyData.find((obj) => obj.id == e.target.id));
+    setSelectedRequest(
+      props.data.joinRequests.find((obj) => obj.id == e.target.id)
+    );
     setShowDeclineModal(true);
   };
 
@@ -30,18 +34,27 @@ const Inbox = (props) => {
   };
 
   const ApproveModal = (props) => {
+    const submitHandler = (e) => {
+      e.preventDefault();
+    };
     return (
       <Modal size={"md"} centered show={props.showApproveModal}>
         <Modal.Header closeButton onHide={props.hideApproveModalHandler}>
           <Modal.Title>Confirm approval</Modal.Title>
         </Modal.Header>
         <Modal.Body className="overflow-auto">
-          Approve {props.selectedRequest.username}'s request to join{" "}
-          {props.selectedRequest.organization}?
+          Approve {props.selectedRequest.requester_info.username}'s request to
+          join{" "}
+          {
+            props.data.organizations.find(
+              (obj) => obj.id == props.selectedRequest.organization
+            ).name
+          }
+          ?
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <div className="approve-btn">
-            <Button>Approve</Button>
+            <Button onClick={submitHandler}>Approve</Button>
           </div>
 
           <div className="inbox-cancel-btn">
@@ -53,14 +66,23 @@ const Inbox = (props) => {
   };
 
   const DeclineModal = (props) => {
+    const submitHandler = (e) => {
+      e.preventDefault();
+    };
     return (
       <Modal size={"md"} centered show={props.showDeclineModal}>
         <Modal.Header closeButton onHide={props.hideDeclineModalHandler}>
           <Modal.Title>Decline</Modal.Title>
         </Modal.Header>
         <Modal.Body className="overflow-auto">
-          Decline {props.selectedRequest.username}'s request to join{" "}
-          {props.selectedRequest.organization}?
+          Decline {props.selectedRequest.requester_info.username}'s request to
+          join{" "}
+          {
+            props.data.organizations.find(
+              (obj) => obj.id == props.selectedRequest.organization
+            ).name
+          }
+          ?
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <div>
@@ -75,30 +97,12 @@ const Inbox = (props) => {
     );
   };
 
-  let dummyData = [
-    {
-      time: "7/26/2022 10:26 AM",
-      username: "John Smith",
-      organization: "Gmail",
-      status: "Pending",
-      id: 12345,
-    },
-    {
-      time: "7/22/2022 10:00 PM",
-      username: "Michael Scott",
-      organization: "Dunder Mifflin",
-      status: "Pending",
-      id: 99999,
-    },
-  ];
-
   const RequestData = (props) => {
     console.log(props);
     return props.data.joinRequests.map((req) => (
       <tr id={req.id}>
-        <td id={req.id}>{req.time.split('T')[0]}</td>
-        {/* Need to redo backend view to provide user+id in an array */}
-        <td id={req.id}>{req.requester_username}</td>
+        <td id={req.id}>{req.time.split("T")[0]}</td>
+        <td id={req.id}>{req.requester_info.username}</td>
         <td id={req.id}>
           {
             props.data.organizations.find((obj) => obj.id == req.organization)
@@ -139,18 +143,24 @@ const Inbox = (props) => {
           <RequestData data={props.data} />
         </tbody>
       </Table>
-      <ApproveModal
-        showApproveModal={showApproveModal}
-        hideApproveModalHandler={hideApproveModalHandler}
-        dummyData={dummyData}
-        selectedRequest={selectedRequest}
-      />
-      <DeclineModal
-        showDeclineModal={showDeclineModal}
-        hideDeclineModalHandler={hideDeclineModalHandler}
-        dummyData={dummyData}
-        selectedRequest={selectedRequest}
-      />
+      {selectedRequest && (
+        <ApproveModal
+          showApproveModal={showApproveModal}
+          hideApproveModalHandler={hideApproveModalHandler}
+          joinRequests={props.data.joinRequests}
+          selectedRequest={selectedRequest}
+          data={props.data}
+        />
+      )}
+      {selectedRequest && (
+        <DeclineModal
+          showDeclineModal={showDeclineModal}
+          hideDeclineModalHandler={hideDeclineModalHandler}
+          joinRequests={props.data.joinRequests}
+          selectedRequest={selectedRequest}
+          data={props.data}
+        />
+      )}
     </Container>
   );
 };
