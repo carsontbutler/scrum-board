@@ -87,6 +87,12 @@ class CreateColumnSerializer(serializers.ModelSerializer):
         model = Column
         fields = ['name', 'board']
 
+class JoinRequestResponseSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = JoinRequest
+    fields = ['id', 'status']
+
 class JoinRequestSerializer(serializers.ModelSerializer):
 
   class Meta:

@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import permissions
 
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics, status
 
-from .serializers import CreateOrganizationSerializer, CreateTicketSerializer, UserSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Organization, Board, Ticket, Column, JoinRequest
-from .serializers import OrganizationSerializer, BoardSerializer, TicketSerializer, ColumnSerializer, UserSerializer, CreateBoardSerializer, CreateColumnSerializer, RegisterSerializer, JoinRequestSerializer
+from .serializers import *
+from .models import *
+from .serializers import *
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -312,6 +312,29 @@ class DeleteTicketView(APIView):
             ticket.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+#JoinRequests
+class JoinRequestResponseView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = JoinRequest.objects.all()
+    serializer_class = JoinRequestResponseSerializer
+    lookup_field = 'pk'
+
+    def patch(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        instance = self.get_object() 
+        organization = instance.organization
+        if organization in organizations and organization.owner == user:
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                print(request.data)
+                return Response({'message':'Response sent successfully'}, status=status.HTTP_200_OK)
+            return Response({'message':'Bad request.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message':'Permission denied.'},status=status.HTTP_400_BAD_REQUEST)
+
 
 #!not currently used
 class GetJoinRequestsView(APIView):
