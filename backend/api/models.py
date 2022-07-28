@@ -19,7 +19,7 @@ TICKET_PRIORITY_CHOICES = (
 
 STATUS_CHOICES = (
     ("Pending", "Pending"),
-    ("Accepted", "Accepted"),
+    ("Approved", "Approved"),
     ("Denied", "Denied")
 )
 
@@ -93,7 +93,7 @@ class JoinRequest(models.Model):
     time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['requester','organization']
+        unique_together = ['requester', 'organization']
 
     def __str__(self):
         custom_str = f'{self.requester} to join {self.organization} {self.id}'

@@ -11,7 +11,7 @@ const InboxModal = (props) => {
         <Modal.Title>Inbox</Modal.Title>
       </Modal.Header>
       <Modal.Body className="overflow-auto">
-        <Inbox data={props.data}/>
+        <Inbox data={props.data} api={props.api}/>
       </Modal.Body>
       <Modal.Footer className="justify-content-center"></Modal.Footer>
     </Modal>

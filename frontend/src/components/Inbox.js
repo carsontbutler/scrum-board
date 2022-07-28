@@ -1,13 +1,29 @@
-import react, { useState } from "react";
-import { Modal, Container, Button, Row, Col, Table } from "react-bootstrap";
+import react, { useState, useContext } from "react";
+import AuthContext from "./store/auth-context";
+import {
+  Modal,
+  Container,
+  Button,
+  Table,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import "./Modals/Modal.css";
 import "./Inbox.css";
+import { axiosInstance, url } from "./store/api";
 
 const Inbox = (props) => {
-  console.log(props);
+  const authCtx = useContext(AuthContext);
   const [selectedRequest, setSelectedRequest] = useState();
   const [showApproveModal, setShowApproveModal] = useState(false);
-  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [showDenyModal, setShowDenyModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+  const hideToastHandler = () => {
+    setShowToast(false);
+  };
 
   const showApproveModalHandler = (e) => {
     setSelectedRequest(
@@ -21,28 +37,54 @@ const Inbox = (props) => {
     setShowApproveModal(false);
   };
 
-  const showDeclineModalHandler = (e) => {
+  const showDenyModalHandler = (e) => {
     setSelectedRequest(
       props.data.joinRequests.find((obj) => obj.id == e.target.id)
     );
-    setShowDeclineModal(true);
+    setShowDenyModal(true);
   };
 
-  const hideDeclineModalHandler = () => {
+  const hideDenyModalHandler = () => {
     setSelectedRequest("");
-    setShowDeclineModal(false);
+    setShowDenyModal(false);
   };
 
   const ApproveModal = (props) => {
     const submitHandler = (e) => {
       e.preventDefault();
+      axiosInstance
+        .patch(
+          `${url}/requests/${props.selectedRequest.id}/respond/`,
+          { status: "Approved" },
+          { headers: { Authorization: "Bearer " + authCtx.access } }
+        )
+        .then((resp) => {
+          if (resp.status == 200) {
+            props.api.getInitialData();
+            props.hideApproveModalHandler();
+            props.setToastMessage(
+              `${
+                props.selectedRequest.requester_info.username
+              } has been approved to join ${
+                props.data.organizations.find(
+                  (obj) => obj.id == props.selectedRequest.organization
+                ).name
+              }`
+            );
+            props.setShowToast(true);
+          } else {
+            props.setErrorMessage(
+              "Something went wrong. Please try again later."
+            );
+          }
+        });
     };
     return (
       <Modal size={"md"} centered show={props.showApproveModal}>
         <Modal.Header closeButton onHide={props.hideApproveModalHandler}>
           <Modal.Title>Confirm approval</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="overflow-auto">
+        <Modal.Body className="overflow-auto text-center">
           Approve {props.selectedRequest.requester_info.username}'s request to
           join{" "}
           {
@@ -51,6 +93,9 @@ const Inbox = (props) => {
             ).name
           }
           ?
+          {props.errorMessage && (
+            <h6 className="text-center error-message">{props.errorMessage}</h6>
+          )}
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <div className="approve-btn">
@@ -65,32 +110,59 @@ const Inbox = (props) => {
     );
   };
 
-  const DeclineModal = (props) => {
+  const DenyModal = (props) => {
     const submitHandler = (e) => {
       e.preventDefault();
+      axiosInstance
+        .patch(
+          `${url}/requests/${props.selectedRequest.id}/respond/`,
+          { status: "Denied" },
+          { headers: { Authorization: "Bearer " + authCtx.access } }
+        )
+        .then((resp) => {
+          if (resp.status == 200) {
+            props.api.getInitialData();
+            props.hideDenyModalHandler();
+            props.setToastMessage(
+              `${
+                props.selectedRequest.requester_info.username
+              } has been denied access to ${
+                props.data.organizations.find(
+                  (obj) => obj.id == props.selectedRequest.organization
+                ).name
+              }`
+            );
+            props.setShowToast(true);
+          } else {
+            props.setErrorMessage(
+              "Something went wrong. Please try again later."
+            );
+          }
+        });
     };
     return (
-      <Modal size={"md"} centered show={props.showDeclineModal}>
-        <Modal.Header closeButton onHide={props.hideDeclineModalHandler}>
-          <Modal.Title>Decline</Modal.Title>
+      <Modal size={"md"} centered show={props.showDenyModal}>
+        <Modal.Header closeButton onHide={props.hideDenyModalHandler}>
+          <Modal.Title>Deny</Modal.Title>
         </Modal.Header>
         <Modal.Body className="overflow-auto">
-          Decline {props.selectedRequest.requester_info.username}'s request to
-          join{" "}
+          Deny {props.selectedRequest.requester_info.username}'s request to join{" "}
           {
             props.data.organizations.find(
               (obj) => obj.id == props.selectedRequest.organization
             ).name
           }
-          ?
+          ?{props.errorMessage && <h6>{props.errorMessage}</h6>}
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <div>
-            <Button variant="danger">Decline</Button>
+            <Button onClick={submitHandler} variant="danger">
+              Deny
+            </Button>
           </div>
 
           <div className="inbox-cancel-btn">
-            <Button onClick={props.hideDeclineModalHandler}>Cancel</Button>
+            <Button onClick={props.hideDenyModalHandler}>Cancel</Button>
           </div>
         </Modal.Footer>
       </Modal>
@@ -116,12 +188,8 @@ const Inbox = (props) => {
           </Button>
         </td>
         <td className="decline-btn">
-          <Button
-            onClick={showDeclineModalHandler}
-            id={req.id}
-            variant="danger"
-          >
-            Decline
+          <Button onClick={showDenyModalHandler} id={req.id} variant="danger">
+            Deny
           </Button>
         </td>
       </tr>
@@ -150,17 +218,43 @@ const Inbox = (props) => {
           joinRequests={props.data.joinRequests}
           selectedRequest={selectedRequest}
           data={props.data}
+          api={props.api}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
+          setToastMessage={setToastMessage}
+          showToast={showToast}
+          setShowToast={setShowToast}
         />
       )}
       {selectedRequest && (
-        <DeclineModal
-          showDeclineModal={showDeclineModal}
-          hideDeclineModalHandler={hideDeclineModalHandler}
+        <DenyModal
+          showDenyModal={showDenyModal}
+          hideDenyModalHandler={hideDenyModalHandler}
           joinRequests={props.data.joinRequests}
           selectedRequest={selectedRequest}
           data={props.data}
+          api={props.api}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
+          setToastMessage={setToastMessage}
+          showToast={showToast}
+          setShowToast={setShowToast}
         />
       )}
+      <ToastContainer position="bottom-center">
+        <Toast
+          className="text-center mx-auto toast mb-5"
+          show={showToast}
+          onClose={hideToastHandler}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header>
+            <strong className="me-auto">Message</strong>
+          </Toast.Header>
+          <Toast.Body>{toastMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Container>
   );
 };

@@ -107,7 +107,14 @@ function App() {
       .then((response) => {
         if (response.status === 200) {
           let newOrganizations = response.data.organizations;
-          setData({ ...data, organizations: newOrganizations });
+          let newJoinRequests = response.data.join_requests;
+          console.log("getInitialData");
+          console.log(response.data);
+          setData({
+            ...data,
+            organizations: newOrganizations,
+            joinRequests: newJoinRequests,
+          });
         } else {
           console.log("error"); //! handle this error properly
         }
