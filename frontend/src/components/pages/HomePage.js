@@ -9,6 +9,7 @@ import JoinOrganizationModal from "../Modals/JoinOrganizationModal";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
 import SelectOrganization from "./SelectOrganization";
+import ManageOrganizations from "./ManageOrganizations";
 import SelectBoard from "./SelectBoard";
 import InboxModal from "../Modals/InboxModal";
 import { axiosInstance, url } from "../store/api";
@@ -20,13 +21,13 @@ const HomePage = (props) => {
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
   const [isJoiningOrganization, setIsJoiningOrganization] = useState(false);
+  const [isManagingOrgs, setIsManagingOrgs] = useState(false);
 
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const hideToastHandler = () => {
     setShowToast(false);
   };
-  
 
   const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
     useState(false);
@@ -114,6 +115,10 @@ const HomePage = (props) => {
     setIsViewingInbox(false);
   };
 
+  const showManageOrganizationsHandler = () => {
+    setIsManagingOrgs(true);
+  };
+
   return props.isLoading ? (
     <div>loading</div>
   ) : (
@@ -129,9 +134,13 @@ const HomePage = (props) => {
         showCreateOrganizationModal={showCreateOrganizationModal}
         showJoinOrganizationModal={showJoinOrganizationModal}
         showInboxModalHandler={showInboxModalHandler}
+        isManagingOrgs={isManagingOrgs}
+        setIsManagingOrgs={setIsManagingOrgs}
+        showManageOrganizationsHandler={showManageOrganizationsHandler}
       />
       <Container>
         <div>
+          {isManagingOrgs && <ManageOrganizations />}
           {isViewingInbox && (
             <InboxModal
               closeInboxModalHandler={closeInboxModalHandler}
@@ -142,7 +151,8 @@ const HomePage = (props) => {
             />
           )}
           {Object.keys(props.data.activeBoard).length === 0 &&
-            !props.data.activeOrganization && (
+            !props.data.activeOrganization &&
+            !isManagingOrgs && (
               <SelectOrganization
                 data={props.data}
                 api={props.api}
@@ -152,26 +162,28 @@ const HomePage = (props) => {
               />
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
-            props.data.activeOrganization && (
+            props.data.activeOrganization &&
+            !isManagingOrgs && (
               <SelectBoard
                 data={props.data}
                 api={props.api}
                 showCreateBoardModal={showCreateBoardModal}
               />
             )}
-          {Object.keys(props.data.activeBoard).length !== 0 && (
-            <Board
-              showEditBoardModal={showEditBoardModal}
-              data={props.data}
-              api={props.api}
-              setData={props.setData}
-              foundDuplicateColPosition={foundDuplicateColPosition}
-              setFoundDuplicateColPosition={setFoundDuplicateColPosition}
-              checkForDuplicateColumnPositions={
-                checkForDuplicateColumnPositions
-              }
-            />
-          )}
+          {Object.keys(props.data.activeBoard).length !== 0 &&
+            !isManagingOrgs && (
+              <Board
+                showEditBoardModal={showEditBoardModal}
+                data={props.data}
+                api={props.api}
+                setData={props.setData}
+                foundDuplicateColPosition={foundDuplicateColPosition}
+                setFoundDuplicateColPosition={setFoundDuplicateColPosition}
+                checkForDuplicateColumnPositions={
+                  checkForDuplicateColumnPositions
+                }
+              />
+            )}
         </div>
         {isCreatingOrganization && (
           <CreateOrganizationModal

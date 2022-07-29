@@ -8,6 +8,7 @@ import axios from "axios";
 import { axiosInstance, url } from "./store/api";
 
 const Navigation = (props) => {
+  console.log(props);
   const authCtx = useContext(AuthContext);
   console.log(props);
   const logoutHandler = () => {
@@ -34,13 +35,14 @@ const Navigation = (props) => {
           <Nav>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
+              <Nav.Link onClick={props.showManageOrganizationsHandler}>My Organizations</Nav.Link>
               <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
             </NavDropdown>
             <NavDropdown
               title={
                 props.data.activeOrganization
                   ? props.data.activeOrganization.name
-                  : "Organization"
+                  : "Organizations"
               }
               id="basic-nav-dropdown"
             >
@@ -71,6 +73,10 @@ const Navigation = (props) => {
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.data.activeOrganization ? (
                 <div>
+                  <div className="text-center">
+                    {props.data.activeOrganization.name}
+                  </div>
+                  <NavDropdown.Divider />
                   {props.data.activeOrganization.boards.map((board) => (
                     <NavDropdown.Item
                       onClick={switchBoardHandler}
