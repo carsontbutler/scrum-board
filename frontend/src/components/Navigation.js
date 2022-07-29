@@ -9,7 +9,7 @@ import { axiosInstance, url } from "./store/api";
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);
-
+  console.log(props);
   const logoutHandler = () => {
     props.setData({});
     authCtx.logout();

@@ -315,26 +315,56 @@ class DeleteTicketView(APIView):
 
 
 #JoinRequests
-class JoinRequestResponseView(generics.UpdateAPIView):
+class SendJoinRequestView(APIView):
     permission_classes = [IsAuthenticated]
-    queryset = JoinRequest.objects.all()
-    serializer_class = JoinRequestResponseSerializer
-    lookup_field = 'pk'
+    serializer_class = SendJoinRequestSerializer
 
-    def patch(self, request, pk):
-        user = request.user
-        organizations = Organization.objects.filter(members__in=[user])
-        instance = self.get_object() 
-        organization = instance.organization
-        if organization in organizations and organization.owner == user:
-            serializer = self.get_serializer(instance, data=request.data, partial=True)
+    def post(self,request):
+        data = request.data
+        code = data['code']
+        data['requester'] = request.user.id
+        organization = Organization.objects.get(code=code)
+        data['organization'] = organization.id
+        if request.user not in organization.members.all():
+            serializer = self.serializer_class(data=data)
             if serializer.is_valid():
                 serializer.save()
-                print(request.data)
-                return Response({'message':'Response sent successfully'}, status=status.HTTP_200_OK)
-            return Response({'message':'Bad request.'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'message':'Permission denied.'},status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message":"Request sent successfully."},status=status.HTTP_200_OK)
+            print(serializer.errors)
+            return Response({"message":"Invalid data received."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"User is already a member of that organization"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class ApproveJoinRequestView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        join_request = JoinRequest.objects.get(id=pk)
+        organization = join_request.organization
+        if organization in organizations and request.user == organization.owner:
+            print(join_request)
+            requester = join_request.requester
+            print("adding ", requester, " to ", organization)
+            organization.members.add(requester)
+            join_request.delete()
+            return Response({"message":"Join Request has been approved successfully."},status=status.HTTP_200_OK)
+        return Response({"message":"Unable to process request. Try again later."},status=status.HTTP_400_BAD_REQUEST)
+
+class DenyJoinRequestView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        join_request = JoinRequest.objects.get(id=pk)
+        organization = join_request.organization
+        if organization in organizations and request.user == organization.owner:
+            join_request.delete()
+            return Response({"message":"Join Request has been deleted successfully."},status=status.HTTP_200_OK)
+        return Response({"message":"Unable to process request. Try again later."},status=status.HTTP_400_BAD_REQUEST)
 
 #!not currently used
 class GetJoinRequestsView(APIView):
@@ -349,5 +379,4 @@ class GetJoinRequestsView(APIView):
                 owned_organizations.append(org)
         requests = JoinRequest.objects.filter(organization__in=[org for org in owned_organizations])
         data = JoinRequestSerializer(requests, many=True).data
-        print(data)
         return Response(data, status=status.HTTP_200_OK)

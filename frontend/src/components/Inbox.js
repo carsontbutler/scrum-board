@@ -1,4 +1,4 @@
-import react, { useState, useContext } from "react";
+import react, { useState, useContext, useEffect } from "react";
 import AuthContext from "./store/auth-context";
 import {
   Modal,
@@ -20,6 +20,10 @@ const Inbox = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+
+  useEffect(()=>{
+    props.api.getInitialData();
+  },[])
 
   const hideToastHandler = () => {
     setShowToast(false);
@@ -53,11 +57,9 @@ const Inbox = (props) => {
     const submitHandler = (e) => {
       e.preventDefault();
       axiosInstance
-        .patch(
-          `${url}/requests/${props.selectedRequest.id}/respond/`,
-          { status: "Approved" },
-          { headers: { Authorization: "Bearer " + authCtx.access } }
-        )
+        .delete(`${url}/requests/${props.selectedRequest.id}/approve/`, {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        })
         .then((resp) => {
           if (resp.status == 200) {
             props.api.getInitialData();
@@ -114,11 +116,9 @@ const Inbox = (props) => {
     const submitHandler = (e) => {
       e.preventDefault();
       axiosInstance
-        .patch(
-          `${url}/requests/${props.selectedRequest.id}/respond/`,
-          { status: "Denied" },
-          { headers: { Authorization: "Bearer " + authCtx.access } }
-        )
+        .delete(`${url}/requests/${props.selectedRequest.id}/deny/`, {
+          headers: { Authorization: "Bearer " + authCtx.access },
+        })
         .then((resp) => {
           if (resp.status == 200) {
             props.api.getInitialData();
@@ -181,7 +181,7 @@ const Inbox = (props) => {
               .name
           }
         </td>
-        <td id={req.id}>{req.status}</td>
+        <td id={req.id}>Pending</td>
         <td className="approve-btn" id={req.id}>
           <Button id={req.id} onClick={showApproveModalHandler}>
             Approve

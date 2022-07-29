@@ -35,6 +35,8 @@ urlpatterns = [
     path('ticket/<str:pk>/delete/', DeleteTicketView.as_view()),
 
     #JoinRequests
-    path('requests/<str:pk>/respond/', JoinRequestResponseView.as_view()),
+    path('requests/send/', SendJoinRequestView.as_view()),
+    path('requests/<str:pk>/approve/', ApproveJoinRequestView.as_view()),
+    path('requests/<str:pk>/deny/', DenyJoinRequestView.as_view()),
     path('get-join-requests/', GetJoinRequestsView.as_view()),
 ]

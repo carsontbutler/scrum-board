@@ -10,11 +10,10 @@ const JoinOrganizationForm = (props) => {
   console.log(props);
 
   const submitHandler = (e) => {
-    console.log("submit handler ran");
     e.preventDefault();
     axiosInstance
       .post(
-        `${url}/join-organization/`,
+        `${url}/requests/send/`,
         { code: code },
         { headers: { Authorization: "Bearer " + authCtx.access } }
       )

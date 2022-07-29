@@ -120,6 +120,7 @@ const HomePage = (props) => {
         checkForDuplicateColumnPositions={checkForDuplicateColumnPositions}
         showCreateBoardModal={showCreateBoardModal}
         showCreateOrganizationModal={showCreateOrganizationModal}
+        showJoinOrganizationModal={showJoinOrganizationModal}
         showInboxModalHandler={showInboxModalHandler}
       />
       <Container>

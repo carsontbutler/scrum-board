@@ -17,12 +17,6 @@ TICKET_PRIORITY_CHOICES = (
     ("Highest", "Highest")
 )
 
-STATUS_CHOICES = (
-    ("Pending", "Pending"),
-    ("Approved", "Approved"),
-    ("Denied", "Denied")
-)
-
 
 def generate_organization_code():
     length = 6
@@ -89,7 +83,6 @@ class Ticket(models.Model):
 class JoinRequest(models.Model):
     requester = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=False)
     time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -98,7 +91,6 @@ class JoinRequest(models.Model):
     def __str__(self):
         custom_str = f'{self.requester} to join {self.organization} {self.id}'
         return custom_str
-
 
 # class Comment(models.Model):
 #     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE) #! make sure this is right
