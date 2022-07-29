@@ -190,21 +190,23 @@ class UpdateColumnView(generics.UpdateAPIView):
     def put(self, request, *args, **kwargs):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
-        #! add checks to make sure user belongs in organization etc 
         instance = self.get_object()
         this_board = instance.board
-        this_boards_columns = Column.objects.filter(board=this_board)
-        column_count = len(this_boards_columns)
-        max_position_value = column_count - 1
-        if int(request.data['position']) > max_position_value:
-            return(Response({'message':'Request exceeded max column position'}, status=status.HTTP_400_BAD_REQUEST))
-        else:
-            serializer = self.get_serializer(instance, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
-            print('INVALID')
-            return(Response({'message':'failed to update'}, status=status.HTTP_400_BAD_REQUEST))
+        this_org = this_board.organization
+        if this_org in organizations:
+            this_boards_columns = Column.objects.filter(board=this_board)
+            column_count = len(this_boards_columns)
+            max_position_value = column_count - 1
+            if int(request.data['position']) > max_position_value:
+                return(Response({'message':'Request exceeded max column position'}, status=status.HTTP_400_BAD_REQUEST))
+            else:
+                serializer = self.get_serializer(instance, data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
+                print('INVALID')
+                return(Response({'message':'failed to update'}, status=status.HTTP_400_BAD_REQUEST))
+        return(Response({'message':'failed to update'}, status=status.HTTP_400_BAD_REQUEST))
             
 class DeleteColumnView(APIView):
     permission_classes=[IsAuthenticated]
@@ -323,16 +325,17 @@ class SendJoinRequestView(APIView):
         data = request.data
         code = data['code']
         data['requester'] = request.user.id
-        organization = Organization.objects.get(code=code)
-        data['organization'] = organization.id
-        if request.user not in organization.members.all():
-            serializer = self.serializer_class(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"message":"Request sent successfully."},status=status.HTTP_200_OK)
-            print(serializer.errors)
-            return Response({"message":"Invalid data received."}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"message":"User is already a member of that organization"}, status=status.HTTP_400_BAD_REQUEST)
+        if len(Organization.objects.filter(code=code)) > 0:
+            organization = Organization.objects.get(code=code)
+            data['organization'] = organization.id
+            if request.user not in organization.members.all():
+                serializer = self.serializer_class(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"message":"Request sent successfully."},status=status.HTTP_200_OK)
+                return Response({"message":"Invalid data received."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"User is already a member of that organization"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message":"Invalid data received."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

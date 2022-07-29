@@ -9,9 +9,9 @@ const JoinOrganizationForm = (props) => {
   const [code, setCode] = useState("");
   console.log(props);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    axiosInstance
+    await axiosInstance
       .post(
         `${url}/requests/send/`,
         { code: code },
@@ -26,11 +26,13 @@ const JoinOrganizationForm = (props) => {
           })
           .then((response) => {
             if (response.status === 200) {
-              console.log(response.data);
               let newOrganizations = response.data.organizations;
               props.setData({ ...props.data, organizations: newOrganizations });
+              props.setToastMessage("Request sent successfully");
+              props.setShowToast(true);
             } else {
-              console.log("error"); //! handle this error properly
+              props.setToastMessage("Something went wrong.");
+              props.setShowToast(true);
             }
           });
         props.closeJoinOrganizationModal();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Navigation from "../Navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container } from "react-bootstrap";
+import { Container, Toast, ToastContainer } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import Board from "../Board";
 import CreateOrganizationModal from "../Modals/CreateOrganizationModal";
@@ -20,6 +20,13 @@ const HomePage = (props) => {
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
   const [isJoiningOrganization, setIsJoiningOrganization] = useState(false);
+
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const hideToastHandler = () => {
+    setShowToast(false);
+  };
+  
 
   const [foundDuplicateColPosition, setFoundDuplicateColPosition] =
     useState(false);
@@ -45,7 +52,7 @@ const HomePage = (props) => {
           props.setData({
             ...props.data,
             organizations: response.data.organizations,
-            joinRequests: response.data.join_requests
+            joinRequests: response.data.join_requests,
           });
           props.setIsLoading(false);
         } else {
@@ -182,6 +189,8 @@ const HomePage = (props) => {
             api={props.api}
             data={props.data}
             setData={props.setData}
+            setToastMessage={setToastMessage}
+            setShowToast={setShowToast}
           />
         )}
         {isCreatingBoard && (
@@ -203,6 +212,20 @@ const HomePage = (props) => {
             api={props.api}
           />
         )}
+        <ToastContainer position="bottom-center">
+          <Toast
+            className="text-center mx-auto toast mb-5"
+            show={showToast}
+            onClose={hideToastHandler}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Message</strong>
+            </Toast.Header>
+            <Toast.Body>{toastMessage}</Toast.Body>
+          </Toast>
+        </ToastContainer>
       </Container>
     </div>
   );

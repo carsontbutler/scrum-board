@@ -17,6 +17,8 @@ const JoinOrganizationModal = (props) => {
             data={props.data}
             setData={props.setData}
             api={props.api}
+            setToastMessage={props.setToastMessage}
+            setShowToast={props.setShowToast}
           />
         </Container>
       </Modal.Body>
