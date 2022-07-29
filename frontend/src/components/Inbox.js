@@ -21,9 +21,9 @@ const Inbox = (props) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     props.api.getInitialData();
-  },[])
+  }, []);
 
   const hideToastHandler = () => {
     setShowToast(false);
@@ -198,19 +198,24 @@ const Inbox = (props) => {
   return (
     <Container>
       <h4 className="text-center inbox-section mb-4">Join Requests</h4>
-      <Table striped className="table-header">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Username</th>
-            <th>Organization</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <RequestData data={props.data} />
-        </tbody>
-      </Table>
+      {props.data.joinRequests.length > 0 ? (
+        <Table striped className="table-header">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Username</th>
+              <th>Organization</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <RequestData data={props.data} />
+          </tbody>
+        </Table>
+      ) : (
+        <h6 className="text-center">No new requests found.</h6>
+      )}
+
       {selectedRequest && (
         <ApproveModal
           showApproveModal={showApproveModal}
