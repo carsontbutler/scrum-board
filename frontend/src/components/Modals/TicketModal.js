@@ -7,7 +7,7 @@ import EditTicketForm from "../Forms/EditTicketForm";
 
 const TicketModal = (props) => {
   return (
-    <Modal size={"xl"} centered show={props.showModal}>
+    <Modal size={"xl"} centered show={props.showModal} scrollable={true}>
       <Modal.Header closeButton onHide={props.closeModalHandler}>
         <Modal.Title>
           {props.isEditing && "Editing "}Ticket # /{" "}

@@ -9,7 +9,7 @@ import JoinOrganizationModal from "../Modals/JoinOrganizationModal";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
 import SelectOrganization from "./SelectOrganization";
-import ManageOrganizations from "./ManageOrganizations";
+import ManageOrganizationsModal from "../Modals/ManageOrganizationsModal";
 import SelectBoard from "./SelectBoard";
 import InboxModal from "../Modals/InboxModal";
 import { axiosInstance, url } from "../store/api";
@@ -21,7 +21,8 @@ const HomePage = (props) => {
   const [isEditingBoard, setIsEditingBoard] = useState(false);
   const [isCreatingOrganization, setIsCreatingOrganization] = useState(false);
   const [isJoiningOrganization, setIsJoiningOrganization] = useState(false);
-  const [isManagingOrgs, setIsManagingOrgs] = useState(false);
+  const [showManageOrganizationsModal, setShowManageOrganizationsModal] =
+    useState(false);
 
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -49,6 +50,7 @@ const HomePage = (props) => {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((response) => {
+        console.log(response.data);
         if (response.status === 200) {
           props.setData({
             ...props.data,
@@ -57,23 +59,10 @@ const HomePage = (props) => {
           });
           props.setIsLoading(false);
         } else {
-          console.log("error"); //! handle this error properly
+          console.log("error");
         }
       });
   }, []);
-
-  const getBoardData = async () => {
-    const board = props.data.activeBoard.id;
-    const response = await axiosInstance
-      .get(`/board/${board}/tickets`)
-      .then((response) => {
-        if (response.status === 200) {
-          props.api.setActiveBoardData(response.data);
-        } else {
-          console.log("error");
-        } //handle error properly
-      });
-  };
 
   const showCreateOrganizationModal = () => {
     setIsCreatingOrganization(true);
@@ -115,8 +104,12 @@ const HomePage = (props) => {
     setIsViewingInbox(false);
   };
 
-  const showManageOrganizationsHandler = () => {
-    setIsManagingOrgs(true);
+  const showManageOrganizationsModalHandler = () => {
+    setShowManageOrganizationsModal(true);
+  };
+
+  const hideManageOrganizationsModalHandler = () => {
+    setShowManageOrganizationsModal(false);
   };
 
   return props.isLoading ? (
@@ -134,13 +127,28 @@ const HomePage = (props) => {
         showCreateOrganizationModal={showCreateOrganizationModal}
         showJoinOrganizationModal={showJoinOrganizationModal}
         showInboxModalHandler={showInboxModalHandler}
-        isManagingOrgs={isManagingOrgs}
-        setIsManagingOrgs={setIsManagingOrgs}
-        showManageOrganizationsHandler={showManageOrganizationsHandler}
+        showManageOrganizationsModal={showManageOrganizationsModal}
+        setShowManageOrganizationsModal={setShowManageOrganizationsModal}
+        showManageOrganizationsModalHandler={
+          showManageOrganizationsModalHandler
+        }
       />
       <Container>
         <div>
-          {isManagingOrgs && <ManageOrganizations />}
+          {
+            <ManageOrganizationsModal
+              api={props.api}
+              data={props.data}
+              showManageOrganizationsModal={showManageOrganizationsModal}
+              setShowManageOrganizationsModa={setShowManageOrganizationsModal}
+              showManageOrganizationsModalHandler={
+                showManageOrganizationsModalHandler
+              }
+              hideManageOrganizationsModalHandler={
+                hideManageOrganizationsModalHandler
+              }
+            />
+          }
           {isViewingInbox && (
             <InboxModal
               closeInboxModalHandler={closeInboxModalHandler}
@@ -151,8 +159,7 @@ const HomePage = (props) => {
             />
           )}
           {Object.keys(props.data.activeBoard).length === 0 &&
-            !props.data.activeOrganization &&
-            !isManagingOrgs && (
+            !props.data.activeOrganization && (
               <SelectOrganization
                 data={props.data}
                 api={props.api}
@@ -162,28 +169,26 @@ const HomePage = (props) => {
               />
             )}
           {Object.keys(props.data.activeBoard).length === 0 &&
-            props.data.activeOrganization &&
-            !isManagingOrgs && (
+            props.data.activeOrganization && (
               <SelectBoard
                 data={props.data}
                 api={props.api}
                 showCreateBoardModal={showCreateBoardModal}
               />
             )}
-          {Object.keys(props.data.activeBoard).length !== 0 &&
-            !isManagingOrgs && (
-              <Board
-                showEditBoardModal={showEditBoardModal}
-                data={props.data}
-                api={props.api}
-                setData={props.setData}
-                foundDuplicateColPosition={foundDuplicateColPosition}
-                setFoundDuplicateColPosition={setFoundDuplicateColPosition}
-                checkForDuplicateColumnPositions={
-                  checkForDuplicateColumnPositions
-                }
-              />
-            )}
+          {Object.keys(props.data.activeBoard).length !== 0 && (
+            <Board
+              showEditBoardModal={showEditBoardModal}
+              data={props.data}
+              api={props.api}
+              setData={props.setData}
+              foundDuplicateColPosition={foundDuplicateColPosition}
+              setFoundDuplicateColPosition={setFoundDuplicateColPosition}
+              checkForDuplicateColumnPositions={
+                checkForDuplicateColumnPositions
+              }
+            />
+          )}
         </div>
         {isCreatingOrganization && (
           <CreateOrganizationModal

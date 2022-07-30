@@ -35,7 +35,7 @@ const Navigation = (props) => {
           <Nav>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
-              <Nav.Link onClick={props.showManageOrganizationsHandler}>My Organizations</Nav.Link>
+
               <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
             </NavDropdown>
             <NavDropdown
@@ -57,18 +57,9 @@ const Navigation = (props) => {
                 </NavDropdown.Item>
               ))}
               <NavDropdown.Divider />
-              <NavDropdown.Item
-                onClick={props.showJoinOrganizationModal}
-                className="dropdown-header text-center"
-              >
-                Join Organization
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                onClick={props.showCreateOrganizationModal}
-                className="dropdown-header text-center"
-              >
-                Create Organization
-              </NavDropdown.Item>
+              <Nav.Link onClick={props.showManageOrganizationsModalHandler} className="text-center">
+                My Organizations
+              </Nav.Link>
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.data.activeOrganization ? (

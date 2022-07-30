@@ -89,6 +89,10 @@ class GetBoards(APIView):
             data['organizations'].append(OrganizationSerializer(organizations[i]).data)
             data['organizations'][i]['boards'] = BoardSerializer(org_boards, many=True).data
             data['organizations'][i]['users'] = UserSerializer(users, many=True).data
+            if organizations[i].owner == user:
+                data['organizations'][i]['role'] = 'Owner'
+            else:
+                data['organizations'][i]['role'] = 'Member'
 
         owned_organizations = []
         for org in organizations:

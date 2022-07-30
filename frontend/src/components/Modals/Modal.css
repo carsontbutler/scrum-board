@@ -172,3 +172,20 @@
   background: #000044;
 }
 
+.previous{
+  color: #003366;
+}
+
+.previous:hover{
+  color: #000044;
+  cursor: pointer;
+}
+
+.sidebar{
+  text-align:center;
+}
+
+
+.remove-btn-cell{
+  text-align: right;
+}
