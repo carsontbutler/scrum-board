@@ -8,9 +8,7 @@ import axios from "axios";
 import { axiosInstance, url } from "./store/api";
 
 const Navigation = (props) => {
-  console.log(props);
   const authCtx = useContext(AuthContext);
-  console.log(props);
   const logoutHandler = () => {
     props.setData({});
     authCtx.logout();
@@ -35,7 +33,11 @@ const Navigation = (props) => {
           <Nav>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
-
+              <Nav.Link
+                onClick={props.showManageOrganizationsModalHandler}
+              >
+                Manage
+              </Nav.Link>
               <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
             </NavDropdown>
             <NavDropdown
@@ -56,10 +58,6 @@ const Navigation = (props) => {
                   {org.name}
                 </NavDropdown.Item>
               ))}
-              <NavDropdown.Divider />
-              <Nav.Link onClick={props.showManageOrganizationsModalHandler} className="text-center">
-                My Organizations
-              </Nav.Link>
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.data.activeOrganization ? (

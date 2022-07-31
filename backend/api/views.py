@@ -50,11 +50,84 @@ class CreateOrganizationView(APIView):
             owner = request.user
             members_list = [owner]
             organization = Organization(name=name, owner=owner)
-            organization.save() #I had to 
+            organization.save()
             organization.members.set(members_list)
             organization.save()
             return Response(CreateOrganizationSerializer(organization).data, status=status.HTTP_200_OK)
         print(serializer.errors)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateOrganizationNameView(generics.UpdateAPIView):
+    permission_classes=[IsAuthenticated]
+    queryset = Organization.objects.all()
+    serializer_class = UpdateOrganizationNameSerializer
+    lookup_field = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        instance = self.get_object()
+        if instance in organizations and instance.owner == user:
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                updated_organization = OrganizationSerializer(instance).data
+                
+
+                updated_organization['users'] = []
+                users = instance.members.all()
+                updated_organization['users'] = UserSerializer(users, many=True).data
+                
+                updated_organization['boards'] = []
+                boards = Board.objects.filter(pk=instance.id)
+                org_boards = boards.filter(organization=instance)
+                updated_organization['boards'] = BoardSerializer(org_boards, many=True).data
+
+                if instance.owner == user:
+                    updated_organization['role'] = 'Owner'
+                else:
+                    updated_organization['role'] = 'Member'
+                return Response({'organization': updated_organization}, status=status.HTTP_200_OK)
+            print(serializer.errors)
+        return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
+
+
+
+class RemoveMemberView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = RemoveMemberSerializer
+
+    def post(self, request):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            if len(Organization.objects.filter(pk=request.data['id'])) > 0:
+                organization = Organization.objects.filter(pk=request.data['id'])[0]
+                if organization in organizations and organization.owner == user:
+                    member_id = request.data['members'][0]
+                    member_to_remove = User.objects.get(pk=member_id)
+                    if member_to_remove in organization.members.all():
+                        organization.removed_members.add(member_to_remove)
+
+                        updated_organization = OrganizationSerializer(organization).data
+                        updated_organization['users'] = []
+                        users = organization.members.all()
+                        updated_organization['users'] = UserSerializer(users, many=True).data
+                        
+                        updated_organization['boards'] = []
+                        boards = Board.objects.filter(pk=organization.id)
+                        org_boards = boards.filter(organization=organization)
+                        updated_organization['boards'] = BoardSerializer(org_boards, many=True).data
+
+                        if organization.owner == user:
+                            updated_organization['role'] = 'Owner'
+                        else:
+                            updated_organization['role'] = 'Member'
+                                
+                        return Response(updated_organization, status=status.HTTP_200_OK)
+        print(serializer.errors)
+        print(request.data)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 #Boards
@@ -138,18 +211,17 @@ class UpdateBoardView(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         user = request.user
-        organizations = Organization.objects.filter(members__in=[user]) #get user organizations
-        instance = self.get_object() #get the board tied to the ticket
+        organizations = Organization.objects.filter(members__in=[user])
+        instance = self.get_object()
         organization = instance.organization
         if organization in organizations:
             print(request.data)
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
-                print('VALID')
                 serializer.save()
                 return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
-            print('INVALID')
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
+        
 
 class DeleteBoardView(APIView):
     permission_classes=[IsAuthenticated]
@@ -208,7 +280,6 @@ class UpdateColumnView(generics.UpdateAPIView):
                 if serializer.is_valid():
                     serializer.save()
                     return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
-                print('INVALID')
                 return(Response({'message':'failed to update'}, status=status.HTTP_400_BAD_REQUEST))
         return(Response({'message':'failed to update'}, status=status.HTTP_400_BAD_REQUEST))
             

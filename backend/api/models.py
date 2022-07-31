@@ -31,9 +31,11 @@ class Organization(models.Model):
     owner = models.ForeignKey(User, related_name="organization_owner", on_delete=models.PROTECT) #!not sure about the protect
     code = models.CharField(max_length=8, default=generate_organization_code, unique=True)
     members = models.ManyToManyField(User, related_name="organization_members")
+    removed_members = models.ManyToManyField(User, related_name="removed_members", blank=True)
 
     def __str__(self):
-        return self.name
+        name_with_id = f'{self.name} (id: {self.pk})'
+        return name_with_id
 
 
 class Board(models.Model):

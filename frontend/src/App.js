@@ -53,6 +53,7 @@ function App() {
 
   const selectOrganization = async (e) => {
     let targetOrg = data.organizations.find((obj) => obj.id == e.target.id);
+    console.log(targetOrg);
     setData({ ...data, activeBoard: {}, activeOrganization: targetOrg });
   };
 

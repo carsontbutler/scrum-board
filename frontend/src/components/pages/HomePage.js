@@ -9,7 +9,7 @@ import JoinOrganizationModal from "../Modals/JoinOrganizationModal";
 import CreateBoardModal from "../Modals/CreateBoardModal";
 import EditBoardModal from "../Modals/EditBoardModal";
 import SelectOrganization from "./SelectOrganization";
-import ManageOrganizationsModal from "../Modals/ManageOrganizationsModal";
+import ManageOrganizationsModal from "../Modals/ManageOrganizations/ManageOrganizationsModal";
 import SelectBoard from "./SelectBoard";
 import InboxModal from "../Modals/InboxModal";
 import { axiosInstance, url } from "../store/api";
@@ -108,10 +108,6 @@ const HomePage = (props) => {
     setShowManageOrganizationsModal(true);
   };
 
-  const hideManageOrganizationsModalHandler = () => {
-    setShowManageOrganizationsModal(false);
-  };
-
   return props.isLoading ? (
     <div>loading</div>
   ) : (
@@ -139,13 +135,13 @@ const HomePage = (props) => {
             <ManageOrganizationsModal
               api={props.api}
               data={props.data}
+              setData={props.setData}
+              showCreateOrganizationModal={showCreateOrganizationModal}
+              showJoinOrganizationModal={showJoinOrganizationModal}
               showManageOrganizationsModal={showManageOrganizationsModal}
-              setShowManageOrganizationsModa={setShowManageOrganizationsModal}
+              setShowManageOrganizationsModal={setShowManageOrganizationsModal}
               showManageOrganizationsModalHandler={
                 showManageOrganizationsModalHandler
-              }
-              hideManageOrganizationsModalHandler={
-                hideManageOrganizationsModalHandler
               }
             />
           }

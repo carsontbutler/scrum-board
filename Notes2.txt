@@ -1,10 +1,1 @@
-My Organizations page
--display all organizations the user belongs to
-
-If user is not owner:
--show: Organization name, join code
--actions: Leave 
-
-If user is owner:
--show: Name, Join Code, Members
--actions: Change Org Name, Remove member
+add "active" and "inactive" status instead of removing user from organization

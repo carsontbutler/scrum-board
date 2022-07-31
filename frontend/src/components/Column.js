@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react";
 import { Col, Container } from "react-bootstrap";
 import Ticket from "./Ticket";
 import "./Column.css";
-import DataContext from "../components/store/data-context";
 
 const Column = (props) => {
   const col = props.column;

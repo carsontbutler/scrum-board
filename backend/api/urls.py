@@ -15,6 +15,8 @@ urlpatterns = [
     #Jira
     path('organizations/', GetOrganizations.as_view()),
     path('create-organization/', CreateOrganizationView.as_view()),
+    path('organization/<str:pk>/rename/', UpdateOrganizationNameView.as_view()),
+    path('organization/remove-member/', RemoveMemberView.as_view()),
 
     #Boards
     path('boards/', GetBoards.as_view()),

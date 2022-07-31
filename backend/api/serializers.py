@@ -50,7 +50,7 @@ class CreateOrganizationSerializer(serializers.ModelSerializer):
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ['id', 'name', 'owner', 'members', 'code']
+        fields = ['id', 'name', 'owner', 'members', 'code', 'removed_members']
 
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -98,3 +98,13 @@ class SendJoinRequestSerializer(serializers.ModelSerializer):
   class Meta:
     model = JoinRequest
     fields = ['organization', 'requester']
+
+class UpdateOrganizationNameSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Organization
+    fields = ['name']
+
+class RemoveMemberSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Organization
+    fields = ['id', 'members', 'removed_members']
