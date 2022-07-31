@@ -147,9 +147,12 @@ class GetBoard(APIView):
 class GetBoards(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        print(request.headers)
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
+        print('-----------------------')
+        print(organizations)
+        print('-----------------------')
         boards = Board.objects.filter(organization__in=[org for org in organizations])
 
         data = {}
@@ -188,7 +191,7 @@ class CreateBoardView(APIView):
         print(request.data)
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
-        #check if user belongs to the organization in the request data
+        organizations = organizations.exclude(removed_members__in=[user])
         serializer = self.serializer_class(data=request.data)
         
         
@@ -212,6 +215,7 @@ class UpdateBoardView(generics.UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         instance = self.get_object()
         organization = instance.organization
         if organization in organizations:
@@ -229,6 +233,7 @@ class DeleteBoardView(APIView):
     def delete(self, request, pk):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         Board = Board.objects.get(id=pk)
         board = board.board
         organization = board.organization
@@ -245,6 +250,7 @@ class CreateColumnView(APIView):
     def post(self, request):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         serializer = self.serializer_class(data=request.data)
         print(request.data)
         if serializer.is_valid():
@@ -266,6 +272,7 @@ class UpdateColumnView(generics.UpdateAPIView):
     def put(self, request, *args, **kwargs):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         instance = self.get_object()
         this_board = instance.board
         this_org = this_board.organization
@@ -289,6 +296,7 @@ class DeleteColumnView(APIView):
     def delete(self, request, pk):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         column = Column.objects.get(id=pk)
         board = column.board
         organization = board.organization
@@ -304,6 +312,7 @@ class GetTickets(APIView):
     def get(self, request, pk):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         boards = Board.objects.filter(organization__in=[organizations][0])
         data = {}
         if boards.filter(id=pk).count() == 1:
@@ -330,6 +339,7 @@ class CreateTicketView(APIView):
         user = request.user
         reporter = user.id
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         serializer = self.serializer_class(data=request.data)
         data = request.data
         data['reporter'] = reporter
@@ -348,7 +358,6 @@ class CreateTicketView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateTicket(generics.UpdateAPIView):
-    #! need to make sure it can only be updated if user belongs to the organization
     permission_classes = [IsAuthenticated]
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
@@ -356,10 +365,11 @@ class UpdateTicket(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         user = request.user 
-        organizations = Organization.objects.filter(members__in=[user])#get the organizations the user belongs to
-        instance = self.get_object() #get the board tied to the ticket
+        organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
+        instance = self.get_object()
         print('INSTANCE', instance)
-        board = instance.board #get the organization tied to the board
+        board = instance.board
         print('BOARD ', board)
         organization = board.organization
         if organization in organizations:
@@ -382,6 +392,7 @@ class DeleteTicketView(APIView):
     def delete(self, request, pk):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         ticket = Ticket.objects.get(id=pk)
         board = ticket.board
         organization = board.organization
@@ -420,6 +431,7 @@ class ApproveJoinRequestView(APIView):
     def delete(self, request, pk):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         join_request = JoinRequest.objects.get(id=pk)
         organization = join_request.organization
         if organization in organizations and request.user == organization.owner:
@@ -437,6 +449,7 @@ class DenyJoinRequestView(APIView):
     def delete(self, request, pk):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         join_request = JoinRequest.objects.get(id=pk)
         organization = join_request.organization
         if organization in organizations and request.user == organization.owner:
@@ -451,6 +464,7 @@ class GetJoinRequestsView(APIView):
     def get(self,request):
         user = request.user
         organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
         owned_organizations = []
         for org in organizations:
             if org.owner == user:

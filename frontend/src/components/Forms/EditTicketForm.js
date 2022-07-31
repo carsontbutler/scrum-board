@@ -17,6 +17,10 @@ const EditTicketForm = (props) => {
   const priorityRef = useRef();
   const ticketNum = props.data.activeTicket.id;
 
+  let activeUsers = props.data.activeOrganization.users.filter(
+    (user) => !props.data.activeOrganization.removed_members.includes(user.id)
+  );
+
   const [isDeleting, setIsDeleting] = useState(false);
   const openDeleteHandler = () => {
     setIsDeleting(true);
@@ -109,7 +113,7 @@ const EditTicketForm = (props) => {
 
           <div className="content-section">
             <Form.Group controlId="formReproSteps">
-            <h6 className="mt-2">Reproduction Steps</h6>
+              <h6 className="mt-2">Reproduction Steps</h6>
               <Form.Control
                 as="textarea"
                 defaultValue={props.data.activeTicket.repro_steps}
@@ -144,7 +148,7 @@ const EditTicketForm = (props) => {
               <Form.Group controlId="formAssignee">
                 <Form.Select ref={assigneeRef}>
                   <option label=" "></option>
-                  {props.data.activeOrganization.users.map((user) =>
+                  {activeUsers.map((user) =>
                     props.data.activeTicket.assignee === user.id ? (
                       <option value={user.id} selected>
                         {user.username}
