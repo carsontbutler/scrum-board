@@ -11,10 +11,7 @@ const DeleteColumnModal = (props) => {
     (col) => col.id == props.showDeleteModal.id
   );
 
-  console.log(props);
-
   const deleteColumnHandler = () => {
-    console.log(props);
     axiosInstance
       .delete(`${url}/column/${targetCol.id}/delete/`, {
         headers: { Authorization: "Bearer " + authCtx.access },

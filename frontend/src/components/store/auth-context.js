@@ -27,9 +27,6 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
     localStorage.removeItem("loginTimestamp");
-    console.log("logged out");
-
-    //need to add the resets to token calculations when logged out
   };
 
   const loginHandler = (userId, username, access, refresh) => {

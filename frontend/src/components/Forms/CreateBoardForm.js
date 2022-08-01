@@ -1,12 +1,10 @@
 import react, { useRef, useContext } from "react";
 import { Form, Row } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
-import axios from "axios";
 import { axiosInstance, url } from "../store/api";
 import "../Modals/Modal.css";
 
 const CreateBoardForm = (props) => {
-  console.log(props);
   const authCtx = useContext(AuthContext);
   const nameRef = useRef();
   const organizationRef = useRef();

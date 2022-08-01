@@ -1,19 +1,16 @@
 import react, { useContext } from "react";
 import { Modal, Container, Button, Form } from "react-bootstrap";
-import axios from "axios";
 import AuthContext from "../store/auth-context";
 import { axiosInstance, url } from "../store/api";
 
 const DeleteColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
-  console.log(props);
-  console.log(props.showDeleteModal.id);
   let targetCol = props.formColumns.find(
     (col) => col.id == props.showDeleteModal.id
   );
 
   const deleteColumnHandler = () => {
-    //remove TEMP part of this if not in use
+    //!remove TEMP part of this if not in use
     switch (true) {
       case targetCol !== undefined && targetCol.id.toString().includes("temp"):
         let data = [...props.formColumns].filter((col) => col !== targetCol);

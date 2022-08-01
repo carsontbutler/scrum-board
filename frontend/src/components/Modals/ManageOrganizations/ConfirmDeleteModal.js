@@ -1,4 +1,4 @@
-import react, { useState, useContext, useEffect } from "react";
+import react, { useContext } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "../Modal.css";
 import "../../Inbox.css";
@@ -6,7 +6,6 @@ import { axiosInstance, url } from "../../store/api";
 import AuthContext from "../../store/auth-context";
 
 const ConfirmDeleteModal = (props) => {
-  console.log(props);
   const authCtx = useContext(AuthContext);
 
   const submitRemoveMemberHandler = async (e) => {

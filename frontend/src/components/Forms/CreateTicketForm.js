@@ -1,14 +1,11 @@
 import React, { useRef, useContext } from "react";
 import { Col, Row, Form } from "react-bootstrap";
-import axios from "axios";
 import AuthContext from "../store/auth-context";
-import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
 import "../Modals/Modal.css";
 
 const CreateTicketForm = (props) => {
   const authCtx = useContext(AuthContext);
-  const dataCtx = useContext(DataContext);
   const titleRef = useRef();
   const descriptionRef = useRef();
   const reproStepsRef = useRef();
@@ -18,11 +15,8 @@ const CreateTicketForm = (props) => {
   const typeRef = useRef();
   const priorityRef = useRef();
 
-  console.log("PROPS ", props);
-
   const submitHandler = (e) => {
     e.preventDefault();
-    //check if token is valid?
     const title = titleRef.current.value;
     const description = descriptionRef.current.value;
     const reproSteps = reproStepsRef.current.value;

@@ -4,7 +4,6 @@ import Inbox from "../Inbox";
 import "../Modals/Modal.css";
 
 const InboxModal = (props) => {
-  console.log(props);
   return (
     <Modal size={"xl"} centered show={props.isViewingInbox}>
       <Modal.Header closeButton onHide={props.closeInboxModalHandler}>

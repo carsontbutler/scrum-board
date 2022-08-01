@@ -8,6 +8,8 @@ import "./SelectScreen.css";
 const SelectBoard = (props) => {
   const authCtx = useContext(AuthContext);
   console.log(props.data.activeOrganization);
+
+  
   const fetchActiveBoardData = async (e) => {
     console.log(e.target);
     console.log("fetchActiveBoardData");

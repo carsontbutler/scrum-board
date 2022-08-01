@@ -1,8 +1,6 @@
 import React, { useRef, useContext, useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
-import axios from "axios";
 import AuthContext from "../store/auth-context";
-import DataContext from "../store/data-context";
 import { axiosInstance, url } from "../store/api";
 
 const EditTicketForm = (props) => {
@@ -47,7 +45,6 @@ const EditTicketForm = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    //check if token is valid?
     const title = titleRef.current.value;
     const description = descriptionRef.current.value;
     const reproSteps = reproStepsRef.current.value;

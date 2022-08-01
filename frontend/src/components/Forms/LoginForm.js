@@ -3,7 +3,7 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
-import { axiosInstance, url } from "../store/api";
+import { url } from "../store/api";
 
 const LoginForm = (props) => {
   const [username, setUsername] = useState("");
@@ -36,7 +36,6 @@ const LoginForm = (props) => {
         }
       })
       .then((data) => {
-        console.log(data);
         authCtx.login(
           data.id,
           data.username,

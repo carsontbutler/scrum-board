@@ -1,10 +1,8 @@
-import React, {useContext} from "react";
-import AuthContext from "../store/auth-context";
+import React from "react";
 import { Button, Row, Container, Col } from "react-bootstrap";
 import "./SelectScreen.css";
 
 const SelectOrganization = (props) => {
-  const authCtx = useContext(AuthContext);
 
   return (
     <Container>

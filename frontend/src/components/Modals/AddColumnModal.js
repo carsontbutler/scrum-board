@@ -10,7 +10,6 @@ const AddColumnModal = (props) => {
   const [columnName, setColumnName] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
-  console.log(props);
   const submitHandler = (e) => {
     e.preventDefault();
 

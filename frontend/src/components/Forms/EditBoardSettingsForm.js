@@ -29,8 +29,7 @@ const EditBoardSettingsForm = (props) => {
           props.closeEditBoardModal();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
         } else {
-          console.log(res);
-          console.log("bad request");
+            //! handle error with catch
         }
       });
   };

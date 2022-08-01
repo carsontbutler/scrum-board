@@ -12,7 +12,7 @@ import SelectOrganization from "./SelectOrganization";
 import ManageOrganizationsModal from "../Modals/ManageOrganizations/ManageOrganizationsModal";
 import SelectBoard from "./SelectBoard";
 import InboxModal from "../Modals/InboxModal";
-import { axiosInstance, url } from "../store/api";
+import { axiosInstance } from "../store/api";
 
 const HomePage = (props) => {
   const authCtx = useContext(AuthContext);
@@ -59,7 +59,7 @@ const HomePage = (props) => {
           });
           props.setIsLoading(false);
         } else {
-          console.log("error");
+          //handle error
         }
       });
   }, []);

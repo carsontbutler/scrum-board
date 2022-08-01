@@ -1,5 +1,5 @@
 import react, { useState, useContext } from "react";
-import { Form, Row } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import { axiosInstance, url } from "../store/api";
 import "../Modals/Modal.css";
@@ -10,7 +10,6 @@ const CreateOrganizationForm = (props) => {
   console.log(props);
 
   const submitHandler = (e) => {
-    console.log("submit handler ran");
     e.preventDefault();
     axiosInstance
       .post(
@@ -21,7 +20,6 @@ const CreateOrganizationForm = (props) => {
       .then((res) => {
         if (res.status == 200) {
         }
-        let newOrganizationId = res.data.id;
         axiosInstance
           .get(`/boards`, {
             headers: { Authorization: "Bearer " + authCtx.access },

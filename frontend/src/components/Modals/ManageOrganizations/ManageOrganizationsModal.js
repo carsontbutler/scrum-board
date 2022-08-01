@@ -1,4 +1,4 @@
-import react, { useState, useContext } from "react";
+import react, { useState } from "react";
 import { Row, Modal, Toast, ToastContainer } from "react-bootstrap";
 import "../Modal.css";
 import "../../Inbox.css";
@@ -23,7 +23,6 @@ const ManageOrganizationsModal = (props) => {
   };
 
   const showManageView = (e) => {
-    console.log(e.target);
     props.setData({
       ...props.data,
       activeOrganization: props.data.organizations.find(
