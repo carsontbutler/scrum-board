@@ -3,7 +3,6 @@ import { Modal, Row, Col, Container, Button } from "react-bootstrap";
 import CreateTicketForm from "./Forms/CreateTicketForm";
 
 const CreateTicketModal = (props) => {
-  console.log(props);
   return (
     <Modal size={"xl"} centered show={props.showCreateTicketModal}>
       <Modal.Header closeButton onHide={props.closeCreateTicketModalHandler}>

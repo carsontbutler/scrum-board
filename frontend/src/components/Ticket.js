@@ -2,10 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import "./Ticket.css";
 import { CaretUp, CaretDown, CaretDoubleUp, Minus } from "phosphor-react";
 import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
-import DataContext from "./store/data-context";
 
 const Ticket = (props) => {
-  console.log(props.data.activeOrganization);
   const [borderColor, setBorderColor] = useState("white");
 
   useEffect(() => {

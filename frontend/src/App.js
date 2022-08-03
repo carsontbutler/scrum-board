@@ -18,10 +18,6 @@ import dayjs from "dayjs";
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
-  const [organizations, setOrganizations] = useState([]);
-  const [activeBoard, setActiveBoard] = useState({});
-  const [activeBoardData, setActiveBoardData] = useState({});
-  const [activeOrganization, setActiveOrganization] = useState("");
   const [activeTicket, setActiveTicket] = useState("");
 
   const [data, setData] = useState({
@@ -43,7 +39,6 @@ function App() {
       });
       authCtx.refreshTokens(response.data.access, response.data.refresh);
       req.headers.Authorization = `Bearer  ${response.data.access}`;
-      console.log(req);
       return req;
     },
     (error) => {
@@ -53,7 +48,6 @@ function App() {
 
   const selectOrganization = async (e) => {
     let targetOrg = data.organizations.find((obj) => obj.id == e.target.id);
-    console.log(targetOrg);
     setData({ ...data, activeBoard: {}, activeOrganization: targetOrg });
   };
 
@@ -64,13 +58,11 @@ function App() {
   };
 
   const fetchAndSetActiveBoardData = async (e) => {
-    console.log(data);
     await axiosInstance
       .get(`${url}/board/${e.target.id}/tickets/`, {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((res) => {
-        console.log(res);
         setData({
           ...data,
           activeBoardData: res.data,
@@ -88,7 +80,6 @@ function App() {
         headers: { Authorization: "Bearer " + authCtx.access },
       })
       .then((res) => {
-        console.log(res.data);
         setData({
           ...data,
           activeBoardData: res.data,
@@ -100,7 +91,6 @@ function App() {
   };
 
   const getInitialData = async () => {
-    console.log("get initial data");
     await axiosInstance
       .get(`/boards`, {
         headers: { Authorization: "Bearer " + authCtx.access },
@@ -109,15 +99,13 @@ function App() {
         if (response.status === 200) {
           let newOrganizations = response.data.organizations;
           let newJoinRequests = response.data.join_requests;
-          console.log("getInitialData");
-          console.log(response.data);
           setData({
             ...data,
             organizations: newOrganizations,
             joinRequests: newJoinRequests,
           });
         } else {
-          console.log("error"); //! handle this error properly
+          //! handle this error properly
         }
       });
   };

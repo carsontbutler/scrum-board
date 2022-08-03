@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Container, Nav, NavDropdown, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import AuthContext from "./store/auth-context";
 import "./Navigation.css";
-import axios from "axios";
-import { axiosInstance, url } from "./store/api";
 
 const Navigation = (props) => {
   const authCtx = useContext(AuthContext);

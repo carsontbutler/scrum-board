@@ -12,14 +12,10 @@ import {
 import Column from "./Column";
 import AuthContext from "./store/auth-context";
 import TicketModal from "./Modals/TicketModal";
-import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
 import CreateTicketModal from "./Modals/CreateTicketModal";
-import { axiosInstance, url } from "./store/api";
 
 const Board = (props) => {
   console.log(props);
-  const authCtx = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [showCreateTicketModal, setShowCreateTicketModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
