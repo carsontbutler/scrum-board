@@ -13,7 +13,7 @@ const EditBoardColumnsForm = (props) => {
     id: null,
   });
   const [showAddColumnModal, setShowAddColumnModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
+  const [error, setError] = useState("");
 
   const showAddColumnModalHandler = () => {
     setShowAddColumnModal(true);
@@ -37,11 +37,14 @@ const EditBoardColumnsForm = (props) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const submitHandler = async (e) => {
-      props.setErrorMessage("");
+      props.setError("");
       let maxPositionValue = props.activeBoardData.columns.length - 1;
       if (colPosition > maxPositionValue) {
-        props.setErrorMessage(`Max position value is ${maxPositionValue}`)
-        return
+        props.setError(`Max position value is ${maxPositionValue}`);
+        return;
+      } else if (colName.length > 25) {
+        props.setError("Max title length is 25 characters");
+        return;
       }
       e.preventDefault();
       await axiosInstance
@@ -54,7 +57,10 @@ const EditBoardColumnsForm = (props) => {
           if (res.status == 200) {
             props.api.fetchUpdatedBoardData(props.activeBoardData);
           }
-        }).catch(() => { props.data.setError("Something went wrong.") });
+        })
+        .catch(() => {
+          props.setError("Something went wrong.");
+        });
     };
 
     const startEditingHandler = () => {
@@ -175,7 +181,7 @@ const EditBoardColumnsForm = (props) => {
           col={col}
           activeBoardData={props.data.activeBoardData}
           api={props.api}
-          setErrorMessage={setErrorMessage}
+          setError={setError}
           key={col.id}
         />
       ))}
@@ -196,7 +202,7 @@ const EditBoardColumnsForm = (props) => {
           api={props.api}
         />
       )}
-      {errorMessage && <span className="error-message">{errorMessage}</span>}
+      {error && <span className="error-text">{error}</span>}
       <div className="add-btn">
         <Button
           onClick={showAddColumnModalHandler}

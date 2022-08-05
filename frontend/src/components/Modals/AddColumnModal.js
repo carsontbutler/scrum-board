@@ -7,11 +7,16 @@ import "./Modal.css";
 
 const AddColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
-  const [columnName, setColumnName] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [columnName, setColumnName] = useState("");
+  const [error, setError] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    if (columnName.length > 25) {
+      setError("Max column name length is 25.");
+      return;
+    }
 
     axiosInstance
       .post(
@@ -29,9 +34,11 @@ const AddColumnModal = (props) => {
         if (res.status == 200) {
           props.api.fetchUpdatedBoardData(props.data.activeBoard);
           props.closeAddColumnModalHandler();
-        } else {
-          setErrorMessage("Something went wrong. Please try again.");
         }
+      })
+      .catch(() => {
+        setError("Something went wrong. Please try again.");
+        return;
       });
   };
 
@@ -57,7 +64,7 @@ const AddColumnModal = (props) => {
             </Form>
           </Row>
           <Row className="text-center error-message">
-            {errorMessage && <span>{errorMessage}</span>}
+            {error && <span className="error-text">{error}</span>}
           </Row>
         </Container>
       </Modal.Body>

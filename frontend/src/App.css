@@ -59,3 +59,9 @@ background-color: #6699CC;
     box-shadow: none !important;
   }
 
+.error-text{
+    size: 60%;
+    color: red;
+    text-align: center;
+    text-transform: none !important;
+}

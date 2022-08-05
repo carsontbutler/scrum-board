@@ -6,7 +6,7 @@ import { axiosInstance, url } from "../store/api";
 
 const DeleteColumnModal = (props) => {
   const authCtx = useContext(AuthContext);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
   let targetCol = props.data.activeBoardData.columns.find(
     (col) => col.id == props.showDeleteModal.id
   );
@@ -20,9 +20,10 @@ const DeleteColumnModal = (props) => {
         if (res.status == 204) {
           props.api.fetchUpdatedBoardData(props.data.activeBoard);
           props.closeDeleteModal();
-        } else {
-          setErrorMessage("Something went wrong. Please try again.");
         }
+      })
+      .catch(() => {
+        setError("Something went wrong. Please try again.");
       });
   };
 
@@ -47,8 +48,11 @@ const DeleteColumnModal = (props) => {
               </h6>
             </div>
           ) : (
-            <span>This action cannot be undone.</span>
+            <div className="text-center">
+              <span className="text-center">This action cannot be undone.</span>
+            </div>
           )}
+          {error && <span className="text-center">{error}</span>}
         </Container>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">

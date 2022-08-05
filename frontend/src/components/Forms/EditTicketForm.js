@@ -4,6 +4,7 @@ import AuthContext from "../store/auth-context";
 import { axiosInstance, url } from "../store/api";
 
 const EditTicketForm = (props) => {
+  const [error, setError] = useState("");
   const authCtx = useContext(AuthContext);
   const titleRef = useRef();
   const descriptionRef = useRef();
@@ -38,11 +39,15 @@ const EditTicketForm = (props) => {
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
           props.showToastHandler(`Ticket deleted successfully`);
         }
-      }).catch(() => { props.data.setError("Something went wrong.") });;
+      })
+      .catch(() => {
+        props.data.setError("Something went wrong.");
+      });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     const title = titleRef.current.value;
     const description = descriptionRef.current.value;
     const reproSteps = reproStepsRef.current.value;
@@ -51,6 +56,20 @@ const EditTicketForm = (props) => {
     const column = columnRef.current.value;
     const type = typeRef.current.value;
     const priority = priorityRef.current.value;
+
+    if (title.length > 150) {
+      setError("Max title length is 150 characters");
+      return;
+    } else if (description.length > 5000) {
+      setError("Max description length is 5000 characters");
+      return;
+    } else if (reproSteps.length > 5000) {
+      setError("Max reproduction steps length is 5000 characters");
+      return;
+    } else if (acceptanceCriteria.length > 500) {
+      setError("Max acceptance criteria length is 500 characters");
+      return;
+    }
 
     axiosInstance
       .patch(
@@ -77,6 +96,11 @@ const EditTicketForm = (props) => {
         } else {
           console.log("handle error"); //! handle this properly with a message
         }
+      })
+      .catch(() => {
+        setError(
+          "Something went wrong. Please check all entries and try again."
+        );
       });
   };
 
@@ -295,6 +319,7 @@ const EditTicketForm = (props) => {
           </Row>
         </Col>
       </Row>
+      {error && <h6 className="error-text">{error}</h6>}
     </Form>
   );
 };
