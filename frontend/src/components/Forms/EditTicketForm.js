@@ -37,10 +37,8 @@ const EditTicketForm = (props) => {
           props.closeModalHandler();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
           props.showToastHandler(`Ticket deleted successfully`);
-        } else {
-          props.showToastHandler(`Something went wrong`);
         }
-      });
+      }).catch(() => { props.data.setError("Something went wrong.") });;
   };
 
   const submitHandler = (e) => {

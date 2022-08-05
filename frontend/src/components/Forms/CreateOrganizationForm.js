@@ -29,10 +29,8 @@ const CreateOrganizationForm = (props) => {
               console.log(response.data);
               let newOrganizations = response.data.organizations;
               props.setData({ ...props.data, organizations: newOrganizations });
-            } else {
-              console.log("error"); //! handle this error properly
             }
-          });
+          }).catch(()=>{props.data.setError("Something went wrong.")});
         props.closeCreateOrganizationModal();
       });
   };

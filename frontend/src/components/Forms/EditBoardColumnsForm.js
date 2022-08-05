@@ -39,12 +39,10 @@ const EditBoardColumnsForm = (props) => {
     const submitHandler = async (e) => {
       props.setErrorMessage("");
       let maxPositionValue = props.activeBoardData.columns.length - 1;
-      if (colPosition > maxPositionValue){
+      if (colPosition > maxPositionValue) {
         props.setErrorMessage(`Max position value is ${maxPositionValue}`)
         return
       }
-      console.log(colPosition);
-      console.log(props.activeBoardData.columns.length);
       e.preventDefault();
       await axiosInstance
         .put(
@@ -53,14 +51,10 @@ const EditBoardColumnsForm = (props) => {
           { headers: { Authorization: "Bearer " + authCtx.access } }
         )
         .then((res) => {
-          console.log(res);
           if (res.status == 200) {
-            console.log('200');
             props.api.fetchUpdatedBoardData(props.activeBoardData);
-          } else {
-            props.setErrorMessage("Something went wrong.");
           }
-        });
+        }).catch(() => { props.data.setError("Something went wrong.") });
     };
 
     const startEditingHandler = () => {

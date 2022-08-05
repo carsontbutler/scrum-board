@@ -19,6 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
   const [activeTicket, setActiveTicket] = useState("");
+  const [error, setError] = useState("");
 
   const [data, setData] = useState({
     organizations: [],
@@ -27,6 +28,8 @@ function App() {
     activeBoardData: {},
     activeTicket: "",
     joinRequests: [],
+    error: error,
+    setError: setError
   });
 
   axiosInstance.interceptors.request.use(

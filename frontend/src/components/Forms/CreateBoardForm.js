@@ -34,9 +34,9 @@ const CreateBoardForm = (props) => {
           activeOrg.boards.push(newBoard);
           props.setData({ ...props.data, activeOrganization: activeOrg });
           props.closeCreateBoardModal();
-        } else {
-          console.log(res); //! handle this properly with a message
         }
+      }).catch(() => {
+        props.data.setError("Something went wrong.");
       });
   };
 

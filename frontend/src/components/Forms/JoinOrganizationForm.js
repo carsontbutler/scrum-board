@@ -30,10 +30,10 @@ const JoinOrganizationForm = (props) => {
               props.setData({ ...props.data, organizations: newOrganizations });
               props.setToastMessage("Request sent successfully");
               props.setShowToast(true);
-            } else {
-              props.setToastMessage("Something went wrong.");
-              props.setShowToast(true);
             }
+          }).catch(() => {
+            props.setToastMessage("Something went wrong.");
+            props.setShowToast(true);
           });
         props.closeJoinOrganizationModal();
       });

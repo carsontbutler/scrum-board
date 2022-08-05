@@ -28,10 +28,8 @@ const EditBoardSettingsForm = (props) => {
         if (res.status == 200) {
           props.closeEditBoardModal();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
-        } else {
-            //! handle error with catch
         }
-      });
+      }).catch(() => { props.data.setError("Something went wrong.") });;
   };
 
   return (

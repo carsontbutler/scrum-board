@@ -50,10 +50,8 @@ const CreateTicketForm = (props) => {
           props.closeCreateTicketModalHandler();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
           props.showToastHandler(`Ticket created successfully`);
-        } else {
-          console.log("handle error"); //! handle this properly with a message
         }
-      });
+      }).catch(() => { props.data.setError("Something went wrong.") });
   };
   return (
     <Form onSubmit={submitHandler} id="createTicketForm">
@@ -81,7 +79,7 @@ const CreateTicketForm = (props) => {
           </div>
           <div className="form-content mt-2">
             <Form.Group controlId="formAcceptanceCriteria">
-            <h6>Acceptance Criteria</h6>
+              <h6>Acceptance Criteria</h6>
               <Form.Control as="textarea" ref={acceptanceCriteriaRef} />
             </Form.Group>
           </div>
