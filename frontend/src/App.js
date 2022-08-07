@@ -26,7 +26,7 @@ function App() {
     activeBoard: {},
     activeBoardData: {},
     activeTicket: "",
-    joinRequests: [],
+    joinRequests: []
   });
 
   axiosInstance.interceptors.request.use(
@@ -104,8 +104,6 @@ function App() {
             organizations: newOrganizations,
             joinRequests: newJoinRequests,
           });
-        } else {
-          //! handle this error properly
         }
       });
   };

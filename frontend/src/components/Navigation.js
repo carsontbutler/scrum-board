@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Dropdown } from "react-bootstrap";
 import AuthContext from "./store/auth-context";
 import "./Navigation.css";
 
@@ -30,9 +30,7 @@ const Navigation = (props) => {
           <Nav>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
-              <Nav.Link
-                onClick={props.showManageOrganizationsModalHandler}
-              >
+              <Nav.Link onClick={props.showManageOrganizationsModalHandler}>
                 Manage
               </Nav.Link>
               <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
@@ -55,6 +53,15 @@ const Navigation = (props) => {
                   {org.name}
                 </NavDropdown.Item>
               ))}
+              <NavDropdown
+                title="Manage"
+                id="basic-nav-dropdown"
+                drop={"end"}
+                className="text-center"
+              >
+                <Dropdown.Item onClick={props.showCreateOrganizationModal}>Create new</Dropdown.Item>
+                <Dropdown.Item onClick={props.showJoinOrganizationModal}>Join existing</Dropdown.Item>
+              </NavDropdown>
             </NavDropdown>
             <NavDropdown title="Boards" id="basic-nav-dropdown">
               {props.data.activeOrganization ? (

@@ -27,14 +27,14 @@ const ConfirmDeleteModal = (props) => {
           props.hideConfirmDeleteModalHandler();
         } else {
           props.hideConfirmDeleteModalHandler();
-          props.setErrorMessage(
-            "Something went wrong. Please try again later."
+          props.setMemberError(
+            "Something went wrong. Please try again."
           );
         }
       })
       .catch(() => {
         props.hideConfirmDeleteModalHandler();
-        props.setErrorMessage("Something went wrong. Please try again later.");
+        props.setMemberError("Something went wrong. Please try again.");
       });
   };
 

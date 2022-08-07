@@ -14,8 +14,8 @@ const ManageView = (props) => {
   const [orgName, setOrgName] = useState(props.data.activeOrganization.name);
   const [memberToRemove, setMemberToRemove] = useState({});
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const [orgError, setOrgError] = useState("");
+  const [memberError, setMemberError] = useState("");
 
   useEffect(() => {
     props.api.getInitialData();
@@ -35,6 +35,12 @@ const ManageView = (props) => {
 
   const submitNameChangeHandler = async (e) => {
     e.preventDefault();
+
+    if (orgName.length > 30) {
+      setOrgError("Max organization name is 30 characters.");
+      return;
+    }
+
     await axiosInstance
       .patch(
         `${url}/organization/${props.data.activeOrganization.id}/rename/`,
@@ -51,11 +57,10 @@ const ManageView = (props) => {
             ...props.data,
             activeOrganization: res.data.organization,
           });
-        } else {
-          props.setErrorMessage(
-            "Something went wrong. Please try again later."
-          );
         }
+      })
+      .catch(() => {
+        setOrgError("Something went wrong. Please try again.");
       });
   };
 
@@ -94,9 +99,7 @@ const ManageView = (props) => {
                 </Col>
               </Row>
             </Form>
-            {props.errorMessage && (
-              <h6 className="error-message">{props.errorMessage}</h6>
-            )}
+            {orgError && <span className="error-text">{orgError}</span>}
           </Row>
           <Row className="mt-5 form-content">
             <Table striped>
@@ -133,9 +136,7 @@ const ManageView = (props) => {
           </Row>
           <Col xl={3} lg={3} md={2} sm={2} xs={1}></Col>
         </Col>
-        {errorMessage && (
-          <h6 className="text-center error-message">{errorMessage}</h6>
-        )}
+        {memberError && <span className="text-center error-message">{memberError}</span>}
       </Row>
       <ConfirmDeleteModal
         memberToRemove={memberToRemove}
@@ -148,7 +149,7 @@ const ManageView = (props) => {
         data={props.data}
         setData={props.setData}
         api={props.api}
-        setErrorMessage={setErrorMessage}
+        setMemberError={setMemberError}
       />
     </Container>
   );

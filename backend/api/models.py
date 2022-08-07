@@ -29,7 +29,7 @@ def generate_organization_code():
 class Organization(models.Model):
     name = models.CharField(max_length=30, unique=True)
     owner = models.ForeignKey(User, related_name="organization_owner", on_delete=models.PROTECT) #!not sure about the protect
-    code = models.CharField(max_length=8, default=generate_organization_code, unique=True)
+    code = models.CharField(max_length=6, default=generate_organization_code, unique=True)
     members = models.ManyToManyField(User, related_name="organization_members")
     removed_members = models.ManyToManyField(User, related_name="removed_members", blank=True)
 

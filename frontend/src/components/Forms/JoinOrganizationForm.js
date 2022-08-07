@@ -7,10 +7,16 @@ import "../Modals/Modal.css";
 const JoinOrganizationForm = (props) => {
   const authCtx = useContext(AuthContext);
   const [code, setCode] = useState("");
-  console.log(props);
+  const [error, setError] = useState("");
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (code.length !== 6){
+      setError("Code must be 6 characters.");
+      return;
+    }
+
     await axiosInstance
       .post(
         `${url}/requests/send/`,
@@ -30,12 +36,14 @@ const JoinOrganizationForm = (props) => {
               props.setData({ ...props.data, organizations: newOrganizations });
               props.setToastMessage("Request sent successfully");
               props.setShowToast(true);
-            } else {
-              props.setToastMessage("Something went wrong.");
-              props.setShowToast(true);
             }
+          }).catch(() => {
+            props.setToastMessage("Something went wrong.");
+            props.setShowToast(true);
           });
         props.closeJoinOrganizationModal();
+      }).catch(()=>{
+        setError("No organization found with the code provided. Make sure the code is valid and try again.")
       });
   };
 
@@ -51,6 +59,7 @@ const JoinOrganizationForm = (props) => {
             }}
           />
         </Form.Group>
+        {error && <h6 className="error-text mt-3">{error}</h6>}
       </div>
     </Form>
   );

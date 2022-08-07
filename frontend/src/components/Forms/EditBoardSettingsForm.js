@@ -10,9 +10,18 @@ const EditBoardSettingsForm = (props) => {
   const authCtx = useContext(AuthContext);
   const [boardName, setBoardName] = useState(props.data.activeBoardData.name);
   const [prefix, setPrefix] = useState(props.data.activeBoardData.prefix);
+  const [error, setError] = useState("");
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (boardName.length > 50) {
+      setError("Max board title length is 50");
+      return;
+    } else if (prefix.length > 5) {
+      setError("Max prefix length is 5");
+      return;
+    }
     await axiosInstance
       .patch(
         `${url}/board/${props.data.activeBoard.id}/update/`,
@@ -28,9 +37,11 @@ const EditBoardSettingsForm = (props) => {
         if (res.status == 200) {
           props.closeEditBoardModal();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
-        } else {
-            //! handle error with catch
         }
+      })
+      .catch(() => {
+        setError("Something went wrong.");
+        return;
       });
   };
 
@@ -59,6 +70,7 @@ const EditBoardSettingsForm = (props) => {
                 setPrefix(e.target.value);
               }}
             />
+            {error && <h6 className="error-text mt-3">{error}</h6>}
           </Form.Group>
         </Col>
         <Col></Col>

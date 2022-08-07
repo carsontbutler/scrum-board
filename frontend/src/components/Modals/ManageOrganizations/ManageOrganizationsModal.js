@@ -9,7 +9,6 @@ const ManageOrganizationsModal = (props) => {
   const [view, setView] = useState({ screen: "home" });
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const hideToastHandler = () => {
     setShowToast(false);
@@ -69,8 +68,6 @@ const ManageOrganizationsModal = (props) => {
               showToast={showToast}
               setShowToast={setShowToast}
               setToastMessage={setToastMessage}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
             />
           )}
         </Row>

@@ -6,26 +6,6 @@ import { axiosInstance, url } from "../store/api";
 import "./SelectScreen.css";
 
 const SelectBoard = (props) => {
-  const authCtx = useContext(AuthContext);
-  console.log(props.data.activeOrganization);
-
-  
-  const fetchActiveBoardData = async (e) => {
-    console.log(e.target);
-    console.log("fetchActiveBoardData");
-    await axiosInstance
-      .get(`${url}/board/${e.target.id}/tickets/`, {
-        headers: { Authorization: "Bearer " + authCtx.access },
-      })
-      .then((res) => {
-        props.api.setActiveBoardData(res.data);
-        props.api.setActiveBoard(
-          props.data.activeOrganization.boards.find(
-            (obj) => obj.id == e.target.id
-          )
-        );
-      });
-  };
 
   return (
     <Container>

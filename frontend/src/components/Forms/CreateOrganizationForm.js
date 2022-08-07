@@ -5,12 +5,16 @@ import { axiosInstance, url } from "../store/api";
 import "../Modals/Modal.css";
 
 const CreateOrganizationForm = (props) => {
+  const [error, setError] = useState("");
   const authCtx = useContext(AuthContext);
   const [name, setName] = useState("");
-  console.log(props);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (name.length > 30) {
+      setError("Name cannot be longer than 30 characters");
+      return;
+    }
     axiosInstance
       .post(
         `${url}/create-organization/`,
@@ -26,12 +30,13 @@ const CreateOrganizationForm = (props) => {
           })
           .then((response) => {
             if (response.status === 200) {
-              console.log(response.data);
               let newOrganizations = response.data.organizations;
               props.setData({ ...props.data, organizations: newOrganizations });
-            } else {
-              console.log("error"); //! handle this error properly
             }
+          })
+          .catch(() => {
+            setError("Something went wrong.");
+            return;
           });
         props.closeCreateOrganizationModal();
       });
@@ -50,6 +55,7 @@ const CreateOrganizationForm = (props) => {
           />
         </Form.Group>
       </div>
+      {error && <h6 className="error-text mt-3">{error}</h6>}
     </Form>
   );
 };

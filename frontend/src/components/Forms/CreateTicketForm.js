@@ -1,10 +1,11 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import { Col, Row, Form } from "react-bootstrap";
 import AuthContext from "../store/auth-context";
 import { axiosInstance, url } from "../store/api";
 import "../Modals/Modal.css";
 
 const CreateTicketForm = (props) => {
+  const [error, setError] = useState("");
   const authCtx = useContext(AuthContext);
   const titleRef = useRef();
   const descriptionRef = useRef();
@@ -25,6 +26,20 @@ const CreateTicketForm = (props) => {
     const column = columnRef.current.value;
     const type = typeRef.current.value;
     const priority = priorityRef.current.value;
+
+    if (title.length > 150) {
+      setError("Max title length is 150 characters");
+      return;
+    } else if (description.length > 5000) {
+      setError("Max description length is 5000 characters");
+      return;
+    } else if (reproSteps.length > 5000) {
+      setError("Max reproduction steps length is 5000 characters");
+      return;
+    } else if (acceptanceCriteria.length > 500) {
+      setError("Max acceptance criteria length is 500 characters");
+      return;
+    }
 
     axiosInstance
       .post(
@@ -50,9 +65,10 @@ const CreateTicketForm = (props) => {
           props.closeCreateTicketModalHandler();
           props.api.fetchUpdatedBoardData(props.data.activeBoardData);
           props.showToastHandler(`Ticket created successfully`);
-        } else {
-          console.log("handle error"); //! handle this properly with a message
         }
+      })
+      .catch(() => {
+        setError("Something went wrong. Please check all entries and try again.");
       });
   };
   return (
@@ -81,7 +97,7 @@ const CreateTicketForm = (props) => {
           </div>
           <div className="form-content mt-2">
             <Form.Group controlId="formAcceptanceCriteria">
-            <h6>Acceptance Criteria</h6>
+              <h6>Acceptance Criteria</h6>
               <Form.Control as="textarea" ref={acceptanceCriteriaRef} />
             </Form.Group>
           </div>
@@ -154,6 +170,7 @@ const CreateTicketForm = (props) => {
           </Row>
         </Col>
       </Row>
+      {error && <h6 className="error-text">{error}</h6>}
     </Form>
   );
 };
