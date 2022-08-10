@@ -4,7 +4,7 @@ It is a single page application that allows users to create and track tickets fo
 
 
 
-Features:
+**Features**
 
 -Basic registration and authentication
 
@@ -18,7 +18,7 @@ Features:
 
 
 
-Technologies used:
+**Technologies used:**
 
 -Frontend: Javascript (React)
 
