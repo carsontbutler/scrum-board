@@ -31,7 +31,7 @@ const Navigation = (props) => {
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
               <Nav.Link onClick={props.showManageOrganizationsModalHandler}>
-                Manage
+                Manage Organizations
               </Nav.Link>
               <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
             </NavDropdown>

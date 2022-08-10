@@ -58,8 +58,6 @@ const HomePage = (props) => {
             joinRequests: response.data.join_requests,
           });
           props.setIsLoading(false);
-        } else {
-          //handle error
         }
       });
   }, []);

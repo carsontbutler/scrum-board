@@ -28,8 +28,6 @@ function App() {
     activeTicket: "",
     joinRequests: [],
   });
-  
-  console.log(localStorage.getItem("access"));
 
   axiosInstance.interceptors.request.use(
     async (req) => {
