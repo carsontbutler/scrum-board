@@ -1,6 +1,5 @@
-This is a bug tracking board for scrum/agile development.
-
-It is a single page application that allows users to create and track tickets for multiple boards within multiple organizations.
+ **Description**
+ Bug tracking board for scrum/agile development. This is a single page application that allows users to create and track tickets for multiple boards within multiple organizations.
 
 
 
