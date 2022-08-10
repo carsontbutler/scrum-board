@@ -26,14 +26,17 @@ function App() {
     activeBoard: {},
     activeBoardData: {},
     activeTicket: "",
-    joinRequests: []
+    joinRequests: [],
   });
+  
+  console.log(localStorage.getItem("access"));
 
   axiosInstance.interceptors.request.use(
     async (req) => {
       const user = jwt_decode(localStorage.getItem("access"));
       const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
       if (!isExpired) return req;
+      
       const response = await axios.post(`${url}/token/refresh`, {
         refresh: localStorage.getItem("refresh"),
       });

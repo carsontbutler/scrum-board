@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import AuthContext from "../store/auth-context";
-import { useHistory } from "react-router-dom";
 import { axiosInstance, url } from "../store/api";
+import axios from "axios";
 
 const RegisterForm = (props) => {
   const [username, setUsername] = useState("");
@@ -16,8 +15,14 @@ const RegisterForm = (props) => {
     if (password !== password2) {
       setErrorMessage("Passwords do not match");
       return;
+    } else if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characeters");
+      return;
+    } else if (password.includes("password")) {
+      setErrorMessage("Please use a stronger password.");
+      return;
     }
-    let res = axiosInstance
+    axios
       .post(`${url}/register/`, {
         username: username,
         password: password,
@@ -33,10 +38,8 @@ const RegisterForm = (props) => {
           props.showLoginForm();
         }
       })
-      .catch(() => {
-        setErrorMessage(
-          "Please try a different username."
-        );
+      .catch((err) => {
+        setErrorMessage("Something went wrong. Please try a different username.");
         return;
       });
   };
