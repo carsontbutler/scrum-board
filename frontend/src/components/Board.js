@@ -7,7 +7,7 @@ import {
   ToastContainer,
   Button,
   Container,
-  Alert
+  Alert,
 } from "react-bootstrap";
 import Column from "./Column";
 import AuthContext from "./store/auth-context";
@@ -48,7 +48,7 @@ const Board = (props) => {
     let selectedTicket = props.data.activeBoardData.tickets.filter(
       (ticket) => ticket.id == e.target.id
     );
-    props.setData({...props.data, activeTicket: selectedTicket[0]})
+    props.setData({ ...props.data, activeTicket: selectedTicket[0] });
     setShowModal(true);
   };
 
@@ -110,34 +110,56 @@ const Board = (props) => {
               <h4>{props.data.activeBoardData.name}</h4>
             </Col>
             <Col xl={2} lg={2} md={2} sm={2} xs={2} className="my-3">
-              <Button
-                className="btn-primary-custom"
-                onClick={showCreateTicketModalHandler}
-              >
-                New Ticket
-              </Button>
+              {props.data.activeBoardData["columns"].length > 0 && (
+                <Button
+                  className="btn-primary-custom"
+                  onClick={showCreateTicketModalHandler}
+                >
+                  New Ticket
+                </Button>
+              )}
             </Col>
           </Row>
         </Container>
         {props.foundDuplicateColPosition && (
           <Row>
-            <Alert variant="danger" className="text-center">Warning: Two or more of your columns are assigned to the same position. This should be fixed in the Board Settings menu to prevent incorrect ordering.</Alert>
+            <Alert variant="danger" className="text-center">
+              Warning: Two or more of your columns are assigned to the same
+              position. This should be fixed in the Board Settings menu to
+              prevent incorrect ordering.
+            </Alert>
           </Row>
         )}
         <Row>
-          {props.data.activeBoardData["columns"]
-            .sort((a, b) => {
-              return a.position - b.position;
-            })
-            .map((col) => (
-              <Column
-                column={col}
-                key={col.id}
-                viewTicketHandler={viewTicketHandler}
-                data={props.data}
-                api={props.api}
-              />
-            ))}
+          {props.data.activeBoardData["columns"].length > 0 ? (
+            props.data.activeBoardData["columns"]
+              .sort((a, b) => {
+                return a.position - b.position;
+              })
+              .map((col) => (
+                <Column
+                  column={col}
+                  key={col.id}
+                  viewTicketHandler={viewTicketHandler}
+                  data={props.data}
+                  api={props.api}
+                />
+              ))
+          ) : (
+            <div className="mt-5 text-center">
+              <h4>
+                No columns found. Head to the
+                <Button
+                  onClick={props.showEditBoardModal}
+                  className="btn-secondary-custom mx-2"
+                  variant="secondary"
+                >
+                  Board Settings
+                </Button>
+                menu to create new ones.
+              </h4>
+            </div>
+          )}
         </Row>
         <ToastContainer position="bottom-center">
           <Toast

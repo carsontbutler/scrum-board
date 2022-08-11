@@ -342,20 +342,22 @@ class CreateTicketView(APIView):
         organizations = organizations.exclude(removed_members__in=[user])
         serializer = self.serializer_class(data=request.data)
         data = request.data
+        print(data)
         data['reporter'] = reporter
 
         if serializer.is_valid():
             if len(Board.objects.filter(id=data['board'])) > 0:
-                board = Board.objects.filter(id=data['board'])[0]
-                organization = organizations.filter(id=board.id)[0]
-                ticket = TicketSerializer(data=data)
-                print(ticket)
-                if ticket.is_valid():
-                    ticket.save()
-                    return Response(status=status.HTTP_200_OK)
+                organization = organizations.filter(id=data['organization'])[0]
+                if organization in organizations:
+                    ticket = TicketSerializer(data=data)
+                    print(ticket)
+                    if ticket.is_valid():
+                        ticket.save()
+                        return Response(status=status.HTTP_200_OK)
+                    return Response(status=status.HTTP_403_FORBIDDEN)
                 return Response(status=status.HTTP_403_FORBIDDEN)
-        print(serializer.errors)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            print(serializer.errors)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateTicket(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]

@@ -17,6 +17,7 @@ const CreateTicketForm = (props) => {
   const priorityRef = useRef();
 
   const submitHandler = (e) => {
+    console.log(props.data);
     e.preventDefault();
     const title = titleRef.current.value;
     const description = descriptionRef.current.value;
