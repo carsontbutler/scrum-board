@@ -23,22 +23,26 @@ const CreateOrganizationForm = (props) => {
       )
       .then((res) => {
         if (res.status == 200) {
+          axiosInstance
+            .get(`/boards`, {
+              headers: { Authorization: "Bearer " + authCtx.access },
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                let newOrganizations = response.data.organizations;
+                props.setData({
+                  ...props.data,
+                  organizations: newOrganizations,
+                });
+              }
+            });
         }
-        axiosInstance
-          .get(`/boards`, {
-            headers: { Authorization: "Bearer " + authCtx.access },
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              let newOrganizations = response.data.organizations;
-              props.setData({ ...props.data, organizations: newOrganizations });
-            }
-          })
-          .catch(() => {
-            setError("Something went wrong.");
-            return;
-          });
+
         props.closeCreateOrganizationModal();
+      })
+      .catch(() => {
+        setError("Something went wrong. Make sure the organization name is unique.");
+        return;
       });
   };
 

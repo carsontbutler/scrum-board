@@ -22,6 +22,7 @@ const SelectOrganization = (props) => {
                         onClick={props.api.selectOrganization}
                         key={org.id}
                         id={org.id}
+                        className="org-list-btn"
                         size="lg"
                       >
                         {org.name}

@@ -4,7 +4,7 @@ import "../Modal.css";
 import "../../Inbox.css";
 import { axiosInstance, url } from "../../store/api";
 import AuthContext from "../../store/auth-context";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ConfirmDeleteMemberModal from "./ConfirmDeleteMemberModal";
 
 const ManageView = (props) => {
   const authCtx = useContext(AuthContext);
@@ -13,7 +13,7 @@ const ManageView = (props) => {
   };
   const [orgName, setOrgName] = useState(props.data.activeOrganization.name);
   const [memberToRemove, setMemberToRemove] = useState({});
-  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [showConfirmDeleteMemberModal, setShowConfirmDeleteMemberModal] = useState(false);
   const [orgError, setOrgError] = useState("");
   const [memberError, setMemberError] = useState("");
 
@@ -21,15 +21,15 @@ const ManageView = (props) => {
     props.api.getInitialData();
   }, []);
 
-  const showConfirmDeleteModalHandler = (e) => {
+  const showConfirmDeleteMemberModalHandler = (e) => {
     setMemberToRemove(
       props.data.activeOrganization.users.find((obj) => obj.id == e.target.id)
     );
-    setShowConfirmDeleteModal(true);
+    setShowConfirmDeleteMemberModal(true);
   };
 
-  const hideConfirmDeleteModalHandler = () => {
-    setShowConfirmDeleteModal(false);
+  const hideConfirmDeleteMemberModalHandler = () => {
+    setShowConfirmDeleteMemberModal(false);
     setMemberToRemove("");
   };
 
@@ -79,7 +79,7 @@ const ManageView = (props) => {
           <Row className="edit-org">
             <Form onSubmit={submitNameChangeHandler} id="edit-org-form">
               <Row>
-                <Col xl={10} lg={10} md={10} sm={10} xs={10}>
+                <Col xl={8} lg={8} md={8} sm={8} xs={8}>
                   <Form.Group>
                     <Form.Control
                       type="text"
@@ -94,6 +94,13 @@ const ManageView = (props) => {
                   <div className="approve-btn">
                     <Button type="submit" form="edit-org-form">
                       Save
+                    </Button>
+                  </div>
+                </Col>
+                <Col xl={2} lg={2} md={2} sm={2} xs={2}>
+                  <div className="decline-btn">
+                    <Button variant="danger">
+                      Delete
                     </Button>
                   </div>
                 </Col>
@@ -124,7 +131,7 @@ const ManageView = (props) => {
                           variant="danger"
                           id={user.id}
                           style={{ zIndex: "1000" }}
-                          onClick={showConfirmDeleteModalHandler}
+                          onClick={showConfirmDeleteMemberModalHandler}
                         >
                           Remove
                         </Button>
@@ -138,10 +145,10 @@ const ManageView = (props) => {
         </Col>
         {memberError && <span className="text-center error-message">{memberError}</span>}
       </Row>
-      <ConfirmDeleteModal
+      <ConfirmDeleteMemberModal
         memberToRemove={memberToRemove}
-        showConfirmDeleteModal={showConfirmDeleteModal}
-        hideConfirmDeleteModalHandler={hideConfirmDeleteModalHandler}
+        showConfirmDeleteMemberModal={showConfirmDeleteMemberModal}
+        hideConfirmDeleteMemberModalHandler={hideConfirmDeleteMemberModalHandler}
         toastMessage={props.toastMessage}
         setToastMessage={props.setToastMessage}
         showToast={props.showToast}

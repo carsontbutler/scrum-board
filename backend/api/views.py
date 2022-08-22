@@ -44,7 +44,6 @@ class CreateOrganizationView(APIView):
     def post(self, request):
         owner = request.user
         serializer = self.serializer_class(data=request.data)
-        print(request)
         if serializer.is_valid():
             name = serializer.data.get('name')
             owner = request.user
@@ -92,6 +91,20 @@ class UpdateOrganizationNameView(generics.UpdateAPIView):
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
 
 
+class DeleteOrganizationView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = request.user
+        organizations = Organization.objects.filter(members__in=[user])
+        organizations = organizations.exclude(removed_members__in=[user])
+        target_org = Organization.objects.get(id=pk)
+        print(target_org)
+        print(organizations)
+        if target_org in organizations and target_org.owner == user:
+            target_org.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class RemoveMemberView(APIView):
     permission_classes = [IsAuthenticated]
@@ -260,7 +273,8 @@ class CreateColumnView(APIView):
                 new_col = ColumnSerializer(data=request.data)
                 if new_col.is_valid():
                     new_col.save()
-                    return Response(status=status.HTTP_200_OK)
+                    data = new_col.data
+                    return Response(data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateColumnView(generics.UpdateAPIView):
@@ -342,22 +356,23 @@ class CreateTicketView(APIView):
         organizations = organizations.exclude(removed_members__in=[user])
         serializer = self.serializer_class(data=request.data)
         data = request.data
-        print(data)
+        data._mutable = True
         data['reporter'] = reporter
+        data._mutable = False
 
         if serializer.is_valid():
             if len(Board.objects.filter(id=data['board'])) > 0:
                 organization = organizations.filter(id=data['organization'])[0]
                 if organization in organizations:
                     ticket = TicketSerializer(data=data)
-                    print(ticket)
                     if ticket.is_valid():
                         ticket.save()
-                        return Response(status=status.HTTP_200_OK)
+                        return Response(ticket.data, status=status.HTTP_200_OK)
                     return Response(status=status.HTTP_403_FORBIDDEN)
                 return Response(status=status.HTTP_403_FORBIDDEN)
-            print(serializer.errors)
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.errors)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateTicket(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]

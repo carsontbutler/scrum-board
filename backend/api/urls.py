@@ -12,11 +12,12 @@ urlpatterns = [
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterUserView.as_view()),
 
-    #Jira
+    #Organizations
     path('organizations/', GetOrganizations.as_view()),
     path('create-organization/', CreateOrganizationView.as_view()),
     path('organization/<str:pk>/rename/', UpdateOrganizationNameView.as_view()),
     path('organization/remove-member/', RemoveMemberView.as_view()),
+    path('organization/<str:pk>/delete/', DeleteOrganizationView.as_view()),
 
     #Boards
     path('boards/', GetBoards.as_view()),

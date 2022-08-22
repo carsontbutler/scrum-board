@@ -22,18 +22,19 @@ const Navigation = (props) => {
       className="text-gray"
       style={{ background: "linear-gradient(#003366, #000044)" }}
       expand="lg"
+      id="navbar"
     >
       <Container>
         <Navbar.Brand href="#home">Scrum</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
-            <NavDropdown title="Profile" id="basic-nav-dropdown">
+            <NavDropdown title="Profile" id="nav-profile">
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
               <Nav.Link onClick={props.showManageOrganizationsModalHandler}>
                 Manage Organizations
               </Nav.Link>
-              <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+              <Nav.Link onClick={logoutHandler} id="logout-btn">Logout</Nav.Link>
             </NavDropdown>
             <NavDropdown
               title={
@@ -41,7 +42,7 @@ const Navigation = (props) => {
                   ? props.data.activeOrganization.name
                   : "Organizations"
               }
-              id="basic-nav-dropdown"
+              id="nav-organizations"
             >
               {props.data.organizations.map((org) => (
                 <NavDropdown.Item

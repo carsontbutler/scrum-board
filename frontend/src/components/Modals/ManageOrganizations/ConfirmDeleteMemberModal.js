@@ -5,7 +5,7 @@ import "../../Inbox.css";
 import { axiosInstance, url } from "../../store/api";
 import AuthContext from "../../store/auth-context";
 
-const ConfirmDeleteModal = (props) => {
+const ConfirmDeleteMemberModal = (props) => {
   const authCtx = useContext(AuthContext);
 
   const submitRemoveMemberHandler = async (e) => {
@@ -71,4 +71,4 @@ const ConfirmDeleteModal = (props) => {
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmDeleteMemberModal;

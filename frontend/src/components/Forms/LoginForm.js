@@ -52,6 +52,7 @@ const LoginForm = (props) => {
       <div className="content">
         <form onSubmit={handleSubmit} className="input-field">
           <input
+            id="username-field"
             placeholder="Username "
             type="text"
             value={username}
@@ -59,6 +60,7 @@ const LoginForm = (props) => {
           />
 
           <input
+            id="password-field"
             placeholder="Password"
             type="password"
             value={password}
@@ -66,7 +68,7 @@ const LoginForm = (props) => {
           />
 
           <div className="action">
-            <button type="submit">Login</button>
+            <button type="submit" id="login-btn">Login</button>
             <div id="error-message">{errorMessage}</div>
             {props.successMessage && <h6 className="success-message">{props.successMessage}</h6>}
             <a onClick={props.showRegisterForm}>Don't have an account?</a>
