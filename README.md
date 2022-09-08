@@ -7,7 +7,7 @@
 
 -Basic registration and authentication
 
--Create an organization or join existing organizations using unique "join codes".
+-Create or join an existing organizations using unique "join codes".
 
 -Create one or more boards within each organization and customize the columns/swimlanes within each board
 
