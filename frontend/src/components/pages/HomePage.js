@@ -141,6 +141,8 @@ const HomePage = (props) => {
               showManageOrganizationsModalHandler={
                 showManageOrganizationsModalHandler
               }
+              setToastMessage={setToastMessage}
+              setShowTast={setShowToast}
             />
           }
           {isViewingInbox && (

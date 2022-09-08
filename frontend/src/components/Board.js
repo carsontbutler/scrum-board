@@ -107,7 +107,7 @@ const Board = (props) => {
               xs={8}
               className="text-center my-3"
             >
-              <h4>{props.data.activeBoardData.name}</h4>
+              <h4 id="board-title">{props.data.activeBoardData.name}</h4>
             </Col>
             <Col xl={2} lg={2} md={2} sm={2} xs={2} className="my-3">
               {props.data.activeBoardData["columns"].length > 0 && (

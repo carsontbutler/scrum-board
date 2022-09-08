@@ -10,7 +10,7 @@ const Column = (props) => {
     <Col className="column">
       <div className="column-header">
         <h6>
-          {col.name}
+          <span className="column-name">{col.name}</span>
           <span className="ticket-count"> {col.tickets.length}</span>
         </h6>
       </div>

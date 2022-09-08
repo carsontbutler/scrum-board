@@ -5,6 +5,7 @@ import "../../Inbox.css";
 import { axiosInstance, url } from "../../store/api";
 import AuthContext from "../../store/auth-context";
 import ConfirmDeleteMemberModal from "./ConfirmDeleteMemberModal";
+import ConfirmDeleteOrganizationModal from "./ConfirmDeleteOrganizationModal";
 
 const ManageView = (props) => {
   const authCtx = useContext(AuthContext);
@@ -14,8 +15,9 @@ const ManageView = (props) => {
   const [orgName, setOrgName] = useState(props.data.activeOrganization.name);
   const [memberToRemove, setMemberToRemove] = useState({});
   const [showConfirmDeleteMemberModal, setShowConfirmDeleteMemberModal] = useState(false);
-  const [orgError, setOrgError] = useState("");
+  const [showConfirmDeleteOrganizationModal, setShowConfirmDeleteOrganizationModal] = useState(false);
   const [memberError, setMemberError] = useState("");
+  const [orgError, setOrgError] = useState("");
 
   useEffect(() => {
     props.api.getInitialData();
@@ -27,10 +29,19 @@ const ManageView = (props) => {
     );
     setShowConfirmDeleteMemberModal(true);
   };
+  
 
   const hideConfirmDeleteMemberModalHandler = () => {
     setShowConfirmDeleteMemberModal(false);
     setMemberToRemove("");
+  };
+
+  const showConfirmDeleteOrganizationModalHandler = () => {
+    setShowConfirmDeleteOrganizationModal(true);
+  };
+
+  const hideConfirmDeleteOrganizationModalHandler = () => {
+    setShowConfirmDeleteOrganizationModal(false);
   };
 
   const submitNameChangeHandler = async (e) => {
@@ -99,7 +110,7 @@ const ManageView = (props) => {
                 </Col>
                 <Col xl={2} lg={2} md={2} sm={2} xs={2}>
                   <div className="decline-btn">
-                    <Button variant="danger">
+                    <Button onClick={showConfirmDeleteOrganizationModalHandler} variant="danger">
                       Delete
                     </Button>
                   </div>
@@ -157,6 +168,18 @@ const ManageView = (props) => {
         setData={props.setData}
         api={props.api}
         setMemberError={setMemberError}
+      />
+      <ConfirmDeleteOrganizationModal 
+        showConfirmDeleteOrganizationModal={showConfirmDeleteOrganizationModal}
+        hideConfirmDeleteOrganizationModalHandler={hideConfirmDeleteOrganizationModalHandler}
+        toastMessage={props.toastMessage}
+        setToastMessage={props.setToastMessage}
+        showToast={props.showToast}
+        setShowToast={props.setShowToast}
+        data={props.data}
+        setData={props.setData}
+        api={props.api}
+        goBackHandler={goBackHandler}
       />
     </Container>
   );

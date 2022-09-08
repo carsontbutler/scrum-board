@@ -6,7 +6,6 @@ import { axiosInstance, url } from "../store/api";
 import "./SelectScreen.css";
 
 const SelectBoard = (props) => {
-
   return (
     <Container>
       <Row className="justify-content-center mt-3">
@@ -16,24 +15,29 @@ const SelectBoard = (props) => {
               <h1 className="text-center">
                 {props.data.activeOrganization.name} boards
               </h1>
-              <h6 className="text-center">(Join code: {props.data.activeOrganization.code})</h6>
+              <h6 className="text-center">
+                (Join code: {props.data.activeOrganization.code})
+              </h6>
             </div>
             <Row>
               <Col></Col>
               <Col xl={8} lg={8} md={10} sm={12} xs={12}>
-                {props.data.activeOrganization.boards.map((board) => (
-                  <Row className="select-buttons">
-                    <Button
-                      id={board.id}
-                      key={board.id}
-                      onClick={props.api.fetchAndSetActiveBoardData}
-                    >
-                      {board.name}
-                    </Button>
-                  </Row>
-                ))}
+                {Object.keys(props.data.activeBoard).length === 0 &&
+                  props.data.activeOrganization.boards.map((board) => (
+                    <Row className="select-buttons">
+                      <Button
+                        id={board.id}
+                        key={board.id}
+                        onClick={props.api.fetchAndSetActiveBoardData}
+                      >
+                        {board.name}
+                      </Button>
+                    </Row>
+                  ))}
                 <Row className="new-button">
-                  <Button size="lg" onClick={props.showCreateBoardModal}>New</Button>
+                  <Button size="lg" onClick={props.showCreateBoardModal}>
+                    New
+                  </Button>
                 </Row>
               </Col>
               <Col></Col>

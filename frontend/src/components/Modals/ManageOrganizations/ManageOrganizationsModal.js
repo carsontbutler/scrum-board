@@ -68,6 +68,7 @@ const ManageOrganizationsModal = (props) => {
               showToast={showToast}
               setShowToast={setShowToast}
               setToastMessage={setToastMessage}
+
             />
           )}
         </Row>

@@ -99,8 +99,6 @@ class DeleteOrganizationView(APIView):
         organizations = Organization.objects.filter(members__in=[user])
         organizations = organizations.exclude(removed_members__in=[user])
         target_org = Organization.objects.get(id=pk)
-        print(target_org)
-        print(organizations)
         if target_org in organizations and target_org.owner == user:
             target_org.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -235,8 +233,9 @@ class UpdateBoardView(generics.UpdateAPIView):
             print(request.data)
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
+                updated_board = serializer.data
                 serializer.save()
-                return Response({'message': 'updated successfully'}, status=status.HTTP_200_OK)
+                return Response({'board': updated_board}, status=status.HTTP_200_OK)
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
         
 

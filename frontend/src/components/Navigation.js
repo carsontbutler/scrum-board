@@ -17,6 +17,8 @@ const Navigation = (props) => {
     await props.api.fetchAndSetActiveBoardData(e);
   };
 
+  let username = localStorage.getItem("username");
+
   return (
     <Navbar
       className="text-gray"
@@ -30,11 +32,17 @@ const Navigation = (props) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
             <NavDropdown title="Profile" id="nav-profile">
+              <h6 className="m-1">{username}</h6>
+              <NavDropdown.Divider />
               <Nav.Link onClick={props.showInboxModalHandler}>Inbox</Nav.Link>
-              <Nav.Link onClick={props.showManageOrganizationsModalHandler}>
-                Manage Organizations
+              <Nav.Link
+                onClick={props.showManageOrganizationsModalHandler}
+              >
+                Manage
               </Nav.Link>
-              <Nav.Link onClick={logoutHandler} id="logout-btn">Logout</Nav.Link>
+              <Nav.Link onClick={logoutHandler} id="logout-btn">
+                Logout
+              </Nav.Link>
             </NavDropdown>
             <NavDropdown
               title={
@@ -54,20 +62,18 @@ const Navigation = (props) => {
                   {org.name}
                 </NavDropdown.Item>
               ))}
-              <NavDropdown
-                title="Manage"
-                id="basic-nav-dropdown"
-                drop={"end"}
-                className="text-center"
-              >
-                <Dropdown.Item onClick={props.showCreateOrganizationModal}>Create new</Dropdown.Item>
-                <Dropdown.Item onClick={props.showJoinOrganizationModal}>Join existing</Dropdown.Item>
-              </NavDropdown>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                    className="dropdown-header text-center"
+                    onClick={props.showCreateOrganizationModal}
+                  >
+                    New Organization
+                  </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Boards" id="basic-nav-dropdown">
+            <NavDropdown title="Boards" id="nav-boards">
               {props.data.activeOrganization ? (
                 <div>
-                  <div className="text-center">
+                  <div className="text-center dropdown-header">
                     {props.data.activeOrganization.name}
                   </div>
                   <NavDropdown.Divider />
@@ -76,6 +82,7 @@ const Navigation = (props) => {
                       onClick={switchBoardHandler}
                       id={board.id}
                       key={board.id}
+                      className="nav-board-item"
                     >
                       {board.name}
                     </NavDropdown.Item>
