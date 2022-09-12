@@ -233,7 +233,7 @@ class UpdateBoardView(generics.UpdateAPIView):
             print(request.data)
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
-                updated_board = serializer.data
+                updated_board = BoardSerializer(instance).data
                 serializer.save()
                 return Response({'board': updated_board}, status=status.HTTP_200_OK)
         return(Response({'message':'failed to update'}, status=status.HTTP_404_NOT_FOUND))
